@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Sederhana</title>
+</head>
+
+<body>
+    <header>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+            <!-- 👁 Visitor counter di sini -->
+            <span id="visitorCounter" style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px;">
+                <i class="fa-solid fa-eye"></i> ...
+            </span>
+        </div>
+
+        <div class="rightsection">
+            <div class="searchhomepage">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search">
+            </div>
+            <button onclick="searchPage()">Cari</button>
+            <span id="searchMessage" style="color: red; font-size: 14px;"></span>
+        </div>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <h3>Ini Menu Asli</h3>
+        <ul>
+            <li><a href="homev2.html">Home</a></li>
+            <li><a href="announcement.html">Announcement</a></li>
+            <h3>Pelajaran Wok</h3>
+            <li><a href="bahasaindonesia.html">Bahasa Indonesia</a></li>
+            <li><a href="bahasainggris.html">Bahasa Inggris</a></li>
+            <li><a href="bahasasunda.html">Bahasa Sunda</a></li>
+            <li><a href="bahasajepang.html">Bahasa Jepang</a></li>
+            <li><a href="matematika.html" class="active">Matematika</a></li>
+            <li><a href="proipas.html">Proipas</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="pabp.html">PABP</a></li>
+            <li><a href="pp.html">PP</a></li>
+            <li><a href="senibudaya.html">Seni Budaya</a></li>
+            <li><a href="pjok.html">PJOK</a></li>
+            <li><a href="informatika.html">Informatika</a></li>
+            <li><a href="bk.html">BK</a></li>
+            <li><a href="dpr1.html">DASPROGRPL 1</a></li>
+            <li><a href="dpr2.html">DASPROGRPL 2</a></li>
+            <li><a href="dpr3.html">DASPROGRPL 3</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="left-section">
+            <h1>Matematika</h1>
+            <h4>PR / Tugas</h4>
+
+            <div class="course-cardpp">
+                <img src="profpicture.png" loading="lazy" decoding="async" class="profpicture">
+                <div class="course-cardppinfo">
+                    <h3>Teacher</h3>
+                    <p>Pak Asep Kuswardani, S. Pd</p>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <h3>Note:</h3>
+                <p>Daftar tugas dari hari Senin, 27 Oktober 2025 dan seterusnya.</p>
+            </div>
+        </div>
+        <hr id="6">
+        <div class="right-section">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Matematika</h3>
+                    <h5>Selesai. Rabu, 29 Oktober 2025</h5>
+                </div>
+                <h4>Nomor 6</h4>
+                <p>Catat dan kerjakan soal UKD 4 dengan menonton video YouTube. <br> <br></p>
+                <a href="https://youtu.be/1XiCtNOFSVI?si=IAaiLwtILXzgOj11" target="_blank">Video YT UKD no. 1-2</a> <br> <br>
+                <a href="https://youtu.be/LOErK1jEYlE?si=uAb3V9CRsRUXXXEZ " target="_blank">Video YT UKD no. 3-4</a>
+                <br>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="matematikaimg/mtk76a.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk76b.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk76c.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="12">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Matematika</h3>
+                    <h5>Selesai. Rabu, 5 November 2025</h5>
+                </div>
+                <h4>Nomor 12</h4>
+                <p>Catat.</p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="matematikaimg/mtk12a.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk12b.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk12c.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="13">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Matematika</h3>
+                    <h5>Selesai. Rabu, 5 November 2025</h5>
+                </div>
+                <h4>Nomor 13</h4>
+                <p>Catat.</p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="matematikaimg/mtk13a.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk13b.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="29">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Matematika</h3>
+                    <h5>Selesai. Kamis, 20 November 2025</h5>
+                </div>
+                <h4>Nomor 29</h4>
+                <p>Catat.</p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="matematikaimg/mtk29a.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk29b.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk29c.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/mtk29d.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="36">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Matematika</h3>
+                </div>
+                <h4>Nomor 36</h4>
+                <p>Mengerjakan 4 soal.</p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="matematikaimg/36.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="39">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Matematika</h3>
+                </div>
+                <h4>Nomor 39</h4>
+                <p>Mencatat dan mengerjakan soal. Untuk pengerjaan lihat video YouTube. <br> <br>
+                    Link Video YouTube: <br> <br>
+                    Video 1 <a href="https://youtu.be/xySUF0OLsPA?si=0mkl3RLF9whhnIoT">Pencet</a> <br> <br>
+                    Video 2 <a href="https://youtu.be/NegLioPPHa8?si=qYDRXxmPcvK-Qj__">Pencet</a></p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="matematikaimg/39a.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/39b.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/39c.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/39d.jpg" loading="lazy" decoding="async">
+                    <img src="matematikaimg/39e.png" loading="lazy" decoding="async">
+                    <a href="">Ini link nya</a>
+                    <img src="matematikaimg/39f.png" loading="lazy" decoding="async">
+                    <a href="">Ini link nya</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025-2026 X - RPL 2 Web Class | All rights reserved.</p>
+        <p>Created, Dev, Design by zammanzim</p>
+    </footer>
+
+    <div class="img-overlay" id="imgOverlay" aria-hidden="true">
+        <div class="desc" id="imgHeader"></div>
+        <img id="overlayImg" src="" alt="Gambar fullscreen">
+        <div class="desc" id="imgFooter"></div>
+
+        <button class="overlay-close" id="overlayClose">✕</button>
+        <button class="overlay-arrow left" id="overlayPrev">&#10094;</button>
+        <button class="overlay-arrow right" id="overlayNext">&#10095;</button>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const DB_NAME = "vstmatematika";
+
+        const storageKey = "visitorID_" + DB_NAME;
+        let visitorID = localStorage.getItem(storageKey);
+
+        if (!visitorID) {
+            visitorID = "vst_" + Math.random().toString(36).substring(2, 12);
+            localStorage.setItem(storageKey, visitorID);
+
+            const now = new Date();
+            const formatted = now.toLocaleString("id-ID", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+            set(ref(db, "vst/" + DB_NAME + "/" + visitorID), {
+                page: location.pathname,
+                time: formatted,
+                useragent: navigator.userAgent
+            });
+        }
+
+        const counter = document.getElementById("visitorCounter");
+
+        onValue(ref(db, "vst/" + DB_NAME), (snap) => {
+            const data = snap.val();
+            const total = data ? Object.keys(data).length : 0;
+            counter.innerHTML = `<i class="fa-solid fa-eye"></i> ${total} visitors`;
+        });
+    </script>
+    <script src="seacrhpage.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

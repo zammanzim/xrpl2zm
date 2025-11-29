@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Sederhana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .hamburger {
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50px;
+            left: -250px;
+            width: 250px;
+            height: calc(100vh - 50px);
+            background-color: #343a40;
+            color: white;
+            transition: left 0.7s ease;
+            z-index: 999;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background-color: #5a6268;
+            transform: scale(0.95);
+
+        }
+
+        .sidebar a.active {
+            background-color: #0088ff;
+            color: white;
+        }
+
+        .sidebar a {
+            margin: 0;
+            background-color: #495057;
+            border-radius: 8px;
+            border: 1px solid #6c757d;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .course-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .course-card h4 {
+            margin: 10px 0;
+        }
+
+        @media (min-width: 769px) {}
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 10px;
+            }
+        }
+
+        .searchhomepage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to bottom, #f9f9f9, #eaeaea);
+            border-radius: 30px;
+            box-shadow:
+                inset 0 3px 6px rgba(0, 0, 0, 0.3),
+                inset 0 -3px 6px rgba(255, 255, 255, 0.8),
+                0 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 0;
+            width: 150px;
+            gap: 8px;
+            height: 25px;
+        }
+
+        input {
+            border: none;
+            background: none;
+            width: 130px;
+            gap: 8px;
+            height: 25px;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="logo">X - RPL 2</div>
+
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <h3>Ini Menu Asli</h3>
+        <ul>
+            <li><a href="homepage.html" class="active">Home</a></li>
+            <li><a href="about.html">About X - RPL 2</a></li>
+            <li><a href="classorg.html">Class Organization</a></li>
+            <li><a href="piket.html">Piket Schedule</a></li>
+            <h3>Pelajaran wok</h3>
+            <li><a href="bahasaindonesia.html">Bahasa Indonesia</a></li>
+            <li><a href="bahasainggris.html">Bahasa Inggris</a></li>
+            <li><a href="bahasasunda.html">Bahasa Sunda</a></li>
+            <li><a href="bahasajepang.html">Bahasa Jepang</a></li>
+            <li><a href="matematika.html">Matematika</a></li>
+            <li><a href="proipas.html">Proipas</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="pabp.html">PABP</a></li>
+            <li><a href="pp.html">PP</a></li>
+            <li><a href="senibudaya.html">Seni Budaya</a></li>
+            <li><a href="pjok.html">PJOK</a></li>
+            <li><a href="informatika.html">Informatika</a></li>
+            <li><a href="bk.html">BK</a></li>
+            <li><a href="dpr1.html">DASPROGRPL 1</a></li>
+            <li><a href="dpr2.html">DASPROGRPL 2</a></li>
+            <li><a href="dpr3.html">DASPROGRPL 3</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1>Home</h1>
+        <h4>E-Learning kelas caritana</h4>
+
+        <div class="searchhomepage">
+            <input type="text" id="searchBox" placeholder="Cari tugas..."></i>
+        </div>
+
+        <div class="course-card">
+            <h3>Disclaimer:</h3>
+            <p>Web ini masih dalam pengembangan, wajar karek ge 1 hari pembuatan. Jadi, tugas dan informasi lain belum
+                ditambahkan.</p>
+        </div>
+
+        <div class="course-card">
+            <h3>Announcement:</h3>
+            <p>Bagi hidupnya yang gamau ribet "ah nanaonan nyien nu web kararitu, raribet, te bararoga kuota", nya te
+                nanaon. Kalo ada tugas atau ada pengumuman di channel, informasinya suka tenggelem jadi fungsi dari web
+                ini adalah untuk mengsortir tugas atau informasi agar tidak berantakan. Yaaa channel masih berjalan,
+                jadi web ini sebagai pelengkap atau database tentang semua tugas dan informasi. Alasan saya membuat web
+                ini? Yap gara-gara gabut, bae alus gabut teh anu bermanfaat.</p>
+        </div>
+
+        <div class="course-card">
+            <h3>Features</h3>
+            <p>1. Kalo nyari tugas di channel harus scroll keatas kann? Tapi disini nanti bakal ada kolom search di
+                pojok kanan atas, yang "X - RPL 2" itu tapi nanti diganti jadi kolom search. Misal di jadwal atau info
+                yang dibawah di tulis "#070 : MTK" kalian tinggal ketik aja diatas, nanti langsung muncul tugasnya.</p>
+            <hr>
+            <p>2. Disini juga ada About X - RPL 2, Class Organization, dll. Jadi, bisa diisi sesuai kategorinya. Yang
+                About X - RPL 2 bisa diisi foto foto random, foto kumpulan, jeng sajabina. Jadi memorable laj pokonamaj.
+            </p>
+            <hr>
+            <p>3. rikues fitur atuhh anu alus.</p>
+        </div>
+
+        <div class="course-card">
+            <h3>🌟 Kamis, 23 Oktober 2025 🌟</h3>
+            <h4>👔 Jas Kejuruan</h4>
+            <h4>📝 Jadwal Pelajaran 📝</h4>
+            <p>📗 2 Jam Matematika</p>
+            <p>📕 2 Jam Proipas</p>
+            <p>📘 2 Jam DasProgRPL2</p>
+            <p>📙 2 Jam PJOK</p>
+            <p>📓 2 Jam DasProgRPL2</p>
+            <h4>📖 PR / Tugas 📖</h4>
+            <p>📒 #076 : MTK</p>
+            <p>📒 Proipas: Ulangan harian bagi yang belum.</p>
+            <h4>📌 Catatan 📌</h4>
+            <p>KamsiAsik</p>
+            <p>Kamis Bersih Asik</p>
+            <h4>📔 Status Buku 📔</h4>
+            <p>📔 Ada semua</p>
+            <h4>🧹 Petugas Piket 🧹</h4>
+            <p>- Aufa</p>
+            <p>- Latif</p>
+            <p>- Nakisa</p>
+            <p>- Rafi</p>
+            <p>- Windi</p>
+            <p>- Sendi</p>
+            <p>KOREKSI woi mun aya TUGAS ANU KURANG atau aya nu salah we.</p>
+
+            v7</p>
+        </div>
+    </div>
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            if (window.innerWidth > 768) {
+                sidebar.classList.toggle('open');
+                mainContent.classList.toggle('shifted');
+            } else {
+                sidebar.classList.toggle('open');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuItems = document.querySelectorAll('.menu-item a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const sidebar = document.getElementById('sidebar');
+                    const mainContent = document.querySelector('.main-content');
+
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.remove('open');
+                        mainContent.classList.remove('shifted');
+                    } else {
+                        sidebar.classList.remove('open');
+                    }
+                });
+            });
+        });
+        const searchBox = document.getElementById("searchBox");
+        const tasks = document.querySelectorAll(".task"); // pastikan setiap container tugas punya class "task"
+
+        searchBox.addEventListener("input", () => {
+            const query = searchBox.value.toLowerCase();
+
+            tasks.forEach(task => {
+                const text = task.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    task.style.display = "";
+                } else {
+                    task.style.display = "none";
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>

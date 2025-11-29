@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Sederhana</title>
+</head>
+
+<body>
+    <header>
+    <div style="display:flex; align-items:center; gap:12px;">
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+        <!-- 👁 Visitor counter di sini -->
+        <span id="visitorCounter" 
+            style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px;">
+            <i class="fa-solid fa-eye"></i> ...
+        </span>
+    </div>
+
+    <div class="rightsection">
+        <div class="searchhomepage">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search">
+        </div>
+        <button onclick="searchPage()">Cari</button>
+        <span id="searchMessage" style="color: red; font-size: 14px;"></span>
+    </div>
+</header>
+
+    <div class="sidebar" id="sidebar">
+        <h3>Ini Menu Asli</h3>
+        <ul>
+            <li><a href="homev2.html">Home</a></li>
+            <li><a href="announcement.html">Announcement</a></li>
+            <h3>Pelajaran Wok</h3>
+            <li><a href="bahasaindonesia.html">Bahasa Indonesia</a></li>
+            <li><a href="bahasainggris.html">Bahasa Inggris</a></li>
+            <li><a href="bahasasunda.html">Bahasa Sunda</a></li>
+            <li><a href="bahasajepang.html" class="active">Bahasa Jepang</a></li>
+            <li><a href="matematika.html">Matematika</a></li>
+            <li><a href="proipas.html">Proipas</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="pabp.html">PABP</a></li>
+            <li><a href="pp.html">PP</a></li>
+            <li><a href="senibudaya.html">Seni Budaya</a></li>
+            <li><a href="pjok.html">PJOK</a></li>
+            <li><a href="informatika.html">Informatika</a></li>
+            <li><a href="bk.html">BK</a></li>
+            <li><a href="dpr1.html">DASPROGRPL 1</a></li>
+            <li><a href="dpr2.html">DASPROGRPL 2</a></li>
+            <li><a href="dpr3.html">DASPROGRPL 3</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="left-section">
+            <h1>Bahasa Jepang</h1>
+            <h4>PR / Tugas</h4>
+
+            <div class="course-cardpp">
+                <img src="profpicture.png" loading="lazy" decoding="async" class="profpicture">
+                <div class="course-cardppinfo">
+                    <h3>Teacher</h3>
+                    <p>Bu Riza Yuliasti, S. Pd</p>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <h3>Note:</h3>
+                <p>Daftar tugas dari hari Senin, 27 Oktober 2025 dan seterusnya.</p>
+            </div>
+        </div>
+        <hr id="1">
+        <div class="right-section">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Bahasa Jepang</h3>
+                    <h5>Selesai. Senin, 27 Oktober 2025</h5>
+                </div>
+                <h4>Nomor 1</h4>
+                <p>Tuliskan Huruf Hiragana dari Kosakata Berikut!!</p>
+                <p>
+
+                <p>1. Hana (Bunga):</p>
+                <p>2. Nichi (Hari/Tanggal):</p>
+                <p>3. Neko (Kucing):</p>
+                <p>4. Inu (Anjing):</p>
+                <p>5. Sakana (Ikan):</p>
+                <p>6. Fune (Kapal):</p>
+                <p>7. Hoshi (Bintang):</p>
+                <p>8. Hachi (Sumpit):</p>
+                <p>9. Hito (Orang):</p>
+                <p>10. Heta (Bodoh):</p>
+                <p>11. Anata (Kamu):</p>
+                <p>12. Sato (Gula):</p>
+                <p>13. Sushi (Sushi):</p>
+                <p>14. Hi (Hari):</p>
+                <p>15. Ni (2):</p>
+                <p>16. Hai (Iya):</p>
+                <p>17. Isu (Kursi):</p>
+                <p>18. Tsukue (Meja):</p>
+                <p>19. Shita (Bawah):</p>
+                <p>20. Tana (Lemari):</p>
+
+            </div>
+            <hr id="9">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Bahasa Jepang</h3>
+                    <h5>Selesai. Senin, 3 November 2025</h5>
+                </div>
+                <h4>Nomor 9</h4>
+                <p>Mencatat Tema 3 </p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <p>Note: Minggu depan harus sudah selesai, karena waktu mepet. Dan jangan ada alesan "lupa bu". 24
+                        jam
+                        nyekel hape, 24 jam muka wa, maenya tugas te di tinggal.</p>
+                    <img src="bahasajepangimg/jepun9a.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/jepun9b.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/jepun9c.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="31">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Jepang</h3>
+                </div>
+                <h4>Nomor 31</h4>
+                <p>Mencatat Tema 4.</p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="bahasajepangimg/31a.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31b.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31c.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31d.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31e.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31f.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31g.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31h.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31i.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31j.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31k.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31l.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31m.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31n.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+
+            <hr id="38">
+            <div class="course-card">
+                <div class="headercoursecard">
+                    <h3>Tugas Bahasa Jepang</h3>
+                </div>
+                <h4>Nomor 38</h4>
+                <p>Mempelajari tema 4 secara mandiri untuk PSAS. Karena tidak sempet dijelaskan.</p>
+                <div class="toggle-btn">▼</div>
+                <div class="gallery">
+                    <img src="bahasajepangimg/31a.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31b.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31c.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31d.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31e.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31f.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31g.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31h.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31i.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31j.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31k.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31l.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31m.jpg" loading="lazy" decoding="async">
+                    <img src="bahasajepangimg/31n.jpg" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025-2026 X - RPL 2 Web Class | All rights reserved.</p>
+        <p>Created, Dev, Design by zammanzim</p>
+    </footer>
+
+    <div class="img-overlay" id="imgOverlay" aria-hidden="true">
+        <div class="desc" id="imgHeader"></div>
+        <img id="overlayImg" src="" alt="Gambar fullscreen">
+        <div class="desc" id="imgFooter"></div>
+
+        <button class="overlay-close" id="overlayClose">✕</button>
+        <button class="overlay-arrow left" id="overlayPrev">&#10094;</button>
+        <button class="overlay-arrow right" id="overlayNext">&#10095;</button>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const DB_NAME = "vstjepang";
+
+        const storageKey = "visitorID_" + DB_NAME;
+        let visitorID = localStorage.getItem(storageKey);
+
+        if (!visitorID) {
+            visitorID = "vst_" + Math.random().toString(36).substring(2, 12);
+            localStorage.setItem(storageKey, visitorID);
+
+            const now = new Date();
+            const formatted = now.toLocaleString("id-ID", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+            set(ref(db, "vst/" + DB_NAME + "/" + visitorID), {
+                page: location.pathname,
+                time: formatted,
+                useragent: navigator.userAgent
+            });
+        }
+
+        const counter = document.getElementById("visitorCounter");
+
+        onValue(ref(db, "vst/" + DB_NAME), (snap) => {
+            const data = snap.val();
+            const total = data ? Object.keys(data).length : 0;
+            counter.innerHTML = `<i class="fa-solid fa-eye"></i> ${total} visitors`;
+        });
+    </script>
+    <script src="seacrhpage.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

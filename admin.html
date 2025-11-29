@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+
+    <!-- MD5 untuk Hash Password -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+
+    <style>
+        body {
+            color: white;
+            background-color: #101010;
+            background-image:
+                linear-gradient(to right, rgba(0, 255, 255, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 255, 255, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.8), transparent 70%);
+            z-index: -2;
+        }
+
+        input,
+        textarea,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 8px;
+            border: none;
+        }
+
+        textarea {
+            min-height: 60px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .box {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #0077ff;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Admin Pengumuman</h1>
+
+    <!-- LOGIN PASSWORD -->
+    <div id="authBox">
+        <h3>Masukkan Password Admin</h3>
+        <input type="password" id="adminPass" placeholder="Password Admin">
+        <button onclick="checkPassword()">Masuk</button>
+        <p id="msg" style="color:red"></p>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="adminPanel" class="hidden">
+
+        <!-- FORM PENGUMUMAN HARIAN -->
+        <div class="box">
+            <h3>Tambah Pengumuman Harian</h3>
+
+            <input id="tanggal" placeholder="Tanggal (misal: Kamis, 27 Nov 2025)">
+            <textarea id="jadwal" placeholder="Isi jadwal (boleh HTML)"></textarea>
+            <textarea id="tugas" placeholder="Isi tugas (boleh HTML)"></textarea>
+            <textarea id="catatan" placeholder="Catatan"></textarea>
+            <textarea id="statusBuku" placeholder="Status Buku"></textarea>
+            <textarea id="piket" placeholder="Petugas Piket"></textarea>
+            <input id="versi" placeholder="Versi (v1, v2...)">
+
+            <button id="btnPengumuman">Publish Pengumuman</button>
+        </div>
+
+        <!-- FORM TUGAS AKTIF -->
+        <div class="box">
+            <h3>Tambah Tugas Aktif</h3>
+
+            <input id="mapel" placeholder="Nama Mapel">
+            <input id="nomor" placeholder="Nomor Tugas">
+            <textarea id="deskripsi" placeholder="Deskripsi"></textarea>
+            <input id="url" placeholder="URL Halaman Tugas">
+
+            <button id="btnTugas">Tambah Tugas</button>
+        </div>
+
+        <button onclick="logout()" style="background:red">Logout Admin</button>
+
+    </div>
+
+    <script type="module">
+
+        const CORRECT_HASH = "4a45237de6fa5a9e5ef29f08eca1690b";
+
+
+        function checkPassword() {
+            const input = document.getElementById("adminPass").value;
+            const hash = md5(input);
+
+            console.log("HASH BENAR?", hash === CORRECT_HASH, hash);
+
+            if (hash === CORRECT_HASH) {
+                document.getElementById("authBox").classList.add("hidden");
+                document.getElementById("adminPanel").classList.remove("hidden");
+                localStorage.setItem("adminLogged", "yes");
+            } else {
+                document.getElementById("msg").innerText = "Password salah!";
+            }
+        }
+
+        window.checkPassword = checkPassword;
+
+        function logout() {
+            localStorage.removeItem("adminLogged");
+            location.reload();
+        }
+
+        if (localStorage.getItem("adminLogged") === "yes") {
+            document.getElementById("authBox").classList.add("hidden");
+            document.getElementById("adminPanel").classList.remove("hidden");
+        }
+
+        window.logout = logout;
+
+
+        // === FIREBASE ===
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, push, serverTimestamp }
+            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ** Publish Pengumuman **
+        document.getElementById("btnPengumuman").onclick = () => {
+            set(push(ref(db, "pengumumanHarian")), {
+                tanggal: tanggal.value,
+                jadwal: jadwal.value,
+                tugas: tugas.value,
+                catatan: catatan.value,
+                statusBuku: statusBuku.value,
+                piket: piket.value,
+                versi: versi.value,
+                time: serverTimestamp()
+            });
+            alert("Pengumuman diterbitkan!");
+        };
+
+        // ** Tambah Tugas Aktif **
+        document.getElementById("btnTugas").onclick = () => {
+            set(push(ref(db, "tugasAktif")), {
+                mapel: mapel.value,
+                nomor: nomor.value,
+                deskripsi: deskripsi.value,
+                url: url.value,
+                time: serverTimestamp()
+            });
+            alert("Tugas ditambahkan!");
+        };
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zammazim E-Learning</title>
+    <style>
+        html {
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg,
+                    #00bfff 0%,
+                    #0077ff 35%,
+                    #6a5acd 75%,
+                    #ff8ccf 100%);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #fff;
+            overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+
+        }
+
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .hamburger {
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 50px;
+            left: -250px;
+            width: 250px;
+            height: calc(100vh - 50px);
+
+            color: white;
+            transition: left 0.7s ease;
+            z-index: 999;
+            padding: 20px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            background: linear-gradient(180deg,
+                    #00bfff 0%,
+                    #0077ff 35%,
+                    #6a5acd 75%,
+                    #ff8ccf 100%);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+            transform: scale(0.95);
+
+        }
+
+        .sidebar a.active {
+            background-color: #0088ff;
+            color: white;
+        }
+
+        .sidebar a {
+            margin: 0;
+
+            border-radius: 8px;
+            border: 1px solid #ffffff;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            cursor: default;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            backdrop-filter: blur(50px);
+            transition: transform 0.3s ease;
+        }
+
+        .course-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .course-card h4 {
+            margin: 10px 0;
+        }
+
+        .course-card hr {
+            margin: 5px 0;
+        }
+
+        .course-card a {
+            text-decoration: none;
+            color: white;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #c300ff, #ff00ea);
+            box-shadow:
+                0 3px 6px rgba(0, 100, 255, 0.3),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .course-card a:hover {
+            background: linear-gradient(135deg, #00aaff, #66d9ff);
+            box-shadow:
+                0 4px 10px rgba(0, 140, 255, 0.4),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.4);
+        }
+
+        @media (min-width: 1024px) {
+            .main-content {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 30px;
+                max-width: 1200px;
+                text-align: left;
+            }
+
+            .left-section,
+            .right-section {
+                flex: 1;
+            }
+
+            .right-section {
+                position: sticky;
+                margin-top: 55px;
+            }
+
+
+            .sidebar {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 270px;
+                transition: margin-left 0.3s ease;
+            }
+
+            .sidebar.closed {
+                left: -250px;
+            }
+
+            .main-content.shifted {
+                margin-left: 128px;
+            }
+        }
+
+
+        @media (max-width: 1024px) {
+            .main-content {
+                padding: 10px;
+            }
+        }
+
+        .searchhomepage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #b3ecff, #66c2ff);
+            border-radius: 30px;
+            box-shadow:
+                inset 0 3px 6px rgba(255, 255, 255, 0.6),
+                inset 0 -3px 6px rgba(0, 100, 255, 0.15),
+                0 2px 8px rgba(0, 100, 255, 0.25);
+            padding: 0 12px;
+            width: 140px;
+            height: 42px;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .searchhomepage:hover {
+            box-shadow:
+                0 4px 10px rgba(0, 140, 255, 0.35),
+                inset 0 -2px 4px rgba(51, 0, 255, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .searchhomepage input {
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #004d73;
+            width: 100px;
+        }
+
+        .searchhomepage input::placeholder {
+            color: #0077b6;
+            opacity: 0.8;
+        }
+
+        .searchhomepage input:focus {
+            outline: none;
+        }
+
+        button {
+            border: none;
+            border-radius: 30px;
+            height: 42px;
+            padding: 0 16px;
+            background: linear-gradient(135deg, #0077ff, #00bfff);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow:
+                0 3px 6px rgba(0, 100, 255, 0.3),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.3);
+            transition: all 0.25s ease;
+        }
+
+        .course-cards {
+            display: flex;
+            align-items: center;
+            background: rgb(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            justify-content: center;
+            gap: 15px;
+            backdrop-filter: blur(50px);
+            transition: transform 0.3s ease;
+        }
+
+        .searchhomepage input::placeholder {
+            color: #888;
+            transition: color 0.3s ease;
+        }
+
+        .searchhomepage input.error::placeholder {
+            color: #ff0000;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #00aaff, #66d9ff);
+            box-shadow:
+                0 4px 10px rgba(0, 140, 255, 0.4),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .img-overlay {
+            display: flex;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .img-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .img-overlay img {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .img-overlay .desc {
+            margin-top: 12px;
+            font-size: 16px;
+            max-width: 90%;
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        .overlay-close {
+            position: fixed;
+            top: 18px;
+            right: 22px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: none;
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 10010;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay-arrow {
+            position: fixed;
+            bottom: 22px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10010;
+            transition: transform .12s ease, background .12s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .overlay-arrow.left {
+            left: 18px;
+        }
+
+        .overlay-arrow.right {
+            right: 18px;
+        }
+
+        .overlay-arrow:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .overlay-close:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: scale(1.03);
+        }
+
+        .overlay-arrow.hidden {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #imgHeader {
+            text-align: left;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 12px;
+            width: 90%;
+            color: #fff;
+        }
+
+        #imgHeader h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #5bc0ff;
+            margin: 0 0 6px;
+            text-shadow: 0 0 15px rgba(91, 192, 255, 0.8),
+                0 0 30px rgba(91, 192, 255, 0.5);
+        }
+
+        #imgHeader h4 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #8ed2ff;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(142, 210, 255, 0.5),
+                0 0 18px rgba(142, 210, 255, 0.3);
+        }
+
+        #imgFooter {
+            text-align: center;
+            color: #f2f2f2;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-top: 16px;
+            max-width: 90%;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+            padding: 5px 40px;
+        }
+
+        #imgHeader,
+        #imgFooter {
+            animation: fadeInUp 0.4s ease both;
+        }
+
+        button,
+        .overlay-close,
+        .overlay-arrow,
+        .img-overlay {
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        #imgHeader,
+        #imgFooter,
+        #imgFooter p {
+            user-select: text;
+        }
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .overlay-arrow {
+                width: 72px;
+                height: 72px;
+                font-size: 36px;
+                bottom: 18px;
+            }
+
+            .overlay-close {
+                width: 52px;
+                height: 52px;
+                font-size: 28px;
+                right: 14px;
+                top: 14px;
+            }
+        }
+
+        .toggle-btn {
+            font-size: 30px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.3s;
+            display: inline-block;
+            transform-origin: center;
+        }
+
+        .toggle-btn.active {
+            transform: rotate(180deg);
+        }
+
+        .gallery {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, max-height 0.4s ease, transform 0.4s ease;
+            transform: translateY(10px);
+        }
+
+        .gallery.show {
+            opacity: 1;
+            max-height: 10000px;
+            transform: translateY(0);
+        }
+
+        .gallery img {
+            border-radius: 10px;
+            width: 380px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-visit {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(1px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+        }
+
+        .popup-visit.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .popup-visit-card {
+            background: rgba(0, 191, 255, 0.15);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+            padding: 22px;
+            border-radius: 16px;
+            text-align: center;
+            width: 85%;
+            max-width: 360px;
+            color: white;
+            box-shadow: 0 0 25px #00bfff;
+        }
+
+        .popup-visit-card h2 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            text-shadow: 0 0 8px #00bfff;
+        }
+
+        .popup-visit-card button {
+            margin-top: 15px;
+            background: #00bfff;
+            border: none;
+            padding: 10px 20px;
+            color: black;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .popup-welcome-img {
+            width: 300px;
+            height: 180px;
+            margin: 0 auto 15px auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="popup-visit" id="visitPopup">
+        <div class="popup-visit-card">
+
+            <img src="welcomeaslireal.png" class="popup-welcome-img">
+
+            <h2>Welcome To The X-RPL 2 E-Learning Website</h2>
+            <p>Tempat dimana semua tugas dan informasi ada disini. Tersortir dengan rapi dan sesuai dengan kategorinya
+                masing-masing. <br>
+                <br>
+                Thanks everyone for visiting this website. I hope it keeps growing and becomes useful for everyone.
+            </p>
+
+            <button onclick="closeVisitPopup()">Oke</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <h3 style="display:flex; align-items:center; gap:10px;">
+            <span id="visitorCounter" style="font-size:15px; opacity:0.9;">
+                <i class="fa-solid fa-eye"></i> 0
+            </span>
+            X - RPL 2
+        </h3>
+
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <h3>Ini Menu Asli</h3>
+        <ul>
+            <li><a href="homev2.html">Home</a></li>
+            <li><a href="announcement.html" class="active">Announcement</a></li>
+            <h3>Pelajaran Wok</h3>
+            <li><a href="bahasaindonesia.html">Bahasa Indonesia</a></li>
+            <li><a href="bahasainggris.html">Bahasa Inggris</a></li>
+            <li><a href="bahasasunda.html">Bahasa Sunda</a></li>
+            <li><a href="bahasajepang.html">Bahasa Jepang</a></li>
+            <li><a href="matematika.html">Matematika</a></li>
+            <li><a href="proipas.html">Proipas</a></li>
+            <li><a href="sejarah.html">Sejarah</a></li>
+            <li><a href="pabp.html">PABP</a></li>
+            <li><a href="pp.html">PP</a></li>
+            <li><a href="senibudaya.html">Seni Budaya</a></li>
+            <li><a href="pjok.html">PJOK</a></li>
+            <li><a href="informatika.html">Informatika</a></li>
+            <li><a href="bk.html">BK</a></li>
+            <li><a href="dpr1.html">DASPROGRPL 1</a></li>
+            <li><a href="dpr2.html">DASPROGRPL 2</a></li>
+            <li><a href="dpr3.html">DASPROGRPL 3</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="left-section">
+            <h1>Announcement</h1>
+            <h4>E-Learning kelas caritana</h4>
+
+            <div class="course-cards">
+                <div class="searchhomepage">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search">
+                </div>
+                <button onclick="searchPage()">Cari</button>
+                <span id="searchMessage" style="color: red; font-size: 14px;"></span>
+            </div>
+            <div id="pengumumanContainer"></div>
+            </div>
+
+            <div class="right-section">
+
+                <div id="tugasContainer"></div>
+
+                <div class="course-card">
+                    <h3>Announcement Page Home</h3>
+                    <p>Web page home atau dibagian home menghadirkan fitur baru. Yaitu dibagian popup card member. Kan
+                        sebelumnya kalo dipencet member atau siswa bakal muncul popup yang isinya ada nama,
+                        jabatan/absen,
+                        ig, wa, kata-kata, dan deskripsi diri. Nah dev mau nambahin sesuatu, yaitu bakal ada backsound
+                        lagu.
+                        Jadi kalo dipencet bakal muncul musik favorit masing-masing dengan style kayak spotify.</p>
+                    <br>
+                    <h4>CATATAN</h4>
+                    <p>Bagi yang tidak mengirimkan foto, kata-kata, deskripsi diri, dll buat di pasang di bagian "Our
+                        Students" wayahna bakal dev hapus card siswanya, jadi gabakal muncul di web. Karena ngarudetken
+                        nu
+                        kitu mah.</p>
+                </div>
+
+                <div class="course-card">
+                    <h3>New Feature</h3>
+                    <p>Kalo liat tugas yang difoto coba klik fotonya, biar foto fokus ke tengah layar kalo di catat. mau
+                        coba? Buka yang dibawah.</p>
+                    <div class="toggle-btn">▼</div>
+                    <div class="gallery">
+                        <img src="gallery/fahriolah.webp" loading="lazy" decoding="async">
+                        <img src="gallery/ukuyolah.webp" alt="">
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <h4>Tips Pake Kolom Pencarian</h4>
+                    <p>Cobaan ketik nomor 11 mun erk ka tugas atau sesuai nomor tugas. trus mun bade ka halaman awal
+                        ketik
+                        0.</p>
+                </div>
+
+                <div class="course-card">
+                    <h3>Announcement:</h3>
+                    <p>Web ini masih dalam pengembangan, masih jauh dari kata sempurna. Jadi, kalo nemu bug atau ada
+                        saran
+                        buat pengembangan web ini kedepannya chat.<br>
+                    </p>
+                </div>
+
+                <div class="course-card">
+                    <h3>Disclaimer:</h3>
+                    <p>Bagi hidupnya yang gamau ribet "ah nanaonan nyien nu web kararitu, raribet, te bararoga kuota",
+                        nya
+                        te
+                        nanaon. Kalo ada tugas atau ada pengumuman di channel, informasinya suka tenggelem jadi fungsi
+                        dari
+                        web
+                        ini adalah untuk mengsortir tugas atau informasi agar tidak berantakan. Yaaa channel masih
+                        berjalan,
+                        jadi web ini sebagai pelengkap atau database tentang semua tugas dan informasi. Alasan saya
+                        membuat
+                        web
+                        ini? Yap gara-gara gabut, bae alus gabut teh anu bermanfaat.</p>
+                </div>
+
+                <div class="course-card">
+                    <h3>Features</h3>
+                    <p>1. Menu Home, isinya tentang highlight X - RPL 2. Seperti foto, struktur organigram, jadwal
+                        piket,
+                        dll.
+                        <hr>
+                        2. Menu Announcement, dimana semua pengumuman seperti jadwal, info ada disini.
+                        <hr>
+                        3. Menu pelajaran, isinya tentang tugas berdasarkan mapelnya.
+                        <hr>
+                        4. Menu Class Gallery(masi proses), semua foto - foto X - RPL 2 ada disini. Mulai dari foto
+                        kumpulan, foto kelas, bahkan sampai aib.
+                    </p>
+                </div>
+
+                <div class="course-card">
+                    <h3>Admin Only!</h3>
+                    <button onclick="location.href='admin.html'">✏ Edit Pengumuman</button>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+
+    <footer>
+        <p>© 2025-2026 X - RPL 2 Web Class | All rights reserved.</p>
+        <p>Created, Dev, Design by zammanzim</p>
+    </footer>
+
+    <div class="img-overlay" id="imgOverlay" aria-hidden="true">
+        <div class="desc" id="imgHeader"></div>
+        <img id="overlayImg" src="" alt="Gambar fullscreen">
+        <div class="desc" id="imgFooter"></div>
+
+        <button class="overlay-close" id="overlayClose">✕</button>
+        <button class="overlay-arrow left" id="overlayPrev">&#10094;</button>
+        <button class="overlay-arrow right" id="overlayNext">&#10095;</button>
+    </div>
+
+    <script src="seacrhpage.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const DB_NAME = "vstannouncement";
+
+        const storageKey = "visitorID_" + DB_NAME;
+        let visitorID = localStorage.getItem(storageKey);
+
+        if (!visitorID) {
+            visitorID = "vst_" + Math.random().toString(36).substring(2, 12);
+            localStorage.setItem(storageKey, visitorID);
+
+            const now = new Date();
+            const formatted = now.toLocaleString("id-ID", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+
+            set(ref(db, "vst/" + DB_NAME + "/" + visitorID), {
+                page: location.pathname,
+                time: formatted,
+                useragent: navigator.userAgent
+            });
+        }
+
+        const counter = document.getElementById("visitorCounter");
+
+        onValue(ref(db, "vst/" + DB_NAME + "/"), (snap) => {
+            const data = snap.val();
+            const total = data ? Object.keys(data).length : 0;
+            counter.innerHTML = `<i class="fa-solid fa-eye"></i> ${total} visitors`;
+        });
+
+        // ------------ PENGUMUMAN HARIAN --------------
+        const pengumumanContainer = document.getElementById("pengumumanContainer");
+
+        onValue(ref(db, "pengumumanHarian"), (snapshot) => {
+            const data = snapshot.val();
+            pengumumanContainer.innerHTML = "";
+
+            if (!data) return;
+
+            const latestKey = Object.keys(data).pop();
+            const item = data[latestKey];
+
+            pengumumanContainer.innerHTML = `
+        <div class="course-card">
+            <h3>🌟 ${item.tanggal} 🌟</h3>
+            <hr>
+            ${item.jadwal}
+            <hr>
+            ${item.tugas}
+            <hr>
+            <h4>📌 Catatan 📌</h4>
+            <p>${item.catatan}</p>
+            <hr>
+            <h4>📔 Status Buku 📔</h4>
+            <p>${item.statusBuku}</p>
+            <hr>
+            <h4>🧹 Petugas Piket 🧹</h4>
+            <p>${item.piket}</p>
+            <hr>
+            <p>${item.versi}</p>
+        </div>
+    `;
+        });
+
+        // ------------ TUGAS AKTIF --------------
+        const tugasContainer = document.getElementById("tugasContainer");
+
+        onValue(ref(db, "tugasAktif"), (snapshot) => {
+            const data = snapshot.val();
+
+            if (!data) return;
+
+            Object.values(data).forEach(tgs => {
+                tugasContainer.innerHTML += `
+                <div class="course-card">
+            <h3>Tugas</h3>
+            <h4>Daftar Tugas yang Sedang Berlangsung</h4>
+            <hr>
+            <h4>📔 ${tgs.mapel} No. ${tgs.nomor}:</h4>
+            <p>${tgs.deskripsi} <a href="${tgs.url}">Pencet</a></p>
+            </div>
+        `;
+            });
+        });
+
+
+    </script>
+
+    `
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.toggle('closed');
+                mainContent.classList.toggle('shifted');
+            } else {
+                sidebar.classList.toggle('open');
+            }
+        }
+
+        const overlay = document.getElementById('imgOverlay');
+        const overlayImg = document.getElementById('overlayImg');
+        const overlayHeader = document.getElementById('imgHeader');
+        const overlayFooter = document.getElementById('imgFooter');
+        const btnClose = document.getElementById('overlayClose');
+        const btnPrev = document.getElementById('overlayPrev');
+        const btnNext = document.getElementById('overlayNext');
+        const allImages = Array.from(document.querySelectorAll('.gallery img'));
+        let currentIndex = 0;
+        let scrollY = 0;
+
+        function showOverlay() {
+            scrollY = window.scrollY;
+
+            document.body.dataset.scrollY = scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+
+            overlay.classList.add('active');
+
+            const img = allImages[currentIndex];
+            overlayImg.src = img.src;
+            const card = img.closest('.course-card');
+            const title = card?.querySelector('h3')?.innerText || '';
+            const subtitle = card?.querySelector('h4')?.innerText || '';
+            const desc = card?.querySelector('p')?.innerText || '';
+
+            overlayHeader.innerHTML = `
+    <h3>${title}</h3>
+    <h4>${subtitle}</h4>
+  `;
+            overlayFooter.innerHTML = `<p>${desc}</p>`;
+
+            updateArrows();
+        }
+
+        function closeOverlay() {
+            overlay.classList.remove('active');
+
+            const y = parseInt(document.body.dataset.scrollY || '0');
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, y);
+        }
+
+        function prevImg() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showOverlay();
+            }
+        }
+
+        function nextImg() {
+            if (currentIndex < allImages.length - 1) {
+                currentIndex++;
+                showOverlay();
+            }
+        }
+
+        function updateArrows() {
+            btnPrev.classList.toggle('hidden', currentIndex === 0);
+            btnNext.classList.toggle('hidden', currentIndex === allImages.length - 1);
+        }
+
+        allImages.forEach((img, i) => {
+            img.addEventListener('click', () => {
+                currentIndex = i;
+                showOverlay();
+            });
+        });
+
+        btnClose.addEventListener('click', closeOverlay);
+        btnPrev.addEventListener('click', prevImg);
+        btnNext.addEventListener('click', nextImg);
+
+        document.addEventListener('keydown', (e) => {
+            if (overlay.classList.contains('active')) {
+                if (e.key === 'Escape') closeOverlay();
+                if (e.key === 'ArrowLeft') prevImg();
+                if (e.key === 'ArrowRight') nextImg();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggles = document.querySelectorAll(".toggle-btn");
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener("click", () => {
+                    const gallery = toggle.nextElementSibling;
+
+                    if (gallery.classList.contains("show")) {
+                        gallery.classList.remove("show");
+                        toggle.classList.remove("active");
+                    } else {
+                        gallery.classList.add("show");
+                        toggle.classList.add("active");
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        function closeVisitPopup() {
+            document.getElementById("visitPopup").classList.remove("active");
+            localStorage.setItem("visitedToday", new Date().toDateString());
+        }
+
+        window.addEventListener("load", () => {
+            const lastVisit = localStorage.getItem("visitedToday");
+            const today = new Date().toDateString();
+
+            if (lastVisit !== today) {
+                setTimeout(() => {
+                    document.getElementById("visitPopup").classList.add("active");
+                }, 600); // muncul setelah 0.6 detik biar smooth
+            }
+        });
+    </script>
+
+</body>
+
+</html>
