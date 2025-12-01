@@ -1,0 +1,81 @@
+{
+    "schedule": {
+        "1": {
+            "dayName": "Senin, ",
+            "uniform": "Putih Abu Rompi",
+            "lessons": [
+                "2 Jam B. Jepang",
+                "1 Jam PPK",
+                "1 Jam PJOK",
+                "2 Jam Informatika",
+                "3 Jam PABP",
+                "1 Jam PPK"
+            ],
+            "piket": [
+                "Coming Soon"
+            ]
+        },
+        "2": {
+            "dayName": "Selasa",
+            "uniform": "Putih Abu Rompi",
+            "lessons": [
+                "2 Jam Seni Budaya",
+                "2 Jam PP",
+                "2 Jam Bahasa Inggris",
+                "2 Jam Informatika",
+                "2 Jam DASPROGRPL 1"
+            ],
+            "piket": [
+                "Almira",
+                "Bintang",
+                "Dila",
+                "Nabila",
+                "Gilang",
+                "Nizam",
+                "Sandra"
+            ]
+        },
+        "3": {
+            "dayName": "Rabu",
+            "uniform": "Putih Abu Rompi",
+            "lessons": [
+                "Coming Soon"
+            ],
+            "piket": [
+                "Coming Soon"
+            ]
+        },
+        "4": {
+            "dayName": "Kamis",
+            "uniform": "Putih Abu Rompi",
+            "lessons": [
+                "Coming Soon"
+            ],
+            "piket": [
+                "Coming Soon"
+            ]
+        },
+        "5": {
+            "dayName": "Jumat",
+            "uniform": "Pramuka",
+            "lessons": [
+                "Coming Soon"
+            ],
+            "piket": [
+                "Coming Soon"
+            ]
+        },
+        "6": {
+            "dayName": "Sabtu (Opsional)",
+            "uniform": "-",
+            "lessons": [],
+            "piket": []
+        },
+        "7": {
+            "dayName": "Minggu (Opsional)",
+            "uniform": "-",
+            "lessons": [],
+            "piket": []
+        }
+    }
+}

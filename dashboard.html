@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard XRPL 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
+            background-attachment: fixed;
+            color: white;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #007bff;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .hamburger {
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        /* RIGHT HEADER PROFILE */
+        .rightProfile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        #headerPP {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        #headerName {
+            font-weight: bold;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 55px;
+            left: -250px;
+            width: 250px;
+            height: calc(100vh - 55px);
+            background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
+            padding: 20px;
+            transition: .5s;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid white;
+            text-decoration: none;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .sidebar ul li a:hover {
+            background: #0088ff;
+            transform: scale(.96);
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            margin-top: 80px;
+            padding: 20px;
+            max-width: 900px;
+            margin-inline: auto;
+        }
+
+        /* PROFILE CARD */
+        .card {
+            background: rgba(255, 255, 255, .2);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+        }
+
+        #pp {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            object-fit: cover;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .username {
+            font-size: 15px;
+            opacity: .9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="rightProfile" id="rightProfile">
+            <img id="headerPP" src="" alt="">
+            <span id="headerName">Hai...</span>
+        </div>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="/homev2"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="/announcement.html"><i class="fa-solid fa-bullhorn"></i> Pengumuman</a></li>
+            <li><a href="/dashboard"><i class="fa-solid fa-user"></i> Profil</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <div class="card">
+            <img id="pp" src="https://i.ibb.co/4fZ8K1L/user.png" alt="pp"
+                style="width:110px;height:110px;border-radius:50%;border:3px solid #fff;object-fit:cover;cursor:pointer;">
+
+            <h2 id="name" style="margin-top:10px;">Loading...</h2>
+            <p id="uname" style="opacity:.8;margin-top:5px;">@username</p>
+
+            <input type="file" id="filePP" accept="image/*" style="display:none;">
+            <p style="font-size:13px;margin-top:5px;">Klik foto untuk ubah PP 📸</p>
+        </div>
+
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getStorage, uploadBytes, getDownloadURL, ref as sRef } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+
+        const savedName = localStorage.getItem("studentName");
+        if (!savedName) location.href = "/login";
+
+        const userRef = ref(db, "users/" + savedName);
+
+        const headerPP = document.getElementById("headerPP");
+        const headerName = document.getElementById("headerName");
+        const ppEl = document.getElementById("pp");
+        const unameEl = document.getElementById("uname");
+        const nameEl = document.getElementById("name");
+        const fileInput = document.getElementById("filePP");
+
+        // LOAD USER
+        get(userRef).then(snap => {
+            const data = snap.val();
+            nameEl.innerText = savedName;
+            unameEl.innerText = "@" + data.username;
+
+            const url = data.pp ? data.pp : "https://i.ibb.co/4fZ8K1L/user.png";
+            ppEl.src = url;
+            headerPP.src = url;
+
+            headerName.innerText = "Hai, " + savedName;
+        });
+
+        // UPDATE FOTO PROFIL
+        ppEl.onclick = () => fileInput.click();
+        fileInput.onchange = async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const refImg = sRef(storage, `pp/${savedName}.jpg`);
+            await uploadBytes(refImg, file);
+            const url = await getDownloadURL(refImg);
+
+            await update(userRef, { pp: url });
+            ppEl.src = url;
+            headerPP.src = url;
+
+            fileInput.addEventListener("change", async () => {
+                const file = fileInput.files[0];
+                if (!file) return;
+
+                // Buat path per user -> pp/NamaUser.jpg
+                const imgRef = sRef(storage, `pp/${savedName}.jpg`);
+
+                // Upload file
+                await uploadBytes(imgRef, file);
+
+                // Ambil URL download
+                const url = await getDownloadURL(imgRef);
+
+                // Simpan URL ke database user
+                await update(userRef, { pp: url });
+
+                // Update tampilan langsung
+                ppEl.src = url;
+                headerPP.src = url;
+            });
+
+        };
+
+        // LOGOUT SEMENTARA
+        headerPP.oncontextmenu = (e) => {
+            e.preventDefault();
+            localStorage.removeItem("studentName");
+            location.href = "/login";
+        };
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+    </script>
+
+</body>
+
+</html>

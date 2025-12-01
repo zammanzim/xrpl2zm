@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login XRPL 2</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
+            background-attachment: fixed;
+            color: white;
+            padding: 25px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        select,
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            width: 250px;
+            margin-top: 8px;
+        }
+
+        input[disabled] {
+            background: rgba(255, 255, 255, .4);
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        button {
+            background: #00eaff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        button:disabled {
+            background: rgba(255, 255, 255, .3);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Login / Daftar Akun X - RPL 2</h2>
+
+    <label>Pilih Nama Kamu!</label>
+    <select id="studentSelect">
+        <option value="" disabled selected>-- Pilih nama --</option>
+        <option>Almira</option>
+        <option>Bintang</option>
+        <option>Dila</option>
+        <option>Nabila</option>
+        <option>Gilang</option>
+        <option>Nizam</option>
+        <option>Sandra</option>
+        <option>Aulia</option>
+        <option>Fahri</option>
+        <option>Akbar</option>
+        <option>Ukuy</option>
+        <option>Rafli</option>
+        <option>Rizky</option>
+        <option>Yoga</option>
+        <option>Naufal</option>
+        <option>Salsa</option>
+        <option>Tiara</option>
+        <option>Siti</option>
+        <option>Hana</option>
+        <option>Zahra</option>
+        <option>Reva</option>
+        <option>Winda</option>
+        <option>Dimas</option>
+        <option>Ardi</option>
+        <option>Fathan</option>
+        <option>Rama</option>
+        <option>Wildan</option>
+        <option>Bagus</option>
+        <option>Satria</option>
+        <option>Eka</option>
+        <option>Aditya</option>
+        <option>Fajar</option>
+        <option>Rehan</option>
+    </select>
+
+    <p style="margin-top:12px; font-size:15px;">Status akun:</p>
+    <p id="statusText" style="font-size:14px; opacity:.9;">-</p>
+
+    <label id="usernameLabel" style="opacity:.4;">Masukkan Username / Buat Username</label>
+    <input id="usernameInput" placeholder="Username..." disabled>
+
+    <p id="loginError" style="font-size:13px;color:#ff2f2f;display:none;margin-top:5px;"></p>
+
+    <button id="submitBtn" disabled>Masuk</button>
+
+
+    <!-- POPUP -->
+    <div id="welcomePopup" style="
+    position: fixed; inset:0;
+    background: rgba(0,0,0,.75);
+    display:none; justify-content:center; align-items:center;
+    z-index:9999;">
+        <div style="
+        background: rgba(0, 140, 255, .25);
+        backdrop-filter: blur(12px);
+        padding:25px;
+        border-radius:15px;
+        border:2px solid #00eaff;
+        text-align:center;
+        width:85%;max-width:360px;
+        box-shadow:0 0 20px #00eaff;
+        animation: popIn .3s ease;
+    ">
+            <h2 id="popupMsg">Welcome!</h2><br>
+            <button onclick="location.href='/dashboard'">Masuk Dashboard</button>
+        </div>
+    </div>
+    <style>
+        @keyframes popIn {
+            from {
+                transform: scale(.7);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const select = document.getElementById("studentSelect");
+        const statusText = document.getElementById("statusText");
+        const usernameInput = document.getElementById("usernameInput");
+        const usernameLabel = document.getElementById("usernameLabel");
+        const loginError = document.getElementById("loginError");
+        const submitBtn = document.getElementById("submitBtn");
+        const popup = document.getElementById("welcomePopup");
+        const popupMsg = document.getElementById("popupMsg");
+
+        const prev = localStorage.getItem("studentName");
+        if (prev) location.href = "/dashboard";
+
+        let mode = ""; // "login" atau "create"
+
+        function showPopup(name) {
+            popupMsg.innerText = `🎉 Selamat Datang ${name}!`;
+            popup.style.display = "flex";
+        }
+
+        select.addEventListener("change", async () => {
+            const name = select.value;
+            statusText.innerText = "Cek akun...";
+            loginError.style.display = "none";
+            usernameInput.value = "";
+
+            const data = (await get(ref(db, "users/" + name))).val();
+
+            usernameInput.disabled = false;
+            usernameInput.style.opacity = 1;
+            usernameLabel.style.opacity = 1;
+
+            if (!data || !data.username) {
+                statusText.innerText = "Akun belum ada → Buat username baru";
+                usernameLabel.innerText = "Buat Username Baru";
+                mode = "create";
+                submitBtn.innerText = "Daftar";
+            } else {
+                statusText.innerText = "Akun sudah ada → Masukkan username untuk login";
+                usernameLabel.innerText = "Masukkan Username";
+                mode = "login";
+                submitBtn.innerText = "Masuk";
+            }
+
+            submitBtn.disabled = false;
+
+            if (!data || !data.username) {
+                statusText.innerText = "Akun belum ada → Buat username baru";
+                mode = "create";
+                submitBtn.innerText = "Daftar";
+            } else {
+                statusText.innerText = "Akun sudah ada → Masukkan username untuk login";
+                mode = "login";
+                submitBtn.innerText = "Masuk";
+            }
+        });
+
+        submitBtn.onclick = async () => {
+            const name = select.value;
+            const uname = usernameInput.value.trim();
+            if (!uname) return;
+
+            loginError.style.display = "none";
+            usernameInput.style.border = "none";
+
+            if (mode === "create") {
+                await set(ref(db, "users/" + name), {
+                    username: uname, used: true, pp: "", tugas: {}
+                });
+                localStorage.setItem("studentName", name);
+                showPopup(name);
+            } else {
+                const data = (await get(ref(db, "users/" + name))).val();
+                if (data.username !== uname) {
+                    loginError.innerText = "Username salah!";
+                    loginError.style.display = "block";
+                    usernameInput.style.border = "2px solid #ff2f2f";
+                    return;
+                }
+                localStorage.setItem("studentName", name);
+                showPopup(name);
+            }
+        };
+
+        usernameInput.addEventListener("input", () => {
+            usernameInput.style.border = "";
+            loginError.style.display = "none";
+        });
+    </script>
+
+</body>
+
+</html>
