@@ -152,7 +152,6 @@
             margin: 5px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
-            backdrop-filter: blur(50px);
             transition: transform 0.3s ease;
         }
 
@@ -1023,21 +1022,35 @@
         const db = getDatabase(app);
 
 
-        const todayKey = new Date().toLocaleDateString("id-ID", { year: "numeric", month: "2-digit", day: "2-digit" });
-        const hour = new Date().getHours();
-        const isAfter3 = hour >= 15;
+        function getLogicalDate() {
+            const now = new Date();
+            if (now.getHours() >= 15) now.setDate(now.getDate() + 1);
 
-        // Kalau lewat jam 3 → anggap besok
-        let logicalDate = todayKey;
-        if (isAfter3) {
-            const d = new Date();
-            d.setDate(d.getDate() + 1);
-            logicalDate = d.toLocaleDateString("id-ID", { year: "numeric", month: "2-digit", day: "2-digit" });
+            const day = String(now.getDate()).padStart(2, "0");
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            const year = String(now.getFullYear()).slice(-2);
+
+            return `${day}-${month}-${year}`; // contoh: 02-12-25
         }
 
-        const savedName = localStorage.getItem("studentName");
-        const type = savedName ? "userCount" : "guestCount";
+        const logicalDate = getLogicalDate();
 
+
+        const savedName = localStorage.getItem("studentName");
+        // === BUAT ID UNIK UNTUK GUEST MODE ===
+        let guestID = localStorage.getItem("guestID");
+
+        if (!guestID) {
+            guestID = crypto.randomUUID();  // ID unik
+            localStorage.setItem("guestID", guestID);
+        }
+
+        const isGuestMode = (!savedName && location.hash === "#guest");
+        const visitorID = savedName ? savedName : guestID;
+
+
+        // ===== Tentukan tipe visitor =====
+        const type = savedName ? "userCount" : (isGuestMode ? "guestCount" : null);
         const dailyRef = ref(db, "visitors/daily/" + logicalDate + "/" + type);
         const totalRef = ref(db, "visitors/total/" + type);
 
@@ -1050,12 +1063,12 @@
         });
 
         // ===== Prevent refresh double count (per device / per akun) =====
-        const lastVisitKey = savedName ? `lastVisit_${savedName}` : "lastVisit_guest";
+        const lastVisitKey = `lastVisit_${visitorID}`;
         const lastVisit = localStorage.getItem(lastVisitKey);
         const now = Date.now();
         const cooldown = 1000 * 60 * 15; // 15 menit
 
-        if (!lastVisit || now - lastVisit > cooldown) {
+        if (type && (!lastVisit || now - lastVisit > cooldown)) {
             localStorage.setItem(lastVisitKey, now.toString());
 
             // Nambah daily & total
@@ -1064,10 +1077,35 @@
 
             // Kalau ini akun, simpan nama yang berkunjung
             if (savedName) {
-                set(ref(db, `visitors/daily/${logicalDate}/users/${savedName}`), true);
+                const nowStr = new Date().toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                });
+
+                set(ref(db, `visitors/daily/${logicalDate}/users/${savedName}`), {
+                    time: nowStr
+                });
+
+            } else if (isGuestMode) {
+                const nowStr = new Date().toLocaleTimeString("id-ID", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                });
+
+                set(ref(db, `visitors/daily/${logicalDate}/guests/${guestID}`), {
+                    time: nowStr
+                });
+            }
+
+
+            // total tidak pakai time
+            if (savedName) {
                 set(ref(db, `visitors/total/users/${savedName}`), true);
             }
         }
+
 
         const statsPopup = document.getElementById("visitorStatsPopup");
         document.getElementById("visitorCounter").addEventListener("click", async () => {
@@ -1351,16 +1389,13 @@
         loadScheduleAndPiket();
         setInterval(loadScheduleAndPiket, 60 * 1000);
 
-        // Allow guest access if URL contains #guest
-        if (!savedName) {
-            if (location.hash === "#guest") {
-                console.log("Guest mode enabled");
-                document.getElementById("headerName").innerText = "Guest Mode";
-                document.getElementById("headerPP").src = "guest.png"; // optional
-            } else {
-                location.href = "/login.html";
-            }
+        if (!savedName && !isGuestMode) {
+            location.href = "/login.html";
+        } else if (isGuestMode) {
+            document.getElementById("headerName").innerText = "Guest Mode";
+            document.getElementById("headerPP").src = "guest.png";
         }
+
 
 
         // ==== LOAD USER DATA ====
@@ -1368,12 +1403,25 @@
         const headerPP = document.getElementById("headerPP");
         const headerName = document.getElementById("headerName");
 
+        // === FIX NAMA GUEST BIAR GA "null" ===
         get(userRef).then(snap => {
             const data = snap.val() || {};
 
-            headerName.innerText = "Hai, " + savedName;
-            headerPP.src = "profpicture.png";
+            if (!savedName && location.hash === "#guest") {
+                headerName.innerText = "Hai, Seseorang";
+                headerPP.src = "profpicture.png";
+            } else {
+                headerName.innerText = "Hai, " + savedName;
+                headerPP.src = "profpicture.png";
+            }
         });
+
+        if (!savedName && location.hash === "#guest") {
+            document.querySelector("li[onclick='goPersonalize()']").style.display = "none";
+            document.querySelector("li[onclick='logoutUser()']").style.display = "none";
+        }
+
+
 
         // ===== DROPDOWN PROFILE =====
         const rightProfile = document.getElementById("rightProfile");
