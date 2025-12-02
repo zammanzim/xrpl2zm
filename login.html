@@ -55,61 +55,73 @@
             background: rgba(255, 255, 255, .3);
             cursor: not-allowed;
         }
+
+        .login {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            
+        }
     </style>
 </head>
 
 <body>
 
-    <h2>Login / Daftar Akun X - RPL 2</h2>
+    <div class="login">
+        <h2>Login / Daftar Akun X - RPL 2</h2>
 
-    <label>Pilih Nama Kamu!</label>
-    <select id="studentSelect">
-        <option value="" disabled selected>-- Pilih nama --</option>
-        <option>Almira</option>
-        <option>Bintang</option>
-        <option>Dila</option>
-        <option>Nabila</option>
-        <option>Gilang</option>
-        <option>Nizam</option>
-        <option>Sandra</option>
-        <option>Aulia</option>
-        <option>Fahri</option>
-        <option>Akbar</option>
-        <option>Ukuy</option>
-        <option>Rafli</option>
-        <option>Rizky</option>
-        <option>Yoga</option>
-        <option>Naufal</option>
-        <option>Salsa</option>
-        <option>Tiara</option>
-        <option>Siti</option>
-        <option>Hana</option>
-        <option>Zahra</option>
-        <option>Reva</option>
-        <option>Winda</option>
-        <option>Dimas</option>
-        <option>Ardi</option>
-        <option>Fathan</option>
-        <option>Rama</option>
-        <option>Wildan</option>
-        <option>Bagus</option>
-        <option>Satria</option>
-        <option>Eka</option>
-        <option>Aditya</option>
-        <option>Fajar</option>
-        <option>Rehan</option>
-    </select>
+        <label>Pilih Nama Kamu!</label>
+        <select id="studentSelect">
+            <option value="" disabled selected>-- Pilih nama --</option>
+            <option>Alena</option>
+            <option>Almira</option>
+            <option>Andika</option>
+            <option>Anisa</option>
+            <option>Anna</option>
+            <option>Aufa</option>
+            <option>Bintang</option>
+            <option>Debby</option>
+            <option>Dila</option>
+            <option>Excel</option>
+            <option>Faizar</option>
+            <option>Gista</option>
+            <option>Keyla</option>
+            <option>Latif</option>
+            <option>Gilang</option>
+            <option>Nazlan</option>
+            <option>Fachri</option>
+            <option>Muhammad</option>
+            <option>Muhammad</option>
+            <option>Nabila</option>
+            <option>Nakisa</option>
+            <option>Neiyla</option>
+            <option>Nizam</option>
+            <option>Raffi</option>
+            <option>Raka</option>
+            <option>Revan</option>
+            <option>Risha</option>
+            <option>Rizky</option>
+            <option>Sandra</option>
+            <option>Sendi</option>
+            <option>Silva</option>
+            <option>Siti</option>
+            <option>Sri</option>
+            <option>Windi</option>
+            <option>Alvin (X - RPL 3)</option>
+        </select>
 
-    <p style="margin-top:12px; font-size:15px;">Status akun:</p>
-    <p id="statusText" style="font-size:14px; opacity:.9;">-</p>
+        <p style="margin-top:12px; font-size:15px;">Status akun:</p>
+        <p id="statusText" style="font-size:14px; opacity:.9;">-</p>
 
-    <label id="usernameLabel" style="opacity:.4;">Masukkan Username / Buat Username</label>
-    <input id="usernameInput" placeholder="Username..." disabled>
+        <label id="usernameLabel" style="opacity:.4;">Masukkan Username / Buat Username</label>
+        <input id="usernameInput" placeholder="Username..." disabled>
 
-    <p id="loginError" style="font-size:13px;color:#ff2f2f;display:none;margin-top:5px;"></p>
+        <p id="loginError" style="font-size:13px;color:#ff2f2f;display:none;margin-top:5px;"></p>
 
-    <button id="submitBtn" disabled>Masuk</button>
-
+        <button id="submitBtn" disabled>Masuk</button>
+    </div>
 
     <!-- POPUP -->
     <div id="welcomePopup" style="
@@ -129,7 +141,7 @@
         animation: popIn .3s ease;
     ">
             <h2 id="popupMsg">Welcome!</h2><br>
-            <button onclick="location.href='/dashboard'">Masuk Dashboard</button>
+            <button onclick="location.href='/dashboard.html'">Masuk Dashboard</button>
         </div>
     </div>
     <style>
@@ -174,7 +186,7 @@
         const popupMsg = document.getElementById("popupMsg");
 
         const prev = localStorage.getItem("studentName");
-        if (prev) location.href = "/dashboard";
+        if (prev) location.href = "/dashboard.html";
 
         let mode = ""; // "login" atau "create"
 

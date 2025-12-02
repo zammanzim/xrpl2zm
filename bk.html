@@ -12,25 +12,24 @@
 
 <body>
     <header>
-    <div style="display:flex; align-items:center; gap:12px;">
-        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
 
-        <!-- 👁 Visitor counter di sini -->
-        <span id="visitorCounter" 
-            style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px;">
-            <i class="fa-solid fa-eye"></i> ...
-        </span>
-    </div>
-
-    <div class="rightsection">
-        <div class="searchhomepage">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="Search">
+            <!-- 👁 Visitor counter di sini -->
+            <span id="visitorCounter" style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px;">
+                <i class="fa-solid fa-eye"></i> ...
+            </span>
         </div>
-        <button onclick="searchPage()">Cari</button>
-        <span id="searchMessage" style="color: red; font-size: 14px;"></span>
-    </div>
-</header>
+
+        <div class="rightsection">
+            <div class="searchhomepage">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search">
+            </div>
+            <button onclick="searchPage()">Cari</button>
+            <span id="searchMessage" style="color: red; font-size: 14px;"></span>
+        </div>
+    </header>
 
     <div class="sidebar" id="sidebar">
         <h3>Ini Menu Asli</h3>
@@ -73,13 +72,10 @@
                 <p>Daftar tugas dari hari Senin, 27 Oktober 2025 dan seterusnya.</p>
             </div>
         </div>
-        <hr id="26">
         <div class="right-section">
+            <hr id="26">
             <div class="course-card">
-                <div class="headercoursecard">
-                    <h3>Tugas BK</h3>
-                    <h5>Selesai. Rabu. 19 November 2025</h5>
-                </div>
+                <h3>Tugas BK</h3>
                 <h4>Nomor 26</h4>
                 <p>Membuat short film tentang seseorang yang terkena penyakit mental.</p>
                 <h4>Ketentuan</h4>
@@ -112,7 +108,7 @@
     </div>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
@@ -127,7 +123,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const DB_NAME = "vstbk";
+        const DB_NAME = "vstindonesia";
 
         const storageKey = "visitorID_" + DB_NAME;
         let visitorID = localStorage.getItem(storageKey);
@@ -159,6 +155,48 @@
             const data = snap.val();
             const total = data ? Object.keys(data).length : 0;
             counter.innerHTML = `<i class="fa-solid fa-eye"></i> ${total} visitors`;
+        });
+
+        // Nama file halaman untuk generate link
+        const fileName = window.location.pathname.split("/").pop();
+
+        // Cek nama mapel dari halaman
+        const mapel = document.querySelector(".left-section h1")?.innerText || "Tanpa Mapel";
+
+        // Ambil semua tugas berdasarkan <hr id="">
+        const taskIDs = document.querySelectorAll("hr[id]");
+
+        taskIDs.forEach(async (hr) => {
+            const id = hr.getAttribute("id");
+            const card = hr.nextElementSibling;
+            if (!id || !card?.classList.contains("course-card")) return;
+
+            // Cek apakah tugas ini sudah ada di Firebase
+            const taskRef = ref(db, "tasks/" + id);
+            const snap = await get(taskRef);
+
+            if (snap.exists()) {
+                console.log(`⚠ Skip ID ${id} (sudah ada di database)`);
+                return;
+            }
+
+            const judul = card.querySelector(".headercoursecard h3")?.innerText || `Tugas ${mapel}`;
+            const nomorText = card.querySelector("h4")?.innerText || "";
+            const nomor = parseInt(nomorText.replace(/\D/g, "")) || Number(id);
+            const desc = card.querySelector("p")?.innerText || "Tidak ada deskripsi tugas.";
+            const tugasLink = `${fileName}#${id}`;
+
+            const tugasData = {
+                id: Number(id),
+                mapel,
+                judul,
+                nomor,
+                tugas: desc,
+                link: tugasLink
+            };
+
+            await set(taskRef, tugasData);
+            console.log(`🆕 Uploaded -> ID: ${id}`);
         });
     </script>
     <script src="seacrhpage.js"></script>

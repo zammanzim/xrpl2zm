@@ -71,6 +71,7 @@
             background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
             padding: 20px;
             transition: .5s;
+            z-index: 999;
         }
 
         .sidebar.open {
@@ -101,7 +102,6 @@
             transform: scale(.96);
         }
 
-        /* MAIN CONTENT */
         .main {
             margin-top: 80px;
             padding: 20px;
@@ -109,14 +109,60 @@
             margin-inline: auto;
         }
 
-        /* PROFILE CARD */
         .card {
             background: rgba(255, 255, 255, .2);
-            padding: 20px;
+            padding: 16px;
             border-radius: 12px;
-            backdrop-filter: blur(15px);
-            text-align: center;
+            margin: 20px 0;
         }
+
+        .carddashboard {
+            background: rgba(255, 255, 255, .2);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .userInfo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #uname {
+            font-size: 15px;
+            opacity: .9;
+            margin-bottom: 5px;
+        }
+
+        #name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .userStats {
+            display: flex;
+            gap: 12px;
+        }
+
+        .statBox {
+            background: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            padding: 8px 14px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            min-width: 80px;
+            font-size: 16px;
+        }
+
+        .statBox span {
+            font-size: 22px;
+            font-weight: bold;
+            display: block;
+        }
+
 
         #pp {
             width: 110px;
@@ -132,6 +178,130 @@
             font-size: 15px;
             opacity: .9;
         }
+
+        .taskCard {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            border-radius: 14px;
+            margin: 16px 0;
+        }
+
+        .taskCard h3 {
+            margin: 0 0 4px;
+        }
+
+        .taskCard h4 {
+            margin: 0 0 10px;
+            opacity: .9;
+        }
+
+        .taskCard p {
+            margin: 0 0 12px;
+            opacity: .85;
+        }
+
+        .goBtn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            background: linear-gradient(90deg, #ff00c8, #b200ff);
+            color: #fff;
+            font-weight: 600;
+            font-size: .9rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .goBtn:hover {
+            transform: scale(1.1);
+        }
+
+        .checkBtn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            user-select: none;
+            background: transparent;
+            border: 3px solid #a855ff;
+            color: #d7b4ff;
+            transition: background .35s ease, color .35s ease, box-shadow .4s ease;
+        }
+
+        /* Sembunyikan checkbox */
+        .checkBtn input {
+            display: none;
+        }
+
+        .checkBtn:has(input:checked) {
+            background: linear-gradient(90deg, #b855ff, #3b0fff);
+            color: #fff;
+            box-shadow: 0 0 18px rgba(154, 66, 255, .7);
+            animation: fadeGlow .35s ease-out;
+        }
+
+        /* ICON update */
+        .checkBtn:has(input:checked) i {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+        }
+
+        @keyframes fadeGlow {
+            0% {
+                opacity: .4;
+                transform: scale(.96);
+                box-shadow: 0 0 6px rgba(154, 66, 255, 0.1);
+            }
+
+            60% {
+                opacity: .9;
+                transform: scale(1.03);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 18px rgba(154, 66, 255, .7);
+            }
+        }
+
+        .profileMenu {
+            position: fixed;
+            top: 60px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 8px 0;
+            display: none;
+            z-index: 2000;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            width: 160px;
+        }
+
+        .profileMenu ul {
+            list-style: none;
+        }
+
+        .profileMenu ul li {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .profileMenu ul li:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 
@@ -145,6 +315,14 @@
         </div>
     </header>
 
+    <div class="profileMenu" id="profileMenu">
+        <ul>
+            <li onclick="window.goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="window.logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
+        </ul>
+    </div>
+
+
     <div class="sidebar" id="sidebar">
         <ul>
             <li><a href="/homev2"><i class="fa-solid fa-house"></i> Home</a></li>
@@ -155,16 +333,37 @@
 
     <div class="main">
 
-        <div class="card">
-            <img id="pp" src="https://i.ibb.co/4fZ8K1L/user.png" alt="pp"
-                style="width:110px;height:110px;border-radius:50%;border:3px solid #fff;object-fit:cover;cursor:pointer;">
+        <div class="carddashboard">
+            <img id="pp" src="profpic.png">
 
-            <h2 id="name" style="margin-top:10px;">Loading...</h2>
-            <p id="uname" style="opacity:.8;margin-top:5px;">@username</p>
+            <div class="userInfo">
+                <p id="uname">@zam_admin</p>
+                <h3 id="name">Nizam Fhamer Arafli</h3>
+
+                <div class="userStats">
+                    <div class="statBox">
+                        <span id="taskCount">0</span>
+                        <p>Tugas <br> yang Belum</p>
+                    </div>
+
+                    <div class="statBox">
+                        <span id="followers">0</span>
+                        <p>Followers</p>
+                    </div>
+                </div>
+            </div>
 
             <input type="file" id="filePP" accept="image/*" style="display:none;">
-            <p style="font-size:13px;margin-top:5px;">Klik foto untuk ubah PP 📸</p>
         </div>
+
+
+        <div class="card" style="margin-top:20px;">
+            <h3>📌 Tugas Belum Selesai</h3>
+        </div>
+        <div id="taskList"></div>
+
+
+
 
     </div>
 
@@ -172,8 +371,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-        import { getStorage, uploadBytes, getDownloadURL, ref as sRef } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
+        // ========== FIREBASE ==========
         const firebaseConfig = {
             apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
             authDomain: "xrpl2web.firebaseapp.com",
@@ -183,79 +382,121 @@
             messagingSenderId: "410193641417",
             appId: "1:410193641417:web:a7da663d744703e4883218"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const storage = getStorage(app);
 
+        // ========== CHECK LOGIN ==========
         const savedName = localStorage.getItem("studentName");
-        if (!savedName) location.href = "/login";
+        if (!savedName) location.href = "/login.html";
 
-        const userRef = ref(db, "users/" + savedName);
-
+        // ========== ELEMENTS ==========
         const headerPP = document.getElementById("headerPP");
         const headerName = document.getElementById("headerName");
         const ppEl = document.getElementById("pp");
-        const unameEl = document.getElementById("uname");
         const nameEl = document.getElementById("name");
-        const fileInput = document.getElementById("filePP");
+        const unameEl = document.getElementById("uname");
 
-        // LOAD USER
+        // ========== LOAD USER DATA ==========
+        const userRef = ref(db, "users/" + savedName);
         get(userRef).then(snap => {
-            const data = snap.val();
-            nameEl.innerText = savedName;
-            unameEl.innerText = "@" + data.username;
+            const data = snap.val() || {};
 
-            const url = data.pp ? data.pp : "https://i.ibb.co/4fZ8K1L/user.png";
-            ppEl.src = url;
-            headerPP.src = url;
+            nameEl.innerText = savedName;
+            unameEl.innerText = data.username ? "@" + data.username : "@username";
 
             headerName.innerText = "Hai, " + savedName;
+
+            // Selalu default saja
+            ppEl.src = "profpicture.png";
+            headerPP.src = "profpicture.png";
         });
 
-        // UPDATE FOTO PROFIL
-        ppEl.onclick = () => fileInput.click();
-        fileInput.onchange = async () => {
-            const file = fileInput.files[0];
-            if (!file) return;
+        const rightProfile = document.getElementById("rightProfile");
+        const profileMenu = document.getElementById("profileMenu");
 
-            const refImg = sRef(storage, `pp/${savedName}.jpg`);
-            await uploadBytes(refImg, file);
-            const url = await getDownloadURL(refImg);
+        rightProfile.addEventListener("click", (e) => {
+            e.stopPropagation();
+            profileMenu.style.display =
+                profileMenu.style.display === "block" ? "none" : "block";
+        });
 
-            await update(userRef, { pp: url });
-            ppEl.src = url;
-            headerPP.src = url;
+        document.addEventListener("click", (e) => {
+            if (!profileMenu.contains(e.target) && !rightProfile.contains(e.target)) {
+                profileMenu.style.display = "none";
+            }
+        });
 
-            fileInput.addEventListener("change", async () => {
-                const file = fileInput.files[0];
-                if (!file) return;
+        // global functions
+        window.logoutUser = () => {
+            localStorage.removeItem("studentName");
+            location.href = "login.html";
+        }
+        window.goPersonalize = () => {
+            location.href = "profile.html"; // ubah sesuai page nanti
+        }
 
-                // Buat path per user -> pp/NamaUser.jpg
-                const imgRef = sRef(storage, `pp/${savedName}.jpg`);
 
-                // Upload file
-                await uploadBytes(imgRef, file);
+        const taskList = document.getElementById("taskList");
 
-                // Ambil URL download
-                const url = await getDownloadURL(imgRef);
+        Promise.all([
+            get(ref(db, "tasks")),
+            get(ref(db, "users/" + savedName + "/tugas"))
+        ]).then(([tasksSnap, statusSnap]) => {
+            const tasks = tasksSnap.val() || {};
+            const status = statusSnap.val() || {};
 
-                // Simpan URL ke database user
-                await update(userRef, { pp: url });
+            taskList.innerHTML = "";
+            let countNotDone = 0;
 
-                // Update tampilan langsung
-                ppEl.src = url;
-                headerPP.src = url;
+            Object.keys(tasks).forEach(id => {
+                if (status[id] !== true) {
+                    countNotDone++;
+                    const t = tasks[id];
+
+                    taskList.innerHTML += `
+            <div class="taskCard">
+                <h3>${t.mapel}</h3>
+                <h4>Nomor ${t.nomor}</h4>
+                <p>${t.tugas}</p>
+                <a href="${t.link}" class="goBtn">Pencet ➜</a>
+                <div style="margin-top:8px;">
+                    <p>Kalo tugasnya udah selesai pencet "tandai selesai"</p>
+                    <label class="checkBtn">
+    <input type="checkbox" data-id="${id}">
+    <i class="fa-solid fa-check"></i>
+    <span>Tandai selesai</span>
+</label>
+
+
+                </div>
+            </div>`;
+                }
             });
 
-        };
+            // ⬇️ Update jumlah tugas yg belum selesai
+            document.getElementById("taskCount").innerText = countNotDone;
 
-        // LOGOUT SEMENTARA
-        headerPP.oncontextmenu = (e) => {
-            e.preventDefault();
-            localStorage.removeItem("studentName");
-            location.href = "/login";
-        };
+            // Event checkbox
+            document.querySelectorAll("input[data-id]").forEach(cb => {
+                cb.addEventListener("change", () => {
+                    const id = cb.getAttribute("data-id");
+                    update(ref(db, "users/" + savedName + "/tugas"), {
+                        [id]: cb.checked
+                    });
+                });
+            });
+        });
+
+
+        document.querySelectorAll("input[data-id]").forEach(cb => {
+            cb.addEventListener("change", () => {
+                const id = cb.getAttribute("data-id");
+                update(ref(db, "users/" + savedName + "/tugas"), {
+                    [id]: cb.checked
+                });
+                cb.closest(".taskItem").remove();
+            });
+        });
     </script>
 
     <script>

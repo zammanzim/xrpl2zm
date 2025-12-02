@@ -648,6 +648,56 @@
                 0px 0px 20px #00dbff,
                 0px 0px 30px #00dbff;
         }
+
+        .rightProfile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        #headerPP {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        #headerName {
+            font-weight: bold;
+        }
+
+        .profileMenu {
+            position: fixed;
+            top: 60px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 8px 0;
+            display: none;
+            z-index: 2000;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            width: 160px;
+        }
+
+        .profileMenu ul {
+            list-style: none;
+        }
+
+        .profileMenu ul li {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .profileMenu ul li:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
     </style>
 </head>
 
@@ -669,18 +719,40 @@
         </div>
     </div>
 
-    <header>
-        <div style="display:flex; align-items:center; gap:12px;">
-            <div class="hamburger" onclick="toggleMenu()">☰</div>
-
-            <span id="visitorCounter" style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px;">
-                <i class="fa-solid fa-eye"></i> ...
-            </span>
+    <div class="popup-visit" id="visitorStatsPopup">
+        <div class="popup-visit-card">
+            <h2>📊 Visitor Stats</h2>
+            <p id="todayVisitors"></p>
+            <p id="totalVisitors"></p>
+            <p id="guestVisitors"></p>
+            <p id="userVisitors"></p>
+            <p id="userListToday"></p>
+            <p id="userListTotal"></p>
+            <button onclick="closeVisitorStats()">Tutup</button>
         </div>
+    </div>
 
-        <div class="rightsection">
-            <button>Daftar</button>
+
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <span id="visitorCounter"
+            style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px; margin-left: 10px;">
+            <i class="fa-solid fa-eye"></i> ...
+        </span>
+
+        <div class="rightProfile" id="rightProfile">
+            <img id="headerPP" src="" alt="">
+            <span id="headerName">Hai...</span>
+        </div>
     </header>
+
+    <div class="profileMenu" id="profileMenu">
+        <ul>
+            <li onclick="goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
+        </ul>
+    </div>
+
 
     <div class="sidebar" id="sidebar">
         <h3>Main Menu</h3>
@@ -935,7 +1007,7 @@
     <script src="seacrhpage.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, set, onValue, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
@@ -950,41 +1022,78 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const DB_NAME = "vstannouncement";
 
-        const storageKey = "visitorID_" + DB_NAME;
-        let visitorID = localStorage.getItem(storageKey);
+        const todayKey = new Date().toLocaleDateString("id-ID", { year: "numeric", month: "2-digit", day: "2-digit" });
+        const hour = new Date().getHours();
+        const isAfter3 = hour >= 15;
 
-        if (!visitorID) {
-            visitorID = "vst_" + Math.random().toString(36).substring(2, 12);
-            localStorage.setItem(storageKey, visitorID);
-
-            const now = new Date();
-            const formatted = now.toLocaleString("id-ID", {
-                weekday: "short",
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            });
-
-            set(ref(db, "vst/" + DB_NAME + "/" + visitorID), {
-                page: location.pathname,
-                time: formatted,
-                useragent: navigator.userAgent
-            });
+        // Kalau lewat jam 3 → anggap besok
+        let logicalDate = todayKey;
+        if (isAfter3) {
+            const d = new Date();
+            d.setDate(d.getDate() + 1);
+            logicalDate = d.toLocaleDateString("id-ID", { year: "numeric", month: "2-digit", day: "2-digit" });
         }
 
-        const counter = document.getElementById("visitorCounter");
+        const savedName = localStorage.getItem("studentName");
+        const type = savedName ? "userCount" : "guestCount";
 
-        onValue(ref(db, "vst/" + DB_NAME + "/"), (snap) => {
-            const data = snap.val();
-            const total = data ? Object.keys(data).length : 0;
-            counter.innerHTML = `<i class="fa-solid fa-eye"></i> ${total} visitors`;
+        const dailyRef = ref(db, "visitors/daily/" + logicalDate + "/" + type);
+        const totalRef = ref(db, "visitors/total/" + type);
+
+        // Update counter UI realtime
+        onValue(ref(db, "visitors/daily/" + logicalDate), (snap) => {
+            const data = snap.val() || {};
+            const dailyTotal = (data.guestCount || 0) + (data.userCount || 0);
+            document.getElementById("visitorCounter").innerHTML =
+                `<i class="fa-solid fa-eye"></i> ${dailyTotal}`;
         });
 
-        // ==== ADMIN EDIT MODE START ====
+        // ===== Prevent refresh double count (per device / per akun) =====
+        const lastVisitKey = savedName ? `lastVisit_${savedName}` : "lastVisit_guest";
+        const lastVisit = localStorage.getItem(lastVisitKey);
+        const now = Date.now();
+        const cooldown = 1000 * 60 * 15; // 15 menit
+
+        if (!lastVisit || now - lastVisit > cooldown) {
+            localStorage.setItem(lastVisitKey, now.toString());
+
+            // Nambah daily & total
+            get(dailyRef).then(s => set(dailyRef, (s.val() || 0) + 1));
+            get(totalRef).then(s => set(totalRef, (s.val() || 0) + 1));
+
+            // Kalau ini akun, simpan nama yang berkunjung
+            if (savedName) {
+                set(ref(db, `visitors/daily/${logicalDate}/users/${savedName}`), true);
+                set(ref(db, `visitors/total/users/${savedName}`), true);
+            }
+        }
+
+        const statsPopup = document.getElementById("visitorStatsPopup");
+        document.getElementById("visitorCounter").addEventListener("click", async () => {
+
+            statsPopup.classList.add("active");
+
+            const daily = (await get(ref(db, "visitors/daily/" + logicalDate))).val() || {};
+            const total = (await get(ref(db, "visitors/total"))).val() || {};
+
+            document.getElementById("todayVisitors").innerText =
+                `👁️ Visitor Hari Ini: ${(daily.guestCount || 0) + (daily.userCount || 0)}`;
+            document.getElementById("totalVisitors").innerText =
+                `🌍 Total Visitor: ${(total.guestCount || 0) + (total.userCount || 0)}`;
+            document.getElementById("guestVisitors").innerText =
+                `🙍 Guest Hari Ini: ${daily.guestCount || 0}`;
+            document.getElementById("userVisitors").innerText =
+                `👤 Akun Hari Ini: ${daily.userCount || 0}`;
+
+            const usersToday = daily.users ? Object.keys(daily.users).join(", ") : "—";
+            const usersTotal = total.users ? Object.keys(total.users).join(", ") : "—";
+
+            document.getElementById("userListToday").innerText =
+                `👉 Pengunjung akun hari ini:\n${usersToday}`;
+            document.getElementById("userListTotal").innerText =
+                `📌 Akun yang pernah berkunjung:\n${usersTotal}`;
+        });
 
         const adminCard = document.getElementById("adminCard");
         const editBtn = document.getElementById("editBtn");
@@ -1241,6 +1350,72 @@
 
         loadScheduleAndPiket();
         setInterval(loadScheduleAndPiket, 60 * 1000);
+
+        // Allow guest access if URL contains #guest
+        if (!savedName) {
+            if (location.hash === "#guest") {
+                console.log("Guest mode enabled");
+                document.getElementById("headerName").innerText = "Guest Mode";
+                document.getElementById("headerPP").src = "guest.png"; // optional
+            } else {
+                location.href = "/login.html";
+            }
+        }
+
+
+        // ==== LOAD USER DATA ====
+        const userRef = ref(db, "users/" + savedName);
+        const headerPP = document.getElementById("headerPP");
+        const headerName = document.getElementById("headerName");
+
+        get(userRef).then(snap => {
+            const data = snap.val() || {};
+
+            headerName.innerText = "Hai, " + savedName;
+            headerPP.src = "profpicture.png";
+        });
+
+        // ===== DROPDOWN PROFILE =====
+        const rightProfile = document.getElementById("rightProfile");
+        const profileMenu = document.getElementById("profileMenu");
+
+        rightProfile.addEventListener("click", (e) => {
+            e.stopPropagation(); // biar nggak auto close
+            profileMenu.style.display =
+                profileMenu.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!profileMenu.contains(e.target)) {
+                profileMenu.style.display = "none";
+            }
+        });
+
+        function logoutUser() {
+            localStorage.removeItem("studentName");
+            location.href = "login.html";
+        }
+
+        function goPersonalize() {
+            location.href = "dashboard.html"; // ganti ke halaman tujuan lo
+        }
+
+        // ======= PROFILE DROPDOWN ACTION FIX =======
+
+        // LOG OUT
+        window.logoutUser = () => {
+            localStorage.removeItem("studentName");
+            window.location.href = "login.html"; // arah logout
+        };
+
+        // PERSONALIZE
+        window.goPersonalize = () => {
+            window.location.href = "dashboard.html"; // ganti tujuan personalize
+        };
+
+        window.closeVisitorStats = () => {
+            statsPopup.classList.remove("active");
+        };
 
 
     </script>

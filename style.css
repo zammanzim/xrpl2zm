@@ -364,12 +364,6 @@
             transform: translateY(-2px);
         }
 
-        .headercoursecard {
-            justify-content: space-between;
-            display: flex;
-
-        }
-
         hr {
             margin: 60px 0;
         }
@@ -613,4 +607,46 @@
             .main-content {
                 padding: 10px;
             }
+        }
+
+        .tugasCheck {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 15px;
+            backdrop-filter: blur(4px);
+        }
+
+        .tugasMsg {
+            margin: 0 0 10px;
+            font-size: .95rem;
+            font-weight: 500;
+            opacity: .9;
+        }
+
+        .checkRow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .checkRow input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            border-radius: 6px;
+            accent-color: #4CAF50;
+            /* HIJAU CLEAN */
+        }
+
+        .checkLabel {
+            font-size: .95rem;
+            font-weight: 600;
+        }
+
+        /* Saat centang → coret dan redup */
+        .checkRow input:checked+.checkLabel {
+            text-decoration: line-through;
+            opacity: .5;
         }
