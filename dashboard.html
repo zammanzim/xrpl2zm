@@ -13,6 +13,16 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
         }
 
         body {
@@ -20,25 +30,27 @@
             background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
             background-attachment: fixed;
             color: white;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        /* HEADER */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #007bff;
-            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
             z-index: 1000;
         }
 
         .hamburger {
-            font-size: 26px;
+            font-size: 24px;
             cursor: pointer;
+            display: block;
         }
 
         /* RIGHT HEADER PROFILE */
@@ -61,17 +73,28 @@
             font-weight: bold;
         }
 
-        /* SIDEBAR */
         .sidebar {
             position: fixed;
-            top: 55px;
+            top: 50px;
             left: -250px;
             width: 250px;
-            height: calc(100vh - 55px);
-            background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
-            padding: 20px;
-            transition: .5s;
+            height: calc(100vh - 50px);
+
+            color: white;
+            transition: left 0.7s ease;
             z-index: 999;
+            padding: 20px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            background: linear-gradient(180deg,
+                    #00bfff 0%,
+                    #0077ff 35%,
+                    #6a5acd 75%,
+                    #ff8ccf 100%);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
         }
 
         .sidebar.open {
@@ -87,26 +110,42 @@
         }
 
         .sidebar ul li a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border: 1px solid white;
+            color: white;
             text-decoration: none;
-            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+            transform: scale(0.95);
+
+        }
+
+        .sidebar a.active {
+            background-color: #0088ff;
             color: white;
         }
 
-        .sidebar ul li a:hover {
-            background: #0088ff;
-            transform: scale(.96);
+        .sidebar a {
+            margin: 0;
+
+            border-radius: 8px;
+            border: 1px solid #ffffff;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 20px;
         }
 
-        .main {
+        .main-content {
             margin-top: 80px;
             padding: 20px;
-            max-width: 900px;
-            margin-inline: auto;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            cursor: default;
         }
 
         .card {
@@ -302,6 +341,29 @@
         .profileMenu ul li:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+
+        @media (min-width: 1024px) {
+            .sidebar {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 270px;
+                transition: .5s;
+            }
+
+            .sidebar.closed {
+                left: -250px;
+            }
+
+            .main-content.shifted {
+                margin-left: 128px;
+            }
+        }
+
+        .sidebar i {
+            margin-right: 10px;
+        }
     </style>
 </head>
 
@@ -318,27 +380,50 @@
     <div class="profileMenu" id="profileMenu">
         <ul>
             <li onclick="window.goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="goDashboard()">Dashboard</li>
             <li onclick="window.logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
         </ul>
     </div>
 
 
     <div class="sidebar" id="sidebar">
+        <h3>Main Menu</h3>
         <ul>
-            <li><a href="/homev2"><i class="fa-solid fa-house"></i> Home</a></li>
-            <li><a href="/announcement.html"><i class="fa-solid fa-bullhorn"></i> Pengumuman</a></li>
-            <li><a href="/dashboard"><i class="fa-solid fa-user"></i> Profil</a></li>
+            <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
+            <li><a href="dashboard.html" class="active"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+            <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
+            <h3>Lessons</h3>
+            <li><a href="bahasaindonesia.html"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
+            <li><a href="bahasainggris.html"><i class="fa-solid fa-language"></i>B. Inggris</a></li>
+            <li><a href="bahasasunda.html"><B style="margin-right: 10px;">ᮘ</B></i>B. Sunda</a></li>
+            <li><a href="bahasajepang.html"><b style="margin-right: 10px;">あ</b></i>B. Jepang</a></li>
+            <li><a href="matematika.html"><i class="fa-solid fa-calculator"></i>Matematika</a></li>
+            <li><a href="proipas.html"><i class="fa-solid fa-atom"></i>Proipas</a></li>
+            <li><a href="sejarah.html"><i class="fa-solid fa-landmark"></i>Sejarah</a></li>
+            <li><a href="pabp.html"><i class="fa-solid fa-mosque"></i>PABP</a></li>
+            <li><a href="pp.html"><i class="fa-solid fa-scale-balanced"></i>PP</a></li>
+            <li><a href="senibudaya.html"><i class="fa-solid fa-masks-theater"></i>Seni Budaya</a></li>
+            <li><a href="pjok.html"><i class="fa-solid fa-person-running"></i>PJOK</a></li>
+            <li><a href="informatika.html"><i class="fa-solid fa-laptop"></i>Informatika</a></li>
+            <li><a href="bk.html"><i class="fa-solid fa-heart-circle-check"></i>BK</a></li>
+            <li><a href="dpr1.html"><i class="fa-solid fa-laptop-code"></i>DASPROG 1</a></li>
+            <li><a href="dpr2.html"><i class="fa-solid fa-microchip"></i>DASPROG 2</a></li>
+            <li><a href="dpr3.html"><i class="fa-solid fa-palette"></i>DASPROG 3</a></li>
         </ul>
     </div>
 
-    <div class="main">
+
+    <div class="main-content">
 
         <div class="carddashboard">
             <img id="pp" src="profpic.png">
 
             <div class="userInfo">
-                <p id="uname">@zam_admin</p>
-                <h3 id="name">Nizam Fhamer Arafli</h3>
+                <p id="uname"></p>
+                <h3 id="name"></h3>
+                <p id="bio"></p>
 
                 <div class="userStats">
                     <div class="statBox">
@@ -361,13 +446,11 @@
             <h3>📌 Tugas Belum Selesai</h3>
         </div>
         <div id="taskList"></div>
-
-
-
-
     </div>
 
 
+    <script type="module" src="auth.js"></script>
+    <script src="script.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -389,12 +472,16 @@
         const savedName = localStorage.getItem("studentName");
         if (!savedName) location.href = "/login.html";
 
-        // ========== ELEMENTS ==========
-        const headerPP = document.getElementById("headerPP");
-        const headerName = document.getElementById("headerName");
         const ppEl = document.getElementById("pp");
         const nameEl = document.getElementById("name");
         const unameEl = document.getElementById("uname");
+
+        const savedPP = localStorage.getItem("cachedPP");
+        if (savedPP) {
+            ppEl.src = savedPP;
+            headerPP.src = savedPP;
+        }
+
 
         // ========== LOAD USER DATA ==========
         const userRef = ref(db, "users/" + savedName);
@@ -406,35 +493,29 @@
 
             headerName.innerText = "Hai, " + savedName;
 
-            // Selalu default saja
-            ppEl.src = "profpicture.png";
-            headerPP.src = "profpicture.png";
+            let imgPath = `students/${savedName}.jpg`;
+            ppEl.src = imgPath;
+            headerPP.src = imgPath;
+
+            // Kalau foto berhasil load → Simpan ke localStorage
+            ppEl.onload = () => localStorage.setItem("cachedPP", imgPath);
+            headerPP.onload = () => localStorage.setItem("cachedPP", imgPath);
+
+            // Kalau error → fallback + simpan fallback ke cache
+            ppEl.onerror = () => {
+                ppEl.src = "profpicture.png";
+                localStorage.setItem("cachedPP", "profpicture.png");
+            };
+            headerPP.onerror = () => {
+                headerPP.src = "profpicture.png";
+                localStorage.setItem("cachedPP", "profpicture.png");
+            };
+
+            // Baca info (bio)
+            const bioEl = document.getElementById("bio");
+            bioEl.innerText = data.bio ? data.bio : "Belum ada info";
+
         });
-
-        const rightProfile = document.getElementById("rightProfile");
-        const profileMenu = document.getElementById("profileMenu");
-
-        rightProfile.addEventListener("click", (e) => {
-            e.stopPropagation();
-            profileMenu.style.display =
-                profileMenu.style.display === "block" ? "none" : "block";
-        });
-
-        document.addEventListener("click", (e) => {
-            if (!profileMenu.contains(e.target) && !rightProfile.contains(e.target)) {
-                profileMenu.style.display = "none";
-            }
-        });
-
-        // global functions
-        window.logoutUser = () => {
-            localStorage.removeItem("studentName");
-            location.href = "login.html";
-        }
-        window.goPersonalize = () => {
-            location.href = "profile.html"; // ubah sesuai page nanti
-        }
-
 
         const taskList = document.getElementById("taskList");
 
@@ -498,13 +579,6 @@
             });
         });
     </script>
-
-    <script>
-        function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("open");
-        }
-    </script>
-
 </body>
 
 </html>

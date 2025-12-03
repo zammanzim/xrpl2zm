@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Akun</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .content {
+            margin-top: 60px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #b3ecff, #66c2ff);
+            border-radius: 30px;
+            box-shadow:
+                inset 0 3px 6px rgba(255, 255, 255, 0.6),
+                inset 0 -3px 6px rgba(0, 100, 255, 0.15),
+                0 2px 8px rgba(0, 100, 255, 0.25);
+            padding: 0 12px;
+            width: 100%;
+            height: 40px;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .search:hover {
+            box-shadow:
+                0 4px 10px rgba(0, 140, 255, 0.35),
+                inset 0 -2px 4px rgba(51, 0, 255, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .search input {
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #004d73;
+            width: 100%;
+            float: right;
+        }
+
+        .search input::placeholder {
+            color: #0077b6;
+            opacity: 0.8;
+        }
+
+        .search input:focus {
+            outline: none;
+        }
+
+        hr {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <span id="visitorCounter"
+            style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px; margin-left: 40px;">
+            <i class="fa-solid fa-eye"></i> ...
+        </span>
+
+        <div class="rightProfile" id="rightProfile">
+            <img id="headerPP" src="" alt="">
+            <span id="headerName">Hai...</span>
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <h3>Main Menu</h3>
+            <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
+            <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+            <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="search.html" class="active"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
+            <h3>Lessons</h3>
+            <li><a href="bahasaindonesia.html"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
+            <li><a href="bahasainggris.html"><i class="fa-solid fa-language"></i>B. Inggris</a></li>
+            <li><a href="bahasasunda.html"><B style="margin-right: 10px;">ᮘ</B></i>B. Sunda</a></li>
+            <li><a href="bahasajepang.html"><b style="margin-right: 10px;">あ</b></i>B. Jepang</a></li>
+            <li><a href="matematika.html"><i class="fa-solid fa-calculator"></i>Matematika</a></li>
+            <li><a href="proipas.html"><i class="fa-solid fa-atom"></i>Proipas</a></li>
+            <li><a href="sejarah.html"><i class="fa-solid fa-landmark"></i>Sejarah</a></li>
+            <li><a href="pabp.html"><i class="fa-solid fa-mosque"></i>PABP</a></li>
+            <li><a href="pp.html"><i class="fa-solid fa-scale-balanced"></i>PP</a></li>
+            <li><a href="senibudaya.html"><i class="fa-solid fa-masks-theater"></i>Seni Budaya</a></li>
+            <li><a href="pjok.html"><i class="fa-solid fa-person-running"></i>PJOK</a></li>
+            <li><a href="informatika.html"><i class="fa-solid fa-laptop"></i>Informatika</a></li>
+            <li><a href="bk.html"><i class="fa-solid fa-heart-circle-check"></i>BK</a></li>
+            <li><a href="dpr1.html"><i class="fa-solid fa-laptop-code"></i>DASPROG 1</a></li>
+            <li><a href="dpr2.html"><i class="fa-solid fa-microchip"></i>DASPROG 2</a></li>
+            <li><a href="dpr3.html"><i class="fa-solid fa-palette"></i>DASPROG 3</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="course-card" style="margin-top: 12px;">
+                <div class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchUser" placeholder="Cari Akun">
+                </div>
+            </div>
+            <hr>
+        <div id="resultList"></div>
+    </div>
+
+    <footer>
+        <p>© XRPL TWOZM</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const searchBox = document.getElementById("searchUser");
+        const resultBox = document.getElementById("resultList");
+        const img = `students/${name}.jpg`;
+
+
+        get(ref(db, "users")).then(snap => {
+            const users = snap.val() || {};
+
+            function renderUsers(filter="") {
+    resultBox.innerHTML = "";
+
+    Object.keys(users).forEach(name => {
+        const data = users[name];
+        const username = data.username || "";
+        const lowerFilter = filter.toLowerCase();
+
+        if (
+            !filter ||
+            name.toLowerCase().includes(lowerFilter) ||
+            username.toLowerCase().includes(lowerFilter)
+        ) {
+            const img = `students/${name}.jpg`;
+            resultBox.innerHTML += `
+            <div class="course-card" style="display:flex;align-items:center;gap:18px;">
+                <img src="${img}" 
+                     onerror="this.src='profpicture.png'"
+                     style="width:55px;height:55px;border-radius:50%;object-fit:cover;">
+                <div>
+                    <h3 style="margin:0;">${name}</h3>
+                    <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
+                </div>
+            </div>`;
+        }
+    });
+}
+
+renderUsers(); // ⬅ tampilkan semua akun langsung awal
+
+searchBox.addEventListener("input", () => {
+    renderUsers(searchBox.value);
+});
+
+
+                Object.keys(users).forEach(name => {
+                    const data = users[name];
+                    const username = data.username || "";
+
+                    if (name.toLowerCase().includes(key) || username.toLowerCase().includes(key)) {
+                        const img = `profilePictures/${name}.jpg`;
+                        resultBox.innerHTML += `
+                    <div class="course-card" style="display:flex;align-items:center;gap:18px;">
+                        <img src="${img}" onerror="this.src='profpicture.png'"
+                        style="width:55px;height:55px;border-radius:50%;object-fit:cover;">
+                        <div>
+                            <h3 style="margin:0;">${name}</h3>
+                            <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
+                        </div>
+                    </div>`;
+                    }
+                });
+            });
+    </script>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script type="module" src="synctaskspp.js"></script>
+
+</body>
+
+</html>

@@ -1,14 +1,19 @@
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
-    const mainContent = document.querySelector('.main-content');
+
+    // Cari elemen main-content atau main, yang ada duluan
+    const mainContent =
+        document.querySelector('.main-content') ||
+        document.querySelector('.main');
 
     if (window.innerWidth >= 1024) {
         sidebar.classList.toggle('closed');
-        mainContent.classList.toggle('shifted');
+        if (mainContent) mainContent.classList.toggle('shifted');
     } else {
         sidebar.classList.toggle('open');
     }
 }
+
 
 const searchInput = document.getElementById('searchInput');
 if (searchInput) {

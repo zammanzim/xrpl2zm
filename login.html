@@ -62,7 +62,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            
+
         }
     </style>
 </head>
@@ -121,6 +121,13 @@
         <p id="loginError" style="font-size:13px;color:#ff2f2f;display:none;margin-top:5px;"></p>
 
         <button id="submitBtn" disabled>Masuk</button>
+
+        <div style="margin-top: 15px; text-align: center;">
+            <a href="announcement.html#guest" style="color: #7fd1ff; font-weight: 600;">
+                Bukan anggota X-RPL 2? Masuk sebagai tamu
+            </a>
+        </div>
+
     </div>
 
     <!-- POPUP -->
@@ -141,7 +148,7 @@
         animation: popIn .3s ease;
     ">
             <h2 id="popupMsg">Welcome!</h2><br>
-            <button onclick="location.href='/dashboard.html'">Masuk Dashboard</button>
+            <button onclick="location.href='/announcement.html'">Masuk Dashboard</button>
         </div>
     </div>
     <style>

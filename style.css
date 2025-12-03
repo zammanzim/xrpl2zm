@@ -2,6 +2,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html {
@@ -45,27 +46,20 @@
         header {
             background-color: #007bff;
             color: white;
-            padding: 10px 0 10px 20px;
+            padding: 10px 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            max-height: 55px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            justify-content: space-between;
         }
 
         .hamburger {
             font-size: 24px;
             cursor: pointer;
-            flex: 0 0 auto;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
+            position: fixed;
         }
 
         .sidebar {
@@ -649,4 +643,58 @@
         .checkRow input:checked+.checkLabel {
             text-decoration: line-through;
             opacity: .5;
+        }
+
+        .rightProfile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        #headerPP {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        #headerName {
+            font-weight: bold;
+        }
+
+        .profileMenu {
+            position: fixed;
+            top: 60px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            padding: 8px 0;
+            display: none;
+            z-index: 2000;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            width: 160px;
+        }
+
+        .profileMenu ul {
+            list-style: none;
+        }
+
+        .profileMenu ul li {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .profileMenu ul li:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar i {
+            margin-right: 10px;
         }

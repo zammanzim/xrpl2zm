@@ -21,6 +21,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -61,12 +62,7 @@
         .hamburger {
             font-size: 24px;
             cursor: pointer;
-            display: block;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
+            position: fixed;
         }
 
         .sidebar {
@@ -697,6 +693,10 @@
         .profileMenu ul li:hover {
             background: rgba(255, 255, 255, 0.3);
         }
+
+        .sidebar i {
+            margin-right: 10px;
+        }
     </style>
 </head>
 
@@ -734,8 +734,7 @@
 
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <span id="visitorCounter"
-            style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px; margin-left: 10px;">
+        <span id="visitorCounter" style="font-size:15px; opacity:0.9; margin-left: 50px;">
             <i class="fa-solid fa-eye"></i> ...
         </span>
 
@@ -748,6 +747,7 @@
     <div class="profileMenu" id="profileMenu">
         <ul>
             <li onclick="goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="goDashboard()">Dashboard</li>
             <li onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
         </ul>
     </div>
@@ -756,25 +756,28 @@
     <div class="sidebar" id="sidebar">
         <h3>Main Menu</h3>
         <ul>
-            <li><a href="homev2">Home</a></li>
-            <li><a href="announcement.html" class="active">Announcement</a></li>
+            <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="announcement.html" class="active"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
+            <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+            <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+<li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
             <h3>Lessons</h3>
-            <li><a href="bahasaindonesia.html">Bahasa Indonesia</a></li>
-            <li><a href="bahasainggris.html">Bahasa Inggris</a></li>
-            <li><a href="bahasasunda.html">Bahasa Sunda</a></li>
-            <li><a href="bahasajepang.html">Bahasa Jepang</a></li>
-            <li><a href="matematika.html">Matematika</a></li>
-            <li><a href="proipas.html">Proipas</a></li>
-            <li><a href="sejarah.html">Sejarah</a></li>
-            <li><a href="pabp.html">PABP</a></li>
-            <li><a href="pp.html">PP</a></li>
-            <li><a href="senibudaya.html">Seni Budaya</a></li>
-            <li><a href="pjok.html">PJOK</a></li>
-            <li><a href="informatika.html">Informatika</a></li>
-            <li><a href="bk.html">BK</a></li>
-            <li><a href="dpr1.html">DASPROGRPL 1</a></li>
-            <li><a href="dpr2.html">DASPROGRPL 2</a></li>
-            <li><a href="dpr3.html">DASPROGRPL 3</a></li>
+            <li><a href="bahasaindonesia.html"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
+            <li><a href="bahasainggris.html"><i class="fa-solid fa-language"></i>B. Inggris</a></li>
+            <li><a href="bahasasunda.html"><B style="margin-right: 10px;">ᮘ</B></i>B. Sunda</a></li>
+            <li><a href="bahasajepang.html"><b style="margin-right: 10px;">あ</b></i>B. Jepang</a></li>
+            <li><a href="matematika.html"><i class="fa-solid fa-calculator"></i>Matematika</a></li>
+            <li><a href="proipas.html"><i class="fa-solid fa-atom"></i>Proipas</a></li>
+            <li><a href="sejarah.html"><i class="fa-solid fa-landmark"></i>Sejarah</a></li>
+            <li><a href="pabp.html"><i class="fa-solid fa-mosque"></i>PABP</a></li>
+            <li><a href="pp.html"><i class="fa-solid fa-scale-balanced"></i>PP</a></li>
+            <li><a href="senibudaya.html"><i class="fa-solid fa-masks-theater"></i>Seni Budaya</a></li>
+            <li><a href="pjok.html"><i class="fa-solid fa-person-running"></i>PJOK</a></li>
+            <li><a href="informatika.html"><i class="fa-solid fa-laptop"></i>Informatika</a></li>
+            <li><a href="bk.html"><i class="fa-solid fa-heart-circle-check"></i>BK</a></li>
+            <li><a href="dpr1.html"><i class="fa-solid fa-laptop-code"></i>DASPROG 1</a></li>
+            <li><a href="dpr2.html"><i class="fa-solid fa-microchip"></i>DASPROG 2</a></li>
+            <li><a href="dpr3.html"><i class="fa-solid fa-palette"></i>DASPROG 3</a></li>
         </ul>
     </div>
     <div class="main-content">
@@ -1002,7 +1005,7 @@
     </div>
 
 
-
+    <script type="module" src="auth.js"></script>
     <script src="seacrhpage.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -1021,6 +1024,37 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // ========== CHECK LOGIN ==========
+        const savedName = localStorage.getItem("studentName");
+        if (!savedName) location.href = "/login.html";
+
+        // ========== ELEMENTS ==========
+        const headerPP = document.getElementById("headerPP");
+        const headerName = document.getElementById("headerName");
+
+        const savedPP = localStorage.getItem("cachedPP");
+        if (savedPP) {
+            headerPP.src = savedPP;
+        }
+
+        // ========== LOAD USER DATA ==========
+        const userRef = ref(db, "users/" + savedName);
+        get(userRef).then(snap => {
+            const data = snap.val() || {};
+
+
+            headerName.innerText = "Hai, " + savedName;
+
+            let imgPath = `students/${savedName}.jpg`;
+            headerPP.src = imgPath;
+
+            headerPP.onload = () => localStorage.setItem("cachedPP", imgPath);
+
+            headerPP.onerror = () => {
+                headerPP.src = "profpicture.png";
+                localStorage.setItem("cachedPP", "profpicture.png");
+            };
+        });
 
         function getLogicalDate() {
             const now = new Date();
@@ -1034,104 +1068,6 @@
         }
 
         const logicalDate = getLogicalDate();
-
-
-        const savedName = localStorage.getItem("studentName");
-        // === BUAT ID UNIK UNTUK GUEST MODE ===
-        let guestID = localStorage.getItem("guestID");
-
-        if (!guestID) {
-            guestID = crypto.randomUUID();  // ID unik
-            localStorage.setItem("guestID", guestID);
-        }
-
-        const isGuestMode = (!savedName && location.hash === "#guest");
-        const visitorID = savedName ? savedName : guestID;
-
-
-        // ===== Tentukan tipe visitor =====
-        const type = savedName ? "userCount" : (isGuestMode ? "guestCount" : null);
-        const dailyRef = ref(db, "visitors/daily/" + logicalDate + "/" + type);
-        const totalRef = ref(db, "visitors/total/" + type);
-
-        // Update counter UI realtime
-        onValue(ref(db, "visitors/daily/" + logicalDate), (snap) => {
-            const data = snap.val() || {};
-            const dailyTotal = (data.guestCount || 0) + (data.userCount || 0);
-            document.getElementById("visitorCounter").innerHTML =
-                `<i class="fa-solid fa-eye"></i> ${dailyTotal}`;
-        });
-
-        // ===== Prevent refresh double count (per device / per akun) =====
-        const lastVisitKey = `lastVisit_${visitorID}`;
-        const lastVisit = localStorage.getItem(lastVisitKey);
-        const now = Date.now();
-        const cooldown = 1000 * 60 * 15; // 15 menit
-
-        if (type && (!lastVisit || now - lastVisit > cooldown)) {
-            localStorage.setItem(lastVisitKey, now.toString());
-
-            // Nambah daily & total
-            get(dailyRef).then(s => set(dailyRef, (s.val() || 0) + 1));
-            get(totalRef).then(s => set(totalRef, (s.val() || 0) + 1));
-
-            // Kalau ini akun, simpan nama yang berkunjung
-            if (savedName) {
-                const nowStr = new Date().toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit"
-                });
-
-                set(ref(db, `visitors/daily/${logicalDate}/users/${savedName}`), {
-                    time: nowStr
-                });
-
-            } else if (isGuestMode) {
-                const nowStr = new Date().toLocaleTimeString("id-ID", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit"
-                });
-
-                set(ref(db, `visitors/daily/${logicalDate}/guests/${guestID}`), {
-                    time: nowStr
-                });
-            }
-
-
-            // total tidak pakai time
-            if (savedName) {
-                set(ref(db, `visitors/total/users/${savedName}`), true);
-            }
-        }
-
-
-        const statsPopup = document.getElementById("visitorStatsPopup");
-        document.getElementById("visitorCounter").addEventListener("click", async () => {
-
-            statsPopup.classList.add("active");
-
-            const daily = (await get(ref(db, "visitors/daily/" + logicalDate))).val() || {};
-            const total = (await get(ref(db, "visitors/total"))).val() || {};
-
-            document.getElementById("todayVisitors").innerText =
-                `👁️ Visitor Hari Ini: ${(daily.guestCount || 0) + (daily.userCount || 0)}`;
-            document.getElementById("totalVisitors").innerText =
-                `🌍 Total Visitor: ${(total.guestCount || 0) + (total.userCount || 0)}`;
-            document.getElementById("guestVisitors").innerText =
-                `🙍 Guest Hari Ini: ${daily.guestCount || 0}`;
-            document.getElementById("userVisitors").innerText =
-                `👤 Akun Hari Ini: ${daily.userCount || 0}`;
-
-            const usersToday = daily.users ? Object.keys(daily.users).join(", ") : "—";
-            const usersTotal = total.users ? Object.keys(total.users).join(", ") : "—";
-
-            document.getElementById("userListToday").innerText =
-                `👉 Pengunjung akun hari ini:\n${usersToday}`;
-            document.getElementById("userListTotal").innerText =
-                `📌 Akun yang pernah berkunjung:\n${usersTotal}`;
-        });
 
         const adminCard = document.getElementById("adminCard");
         const editBtn = document.getElementById("editBtn");
@@ -1389,81 +1325,6 @@
         loadScheduleAndPiket();
         setInterval(loadScheduleAndPiket, 60 * 1000);
 
-        if (!savedName && !isGuestMode) {
-            location.href = "/login.html";
-        } else if (isGuestMode) {
-            document.getElementById("headerName").innerText = "Guest Mode";
-            document.getElementById("headerPP").src = "guest.png";
-        }
-
-
-
-        // ==== LOAD USER DATA ====
-        const userRef = ref(db, "users/" + savedName);
-        const headerPP = document.getElementById("headerPP");
-        const headerName = document.getElementById("headerName");
-
-        // === FIX NAMA GUEST BIAR GA "null" ===
-        get(userRef).then(snap => {
-            const data = snap.val() || {};
-
-            if (!savedName && location.hash === "#guest") {
-                headerName.innerText = "Hai, Seseorang";
-                headerPP.src = "profpicture.png";
-            } else {
-                headerName.innerText = "Hai, " + savedName;
-                headerPP.src = "profpicture.png";
-            }
-        });
-
-        if (!savedName && location.hash === "#guest") {
-            document.querySelector("li[onclick='goPersonalize()']").style.display = "none";
-            document.querySelector("li[onclick='logoutUser()']").style.display = "none";
-        }
-
-
-
-        // ===== DROPDOWN PROFILE =====
-        const rightProfile = document.getElementById("rightProfile");
-        const profileMenu = document.getElementById("profileMenu");
-
-        rightProfile.addEventListener("click", (e) => {
-            e.stopPropagation(); // biar nggak auto close
-            profileMenu.style.display =
-                profileMenu.style.display === "block" ? "none" : "block";
-        });
-
-        document.addEventListener("click", (e) => {
-            if (!profileMenu.contains(e.target)) {
-                profileMenu.style.display = "none";
-            }
-        });
-
-        function logoutUser() {
-            localStorage.removeItem("studentName");
-            location.href = "login.html";
-        }
-
-        function goPersonalize() {
-            location.href = "dashboard.html"; // ganti ke halaman tujuan lo
-        }
-
-        // ======= PROFILE DROPDOWN ACTION FIX =======
-
-        // LOG OUT
-        window.logoutUser = () => {
-            localStorage.removeItem("studentName");
-            window.location.href = "login.html"; // arah logout
-        };
-
-        // PERSONALIZE
-        window.goPersonalize = () => {
-            window.location.href = "dashboard.html"; // ganti tujuan personalize
-        };
-
-        window.closeVisitorStats = () => {
-            statsPopup.classList.remove("active");
-        };
 
 
     </script>

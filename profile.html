@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profil Akun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #00bfff, #0077ff);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        header {
+            padding: 15px;
+            background: #007bff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #pp {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .nameDisplay {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input,
+        textarea {
+            width: 85%;
+            padding: 12px;
+            margin: 10px auto;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        button {
+            width: 85%;
+            padding: 14px;
+            margin: 15px auto;
+            background: #ff00c8;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: scale(.97);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>Profil Akun</header>
+
+    <img id="pp" src="profpicture.png" alt="Foto Profil">
+    <input type="file" id="fileInput" accept="image/*" style="display:none;">
+
+    <p class="nameDisplay" id="realname">Nama Diisi Otomatis</p>
+    <input id="username" placeholder="Username (@zam_admin)">
+    <textarea id="bio" placeholder="Tulis Bio..."></textarea>
+
+    <button onclick="saveProfile()">Simpan Profil</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const savedName = localStorage.getItem("studentName");
+        if (!savedName) location.href = "login.html";
+
+        document.getElementById("realname").innerText = savedName;
+
+        const pp = document.getElementById("pp");
+        const fileInput = document.getElementById("fileInput");
+        const usernameEl = document.getElementById("username");
+        const bioEl = document.getElementById("bio");
+
+        // === Load data profil ===
+        get(ref(db, "users/" + savedName)).then(snap => {
+            const data = snap.val() || {};
+
+            pp.src = data.profilePicture || "profpicture.png";
+            usernameEl.value = data.username || "";
+            bioEl.value = data.bio || "";
+        });
+
+        // === Klik ganti foto ===
+        pp.addEventListener("click", () => fileInput.click());
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                pp.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // === Simpan ke Firebase ===
+        window.saveProfile = () => {
+            update(ref(db, "users/" + savedName), {
+                username: usernameEl.value,
+                bio: bioEl.value,
+                profilePicture: pp.src
+            }).then(() => {
+                alert("Profil berhasil disimpan!");
+                window.location.href = "dashboard.html";
+            });
+        };
+    </script>
+
+</body>
+
+</html>

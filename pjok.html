@@ -12,47 +12,51 @@
 
 <body>
     <header>
-        <div style="display:flex; align-items:center; gap:12px;">
-            <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <span id="visitorCounter"
+            style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px; margin-left: 40px;">
+            <i class="fa-solid fa-eye"></i> ...
+        </span>
 
-            <!-- 👁 Visitor counter di sini -->
-            <span id="visitorCounter" style="font-size:15px; opacity:0.9; display:flex; align-items:center; gap:5px;">
-                <i class="fa-solid fa-eye"></i> ...
-            </span>
-        </div>
-
-        <div class="rightsection">
-            <div class="searchhomepage">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="searchInput" placeholder="Search">
-            </div>
-            <button onclick="searchPage()">Cari</button>
-            <span id="searchMessage" style="color: red; font-size: 14px;"></span>
+        <div class="rightProfile" id="rightProfile">
+            <img id="headerPP" src="" alt="">
+            <span id="headerName">Hai...</span>
         </div>
     </header>
+
+    <div class="profileMenu" id="profileMenu">
+        <ul>
+            <li onclick="goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="goDashboard()">Dashboard</li>
+            <li onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
+        </ul>
+    </div>
 
     <div class="sidebar" id="sidebar">
         <h3>Ini Menu Asli</h3>
         <ul>
-            <li><a href="homev2.html">Home</a></li>
-            <li><a href="announcement.html">Announcement</a></li>
-            <h3>Pelajaran Wok</h3>
-            <li><a href="bahasaindonesia.html">Bahasa Indonesia</a></li>
-            <li><a href="bahasainggris.html">Bahasa Inggris</a></li>
-            <li><a href="bahasasunda.html">Bahasa Sunda</a></li>
-            <li><a href="bahasajepang.html">Bahasa Jepang</a></li>
-            <li><a href="matematika.html">Matematika</a></li>
-            <li><a href="proipas.html">Proipas</a></li>
-            <li><a href="sejarah.html">Sejarah</a></li>
-            <li><a href="pabp.html">PABP</a></li>
-            <li><a href="pp.html">PP</a></li>
-            <li><a href="senibudaya.html">Seni Budaya</a></li>
-            <li><a href="pjok.html" class="active">PJOK</a></li>
-            <li><a href="informatika.html">Informatika</a></li>
-            <li><a href="bk.html">BK</a></li>
-            <li><a href="dpr1.html">DASPROGRPL 1</a></li>
-            <li><a href="dpr2.html">DASPROGRPL 2</a></li>
-            <li><a href="dpr3.html">DASPROGRPL 3</a></li>
+            <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
+            <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+            <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+<li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
+            <h3>Lessons</h3>
+            <li><a href="bahasaindonesia.html"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
+            <li><a href="bahasainggris.html"><i class="fa-solid fa-language"></i>B. Inggris</a></li>
+            <li><a href="bahasasunda.html"><B style="margin-right: 10px;">ᮘ</B></i>B. Sunda</a></li>
+            <li><a href="bahasajepang.html"><b style="margin-right: 10px;">あ</b></i>B. Jepang</a></li>
+            <li><a href="matematika.html"><i class="fa-solid fa-calculator"></i>Matematika</a></li>
+            <li><a href="proipas.html"><i class="fa-solid fa-atom"></i>Proipas</a></li>
+            <li><a href="sejarah.html"><i class="fa-solid fa-landmark"></i>Sejarah</a></li>
+            <li><a href="pabp.html"><i class="fa-solid fa-mosque"></i>PABP</a></li>
+            <li><a href="pp.html"><i class="fa-solid fa-scale-balanced"></i>PP</a></li>
+            <li><a href="senibudaya.html"><i class="fa-solid fa-masks-theater"></i>Seni Budaya</a></li>
+            <li><a href="pjok.html" class="active"><i class="fa-solid fa-person-running"></i>PJOK</a></li>
+            <li><a href="informatika.html"><i class="fa-solid fa-laptop"></i>Informatika</a></li>
+            <li><a href="bk.html"><i class="fa-solid fa-heart-circle-check"></i>BK</a></li>
+            <li><a href="dpr1.html"><i class="fa-solid fa-laptop-code"></i>DASPROG 1</a></li>
+            <li><a href="dpr2.html"><i class="fa-solid fa-microchip"></i>DASPROG 2</a></li>
+            <li><a href="dpr3.html"><i class="fa-solid fa-palette"></i>DASPROG 3</a></li>
         </ul>
     </div>
     <div class="main-content">
@@ -131,99 +135,8 @@
         <button class="overlay-arrow left" id="overlayPrev">&#10094;</button>
         <button class="overlay-arrow right" id="overlayNext">&#10095;</button>
     </div>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
-            authDomain: "xrpl2web.firebaseapp.com",
-            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "xrpl2web",
-            storageBucket: "xrpl2web.appspot.com",
-            messagingSenderId: "410193641417",
-            appId: "1:410193641417:web:a7da663d744703e4883218"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        const DB_NAME = "vstindonesia";
-
-        const storageKey = "visitorID_" + DB_NAME;
-        let visitorID = localStorage.getItem(storageKey);
-
-        if (!visitorID) {
-            visitorID = "vst_" + Math.random().toString(36).substring(2, 12);
-            localStorage.setItem(storageKey, visitorID);
-
-            const now = new Date();
-            const formatted = now.toLocaleString("id-ID", {
-                weekday: "short",
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            });
-
-            set(ref(db, "vst/" + DB_NAME + "/" + visitorID), {
-                page: location.pathname,
-                time: formatted,
-                useragent: navigator.userAgent
-            });
-        }
-
-        const counter = document.getElementById("visitorCounter");
-
-        onValue(ref(db, "vst/" + DB_NAME), (snap) => {
-            const data = snap.val();
-            const total = data ? Object.keys(data).length : 0;
-            counter.innerHTML = `<i class="fa-solid fa-eye"></i> ${total} visitors`;
-        });
-
-        // Nama file halaman untuk generate link
-        const fileName = window.location.pathname.split("/").pop();
-
-        // Cek nama mapel dari halaman
-        const mapel = document.querySelector(".left-section h1")?.innerText || "Tanpa Mapel";
-
-        // Ambil semua tugas berdasarkan <hr id="">
-        const taskIDs = document.querySelectorAll("hr[id]");
-
-        taskIDs.forEach(async (hr) => {
-            const id = hr.getAttribute("id");
-            const card = hr.nextElementSibling;
-            if (!id || !card?.classList.contains("course-card")) return;
-
-            // Cek apakah tugas ini sudah ada di Firebase
-            const taskRef = ref(db, "tasks/" + id);
-            const snap = await get(taskRef);
-
-            if (snap.exists()) {
-                console.log(`⚠ Skip ID ${id} (sudah ada di database)`);
-                return;
-            }
-
-            const judul = card.querySelector(".headercoursecard h3")?.innerText || `Tugas ${mapel}`;
-            const nomorText = card.querySelector("h4")?.innerText || "";
-            const nomor = parseInt(nomorText.replace(/\D/g, "")) || Number(id);
-            const desc = card.querySelector("p")?.innerText || "Tidak ada deskripsi tugas.";
-            const tugasLink = `${fileName}#${id}`;
-
-            const tugasData = {
-                id: Number(id),
-                mapel,
-                judul,
-                nomor,
-                tugas: desc,
-                link: tugasLink
-            };
-
-            await set(taskRef, tugasData);
-            console.log(`🆕 Uploaded -> ID: ${id}`);
-        });
-    </script>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="synctaskspp.js"></script>
     <script src="seacrhpage.js"></script>
     <script src="script.js"></script>
 </body>
