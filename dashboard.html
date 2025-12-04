@@ -5,149 +5,10 @@
     <meta charset="UTF-8">
     <title>Dashboard XRPL 2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            overflow: auto;
-            scrollbar-width: none;
-        }
-
-        html::-webkit-scrollbar {
-            display: none;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #00bfff, #0077ff, #6a5acd, #ff8ccf);
-            background-attachment: fixed;
-            color: white;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .hamburger {
-            font-size: 24px;
-            cursor: pointer;
-            display: block;
-        }
-
-        /* RIGHT HEADER PROFILE */
-        .rightProfile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        #headerPP {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 2px solid white;
-            object-fit: cover;
-        }
-
-        #headerName {
-            font-weight: bold;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 50px;
-            left: -250px;
-            width: 250px;
-            height: calc(100vh - 50px);
-
-            color: white;
-            transition: left 0.7s ease;
-            z-index: 999;
-            padding: 20px;
-            overflow-y: auto;
-            scrollbar-width: none;
-            background: linear-gradient(180deg,
-                    #00bfff 0%,
-                    #0077ff 35%,
-                    #6a5acd 75%,
-                    #ff8ccf 100%);
-        }
-
-        .sidebar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar ul li {
-            margin: 20px 0;
-        }
-
-        .sidebar ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .sidebar a:hover {
-            background-color: #007bff;
-            transform: scale(0.95);
-
-        }
-
-        .sidebar a.active {
-            background-color: #0088ff;
-            color: white;
-        }
-
-        .sidebar a {
-            margin: 0;
-
-            border-radius: 8px;
-            border: 1px solid #ffffff;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            width: 100%;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .main-content {
-            margin-top: 80px;
-            padding: 20px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            cursor: default;
-        }
-
         .card {
             background: rgba(255, 255, 255, .2);
             padding: 16px;
@@ -343,26 +204,13 @@
         }
 
         @media (min-width: 1024px) {
-            .sidebar {
-                left: 0;
+            .right-section {
+                margin: 0;
             }
 
-            .main-content {
-                margin-left: 270px;
-                transition: .5s;
+            .left-section {
+                margin-top: 20px;
             }
-
-            .sidebar.closed {
-                left: -250px;
-            }
-
-            .main-content.shifted {
-                margin-left: 128px;
-            }
-        }
-
-        .sidebar i {
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -371,6 +219,7 @@
 
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <p></p>
         <div class="rightProfile" id="rightProfile">
             <img id="headerPP" src="" alt="">
             <span id="headerName">Hai...</span>
@@ -380,7 +229,7 @@
     <div class="profileMenu" id="profileMenu">
         <ul>
             <li onclick="window.goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
-            <li onclick="goDashboard()">Dashboard</li>
+            <li onclick="goDashboard()"><i class="fa-solid fa-dashboard"></i>Dashboard</li>
             <li onclick="window.logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
         </ul>
     </div>
@@ -417,35 +266,36 @@
 
     <div class="main-content">
 
-        <div class="carddashboard">
-            <img id="pp" src="profpic.png">
+        <div class="left-section">
+            <div class="carddashboard">
+                <img id="pp" src="profpic.png">
 
-            <div class="userInfo">
-                <p id="uname"></p>
-                <h3 id="name"></h3>
-                <p id="bio"></p>
+                <div class="userInfo">
+                    <p id="uname"></p>
+                    <h3 id="name"></h3>
+                    <p id="bio"></p>
 
-                <div class="userStats">
-                    <div class="statBox">
-                        <span id="taskCount">0</span>
-                        <p>Tugas <br> yang Belum</p>
-                    </div>
+                    <div class="userStats">
+                        <div class="statBox">
+                            <span id="taskCount">0</span>
+                            <p>Tugas <br> yang Belum</p>
+                        </div>
 
-                    <div class="statBox">
-                        <span id="followers">0</span>
-                        <p>Followers</p>
+                        <div class="statBox">
+                            <span id="followers">0</span>
+                            <p>Followers</p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <input type="file" id="filePP" accept="image/*" style="display:none;">
         </div>
 
-
-        <div class="card" style="margin-top:20px;">
-            <h3>📌 Tugas Belum Selesai</h3>
+        <div class="right-section">
+            <div class="card">
+                <h3>📌 Tugas Belum Selesai</h3>
+            </div>
+            <div id="taskList"></div>
         </div>
-        <div id="taskList"></div>
     </div>
 
 

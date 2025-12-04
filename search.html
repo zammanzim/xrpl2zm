@@ -2,20 +2,12 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cari Akun</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Sederhana</title>
     <style>
-        .content {
-            margin-top: 60px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-            padding: 20px;
-        }
-
         .search {
             display: flex;
             align-items: center;
@@ -64,8 +56,6 @@
 </head>
 
 <body>
-
-    <!-- HEADER -->
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <span id="visitorCounter"
@@ -79,10 +69,17 @@
         </div>
     </header>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar" id="sidebar">
+    <div class="profileMenu" id="profileMenu">
         <ul>
-            <h3>Main Menu</h3>
+            <li onclick="goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="goDashboard()"><i class="fa-solid fa-dashboard"></i>Dashboard</li>
+            <li onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
+        </ul>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <h3>Main Menu</h3>
+        <ul>
             <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
             <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
             <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
@@ -107,22 +104,26 @@
             <li><a href="dpr3.html"><i class="fa-solid fa-palette"></i>DASPROG 3</a></li>
         </ul>
     </div>
-
-    <div class="content">
-        <div class="course-card" style="margin-top: 12px;">
+    <div class="main-content">
+        <div class="left-section">
+            <div class="course-card" style="margin-top: 12px;">
                 <div class="search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="searchUser" placeholder="Cari Akun">
                 </div>
             </div>
-            <hr>
-        <div id="resultList"></div>
+            <div id="resultList"></div>
+        </div>
+
+        <div class="right-section"></div>
     </div>
-
     <footer>
-        <p>© XRPL TWOZM</p>
+        <p>© 2025-2026 X - RPL 2 Web Class | All rights reserved.</p>
+        <p>Created, Dev, Design by zammanzim</p>
     </footer>
-
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script type="module" src="synctaskspp.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -142,71 +143,64 @@
 
         const searchBox = document.getElementById("searchUser");
         const resultBox = document.getElementById("resultList");
-        const img = `students/${name}.jpg`;
+        const img = `.studentsprofile/${name}.jpg`;
 
 
         get(ref(db, "users")).then(snap => {
             const users = snap.val() || {};
 
-            function renderUsers(filter="") {
-    resultBox.innerHTML = "";
+            function renderUsers(filter = "") {
+                const savedName = localStorage.getItem("studentName");
+                resultBox.innerHTML = "";
 
-    Object.keys(users).forEach(name => {
-        const data = users[name];
-        const username = data.username || "";
-        const lowerFilter = filter.toLowerCase();
-
-        if (
-            !filter ||
-            name.toLowerCase().includes(lowerFilter) ||
-            username.toLowerCase().includes(lowerFilter)
-        ) {
-            const img = `students/${name}.jpg`;
-            resultBox.innerHTML += `
-            <div class="course-card" style="display:flex;align-items:center;gap:18px;">
-                <img src="${img}" 
-                     onerror="this.src='profpicture.png'"
-                     style="width:55px;height:55px;border-radius:50%;object-fit:cover;">
-                <div>
-                    <h3 style="margin:0;">${name}</h3>
-                    <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
-                </div>
-            </div>`;
-        }
-    });
-}
-
-renderUsers(); // ⬅ tampilkan semua akun langsung awal
-
-searchBox.addEventListener("input", () => {
-    renderUsers(searchBox.value);
-});
-
+                const lowerFilter = filter.toLowerCase();
+                let found = false;
 
                 Object.keys(users).forEach(name => {
+                    if (name === savedName) return; // skip akun sendiri
+
                     const data = users[name];
                     const username = data.username || "";
 
-                    if (name.toLowerCase().includes(key) || username.toLowerCase().includes(key)) {
-                        const img = `profilePictures/${name}.jpg`;
+                    const match =
+                        !filter ||
+                        name.toLowerCase().includes(lowerFilter) ||
+                        username.toLowerCase().includes(lowerFilter);
+
+                    if (match) {
+                        found = true;
+                        const img = `students/${name}.jpg`;
+
                         resultBox.innerHTML += `
-                    <div class="course-card" style="display:flex;align-items:center;gap:18px;">
-                        <img src="${img}" onerror="this.src='profpicture.png'"
+                <div class="course-card" style="display:flex;align-items:center;gap:18px;margin-top:12px;">
+                    <img src="${img}" onerror="this.src='profpicture.png'"
                         style="width:55px;height:55px;border-radius:50%;object-fit:cover;">
-                        <div>
-                            <h3 style="margin:0;">${name}</h3>
-                            <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
-                        </div>
-                    </div>`;
+                    <div>
+                        <h3 style="margin:0;">${name}</h3>
+                        <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
+                    </div>
+                </div>
+            `;
                     }
                 });
+
+                if (!found) {
+                    resultBox.innerHTML = `
+            <p style="margin-top: 20px; font-size: 15px;">
+                Akun tidak ditemukan ❌
+            </p>`;
+                }
+            }
+
+
+
+            renderUsers();
+
+            searchBox.addEventListener("input", () => {
+                renderUsers(searchBox.value);
             });
+        });
     </script>
-
-    <script src="script.js"></script>
-    <script src="auth.js"></script>
-    <script type="module" src="synctaskspp.js"></script>
-
 </body>
 
 </html>
