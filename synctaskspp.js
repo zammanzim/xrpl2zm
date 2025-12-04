@@ -35,7 +35,7 @@ get(userRef).then(snap => {
 
     headerName.innerText = "Hai, " + savedName;
 
-    let imgPath = `students/${savedName}.jpg`;
+    let imgPath = `./studentsprofile/${savedName}.jpg`;
     headerPP.src = imgPath;
 
     headerPP.onload = () => localStorage.setItem("cachedPP", imgPath);
