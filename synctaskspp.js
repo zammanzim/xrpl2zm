@@ -23,9 +23,9 @@ const headerPP = document.getElementById("headerPP");
 const headerName = document.getElementById("headerName");
 
 const savedPP = localStorage.getItem("cachedPP");
-        if (savedPP) {
-            headerPP.src = savedPP;
-        }
+if (savedPP) {
+    headerPP.src = savedPP;
+}
 
 // ========== LOAD USER DATA ==========
 const userRef = ref(db, "users/" + savedName);
@@ -33,7 +33,7 @@ get(userRef).then(snap => {
     const data = snap.val() || {};
 
 
-    headerName.innerText = "Hai, " + savedName +  " ▼";
+    headerName.innerText = "Hai, " + savedName + " ▼";
 
     let imgPath = `./studentsprofile/${savedName}.jpg`;
     headerPP.src = imgPath;
@@ -87,3 +87,89 @@ taskIDs.forEach(async (hr) => {
     await set(taskRef, tugasData);
     console.log(`🆕 Uploaded -> ID: ${id}`);
 });
+
+// ========== VISITOR SYSTEM PREMIUM VERSION ==========
+const pageName = document.body.dataset.page || "unknown_page";
+const visitorText = document.getElementById("visitorCounter");
+
+// Elements popup
+const visitorPopup = document.getElementById("visitorPopup");
+const visitorTodayEl = document.getElementById("visitorToday");
+const visitorTotalEl = document.getElementById("visitorTotal");
+const visitorListEl = document.getElementById("visitorList");
+
+// Ambil PP user
+const profilePicPath = `./studentsprofile/${savedName}.jpg`;
+const fallbackPP = "profpicture.png";
+
+// Format tanggal versi lu
+function formatVisitDate() {
+    const now = new Date();
+    if (now.getHours() >= 15) now.setDate(now.getDate() + 1);
+
+    const hari = ["MIN", "SEN", "SEL", "RAB", "KAM", "JUM", "SAB"][now.getDay()];
+    const bulan = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"][now.getMonth()];
+    const jam = String(now.getHours()).padStart(2, "0");
+    const menit = String(now.getMinutes()).padStart(2, "0");
+    return `${jam}.${menit} ${hari}, ${now.getDate()} ${bulan} ${now.getFullYear()}`;
+}
+
+const todayKey = formatVisitDate().split(",")[1].trim(); // Key harian
+const visitKey = `${pageName}_${savedName}_${todayKey}`;
+
+// RESET jika hari berubah
+get(ref(db, `visitors/${pageName}/lastDay`)).then(s => {
+    if (s.val() !== todayKey) {
+        set(ref(db, `visitors/${pageName}/today`), {});
+        set(ref(db, `visitors/${pageName}/lastDay`), todayKey);
+    }
+});
+
+// CATAT visit baru
+if (!localStorage.getItem(visitKey)) {
+    set(ref(db, `visitors/${pageName}/today/${savedName}`), {
+        visitTime: formatVisitDate(),
+        pp: profilePicPath
+    });
+
+    set(ref(db, `visitors/${pageName}/allUsers/${savedName}`), true);
+
+    get(ref(db, `visitors/${pageName}/totalCount`)).then(snap => {
+        const count = snap.val() || 0;
+        set(ref(db, `visitors/${pageName}/totalCount`), count + 1);
+    });
+
+    localStorage.setItem(visitKey, "true");
+}
+
+// UPDATE realtime UI
+onValue(ref(db, `visitors/${pageName}`), snap => {
+    const data = snap.val() || {};
+    const todayData = data.today || {};
+
+    const todayCount = Object.keys(todayData).length;
+    const totalCount = data.totalCount || 0;
+
+    visitorText.innerHTML = `<i class="fa-solid fa-eye"></i> ${todayCount}`;
+
+    if (visitorTodayEl) visitorTodayEl.innerText = todayCount;
+    if (visitorTotalEl) visitorTotalEl.innerText = totalCount;
+
+    if (visitorListEl) {
+        visitorListEl.innerHTML =
+            Object.entries(todayData)
+                .map(([name, info]) => `
+                <div class="visitorCard">
+                    <img class="visitorPP" src="${info.pp || fallbackPP}">
+                    <div class="visitorInfo">
+                        <b>${name}</b>
+                        <small>Visited at: ${info.visitTime}</small>
+                    </div>
+                </div>
+            `).join("") || "<p>- No Visitor Today -</p>";
+    }
+});
+
+// Buka popup
+visitorText.addEventListener("click", () => visitorPopup.classList.add("active"));
+window.closeVisitorPopup = () => visitorPopup.classList.remove("active");

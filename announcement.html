@@ -791,6 +791,157 @@
                 box-shadow: 0 0 18px rgba(154, 66, 255, .7);
             }
         }
+
+        /* ===== VISITOR POPUP ===== */
+        #visitorPopup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+
+        #visitorPopup.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Kartu utama */
+        .visitorPopup-card {
+            background: #050B18;
+            border-radius: 18px;
+            padding: 18px 16px;
+            width: 88%;
+            max-width: 370px;
+            color: #fff;
+            text-align: center;
+            animation: zoomIn .25s ease;
+            border: 2px solid rgba(255, 255, 255, .12);
+        }
+
+        /* Judul */
+        .visitorPopup-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        /* Box statistik: Today + Total */
+        .visitorPopup-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 15px;
+        }
+
+        .vp-stat {
+            background: #0D1528;
+            flex: 1;
+            padding: 10px 8px;
+            border-radius: 12px;
+        }
+
+        .vp-label {
+            font-size: 12px;
+            display: block;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+
+        .vp-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        /* Subjudul list */
+        .visitorPopup-subtitle {
+            font-size: 12px;
+            opacity: .9;
+            margin-bottom: 8px;
+        }
+
+        /* List visitor */
+        .visitorPopup-list {
+            max-height: 230px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Scrollbar kecil */
+        .visitorPopup-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .visitorPopup-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .3);
+            border-radius: 10px;
+        }
+
+        /* Kartu visitor */
+        .visitorCard {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0F1A2E;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 9px;
+        }
+
+        .visitorPP {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+        }
+
+        .visitorInfo {
+            text-align: left;
+        }
+
+        .visitorName {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .visitorTime {
+            font-size: 11px;
+            opacity: .7;
+        }
+
+        /* Tombol close */
+        #visitorPopupClose {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00bfff, #0077ff);
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Animasi */
+        @keyframes zoomIn {
+            from {
+                transform: scale(.85);
+                opacity: .3;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -812,18 +963,43 @@
         </div>
     </div>
 
-    <div class="popup-visit" id="visitorStatsPopup">
-        <div class="popup-visit-card">
-            <h2>📊 Visitor Stats</h2>
-            <p id="todayVisitors"></p>
-            <p id="totalVisitors"></p>
-            <p id="guestVisitors"></p>
-            <p id="userVisitors"></p>
-            <p id="userListToday"></p>
-            <p id="userListTotal"></p>
-            <button onclick="closeVisitorStats()">Tutup</button>
+    <!-- ===== VISITOR POPUP ===== -->
+    <div id="visitorPopup" class="popup-visit">
+
+        <div class="visitorPopup-card">
+
+            <!-- JUDUL -->
+            <h2 class="visitorPopup-title">Visitors</h2>
+
+            <!-- STAT BOX -->
+            <div class="visitorPopup-stats">
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-eye"></i> Today Visitor</span>
+                    <span class="vp-value" id="visitorToday">0</span>
+                </div>
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-people-group"></i> Total Visitor</span>
+                    <span class="vp-value" id="visitorTotal">0</span>
+                </div>
+
+            </div>
+
+            <!-- TEXT DAFTAR -->
+            <p class="visitorPopup-subtitle">List of accounts that visited today</p>
+
+            <!-- LIST VISITOR (DIISI JS) -->
+            <div id="visitorList" class="visitorPopup-list"></div>
+
+            <!-- TUTUP POPUP -->
+            <button onclick="closeVisitorPopup()" id="visitorPopupClose">Close</button>
+
         </div>
+
     </div>
+    <!-- ===== END VISITOR POPUP ===== -->
+
 
 
     <header>
@@ -1045,7 +1221,7 @@
             const data = snap.val() || {};
 
 
-            headerName.innerText = "Hai, " + savedName +  " ▼";
+            headerName.innerText = "Hai, " + savedName + " ▼";
 
             let imgPath = `./studentsprofile/${savedName}.jpg`;
             headerPP.src = imgPath;
@@ -1116,19 +1292,6 @@
                 cb.closest(".taskItem").remove();
             });
         });
-
-        function getLogicalDate() {
-            const now = new Date();
-            if (now.getHours() >= 15) now.setDate(now.getDate() + 1);
-
-            const day = String(now.getDate()).padStart(2, "0");
-            const month = String(now.getMonth() + 1).padStart(2, "0");
-            const year = String(now.getFullYear()).slice(-2);
-
-            return `${day}-${month}-${year}`; // contoh: 02-12-25
-        }
-
-        const logicalDate = getLogicalDate();
 
         const adminCard = document.getElementById("adminCard");
         const editBtn = document.getElementById("editBtn");
@@ -1389,6 +1552,94 @@
         const namacard = document.getElementById("NaMa");
         namacard.innerHTML = ` <i class="fa-solid fa-book"></i> Daftar Tugas yang Belum  ${savedName} Kerjain:`;
 
+        // ========== VISITOR SYSTEM PREMIUM VERSION ==========
+        const pageName = "announcement";
+        const visitorText = document.getElementById("visitorCounter");
+
+        // Elements popup
+        const visitorPopup = document.getElementById("visitorPopup");
+        const visitorTodayEl = document.getElementById("visitorToday");
+        const visitorTotalEl = document.getElementById("visitorTotal");
+        const visitorListEl = document.getElementById("visitorList");
+
+        // Ambil PP user
+        const profilePicPath = `./studentsprofile/${savedName}.jpg`;
+        const fallbackPP = "profpicture.png";
+
+        // Format tanggal versi lu
+        function formatVisitDate() {
+            const now = new Date();
+            if (now.getHours() >= 15) now.setDate(now.getDate() + 1);
+
+            const hari = ["MIN", "SEN", "SEL", "RAB", "KAM", "JUM", "SAB"][now.getDay()];
+            const bulan = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGT", "SEP", "OKT", "NOV", "DES"][now.getMonth()];
+            const jam = String(now.getHours()).padStart(2, "0");
+            const menit = String(now.getMinutes()).padStart(2, "0");
+            return `${jam}.${menit} ${hari}, ${now.getDate()} ${bulan} ${now.getFullYear()}`;
+        }
+
+        const todayKey = formatVisitDate().split(",")[1].trim(); // Key harian
+        const visitKey = `${pageName}_${savedName}_${todayKey}`;
+
+        // RESET jika hari berubah
+        get(ref(db, `visitors/${pageName}/lastDay`)).then(s => {
+            if (s.val() !== todayKey) {
+                set(ref(db, `visitors/${pageName}/today`), {});
+                set(ref(db, `visitors/${pageName}/lastDay`), todayKey);
+            }
+        });
+
+        // CATAT visit baru
+        if (!localStorage.getItem(visitKey)) {
+            set(ref(db, `visitors/${pageName}/today/${savedName}`), {
+                visitTime: formatVisitDate(),
+                pp: profilePicPath
+            });
+
+            set(ref(db, `visitors/${pageName}/allUsers/${savedName}`), true);
+
+            get(ref(db, `visitors/${pageName}/totalCount`)).then(snap => {
+                const count = snap.val() || 0;
+                set(ref(db, `visitors/${pageName}/totalCount`), count + 1);
+            });
+
+            localStorage.setItem(visitKey, "true");
+        }
+
+        // UPDATE realtime UI
+        onValue(ref(db, `visitors/${pageName}`), snap => {
+            const data = snap.val() || {};
+            const todayData = data.today || {};
+
+            const todayCount = Object.keys(todayData).length;
+            const totalCount = data.totalCount || 0;
+
+            visitorText.innerHTML = `<i class="fa-solid fa-eye"></i> ${todayCount}`;
+
+            if (visitorTodayEl) visitorTodayEl.innerText = todayCount;
+            if (visitorTotalEl) visitorTotalEl.innerText = totalCount;
+
+            if (visitorListEl) {
+                visitorListEl.innerHTML =
+                    Object.entries(todayData)
+                        .map(([name, info]) => `
+                <div class="visitorCard">
+                    <img class="visitorPP" src="${info.pp || fallbackPP}">
+                    <div class="visitorInfo">
+                        <b>${name}</b>
+                        <small>Visited at: ${info.visitTime}</small>
+                    </div>
+                </div>
+            `).join("") || "<p>- No Visitor Today -</p>";
+            }
+        });
+
+        // Buka popup
+        visitorText.addEventListener("click", () => visitorPopup.classList.add("active"));
+        window.closeVisitorPopup = () => visitorPopup.classList.remove("active");
+
+
+
     </script>
     <script>
         function toggleMenu() {
@@ -1511,7 +1762,6 @@
                 });
             });
         });
-
 
     </script>
 

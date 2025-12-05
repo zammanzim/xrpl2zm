@@ -757,3 +757,202 @@
             font-weight: bold;
             border-radius: 12px;
         }
+
+        .popup-visit {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(1px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+        }
+
+        .popup-visit.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .popup-visit-card {
+            background: rgba(0, 191, 255, 0.15);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+            padding: 22px;
+            border-radius: 16px;
+            text-align: center;
+            width: 85%;
+            max-width: 360px;
+            color: white;
+            box-shadow: 0 0 25px #00bfff;
+        }
+
+        .popup-visit-card h2 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            text-shadow: 0 0 8px #00bfff;
+        }
+
+        .popup-visit-card button {
+            margin-top: 15px;
+            background: #00bfff;
+            border: none;
+            padding: 10px 20px;
+            color: black;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* ===== VISITOR POPUP ===== */
+        #visitorPopup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .85);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+
+        #visitorPopup.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Kartu utama */
+        .visitorPopup-card {
+            background: #050B18;
+            border-radius: 18px;
+            padding: 18px 16px;
+            width: 88%;
+            max-width: 370px;
+            color: #fff;
+            text-align: center;
+            animation: zoomIn .25s ease;
+            border: 2px solid rgba(255, 255, 255, .12);
+        }
+
+        /* Judul */
+        .visitorPopup-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        /* Box statistik: Today + Total */
+        .visitorPopup-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 15px;
+        }
+
+        .vp-stat {
+            background: #0D1528;
+            flex: 1;
+            padding: 10px 8px;
+            border-radius: 12px;
+        }
+
+        .vp-label {
+            font-size: 12px;
+            display: block;
+            opacity: 0.85;
+            margin-bottom: 4px;
+        }
+
+        .vp-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        /* Subjudul list */
+        .visitorPopup-subtitle {
+            font-size: 12px;
+            opacity: .9;
+            margin-bottom: 8px;
+        }
+
+        /* List visitor */
+        .visitorPopup-list {
+            max-height: 230px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Scrollbar kecil */
+        .visitorPopup-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .visitorPopup-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, .3);
+            border-radius: 10px;
+        }
+
+        /* Kartu visitor */
+        .visitorCard {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0F1A2E;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 9px;
+        }
+
+        .visitorPP {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+        }
+
+        .visitorInfo {
+            text-align: left;
+        }
+
+        .visitorName {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .visitorTime {
+            font-size: 11px;
+            opacity: .7;
+        }
+
+        /* Tombol close */
+        #visitorPopupClose {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00bfff, #0077ff);
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Animasi */
+        @keyframes zoomIn {
+            from {
+                transform: scale(.85);
+                opacity: .3;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }

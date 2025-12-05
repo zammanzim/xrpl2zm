@@ -10,7 +10,45 @@
     <title>E-Learning Sederhana</title>
 </head>
 
-<body>
+<body data-page="bindo">
+
+    <!-- ===== VISITOR POPUP ===== -->
+    <div id="visitorPopup" class="popup-visit">
+
+        <div class="visitorPopup-card">
+
+            <!-- JUDUL -->
+            <h2 class="visitorPopup-title">Visitors</h2>
+
+            <!-- STAT BOX -->
+            <div class="visitorPopup-stats">
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-eye"></i> Today Visitor</span>
+                    <span class="vp-value" id="visitorToday">0</span>
+                </div>
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-people-group"></i> Total Visitor</span>
+                    <span class="vp-value" id="visitorTotal">0</span>
+                </div>
+
+            </div>
+
+            <!-- TEXT DAFTAR -->
+            <p class="visitorPopup-subtitle">List of accounts that visited today</p>
+
+            <!-- LIST VISITOR (DIISI JS) -->
+            <div id="visitorList" class="visitorPopup-list"></div>
+
+            <!-- TUTUP POPUP -->
+            <button onclick="closeVisitorPopup()" id="visitorPopupClose">Close</button>
+
+        </div>
+
+    </div>
+    <!-- ===== END VISITOR POPUP ===== -->
+
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <span id="visitorCounter"
@@ -39,7 +77,7 @@
             <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
             <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
             <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
-<li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
+            <li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
             <h3>Lessons</h3>
             <li><a href="bahasaindonesia.html" class="active"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
             <li><a href="bahasainggris.html"><i class="fa-solid fa-language"></i>B. Inggris</a></li>
@@ -77,7 +115,7 @@
                 <p>Daftar tugas dari hari Senin, 27 Oktober 2025 dan seterusnya.</p>
             </div>
 
-            <div class="course-card" style="margin-top: 12px;">
+            <div class="course-card" style="margin-top: 12px; display: none;">
                 <div class="searchhomepage">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="searchInput" placeholder="Search">

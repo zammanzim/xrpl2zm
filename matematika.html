@@ -10,7 +10,43 @@
     <title>E-Learning Sederhana</title>
 </head>
 
-<body>
+<body data-page="matematika">
+    <!-- ===== VISITOR POPUP ===== -->
+    <div id="visitorPopup" class="popup-visit">
+
+        <div class="visitorPopup-card">
+
+            <!-- JUDUL -->
+            <h2 class="visitorPopup-title">Visitors</h2>
+
+            <!-- STAT BOX -->
+            <div class="visitorPopup-stats">
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-eye"></i> Today Visitor</span>
+                    <span class="vp-value" id="visitorToday">0</span>
+                </div>
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-people-group"></i> Total Visitor</span>
+                    <span class="vp-value" id="visitorTotal">0</span>
+                </div>
+
+            </div>
+
+            <!-- TEXT DAFTAR -->
+            <p class="visitorPopup-subtitle">List of accounts that visited today</p>
+
+            <!-- LIST VISITOR (DIISI JS) -->
+            <div id="visitorList" class="visitorPopup-list"></div>
+
+            <!-- TUTUP POPUP -->
+            <button onclick="closeVisitorPopup()" id="visitorPopupClose">Close</button>
+
+        </div>
+
+    </div>
+    <!-- ===== END VISITOR POPUP ===== -->
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <span id="visitorCounter"
