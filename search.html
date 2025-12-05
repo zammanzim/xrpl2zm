@@ -8,6 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Learning Sederhana</title>
     <style>
+        html.no-scroll,
+        body.no-scroll {
+            overflow: hidden;
+            height: 100%;
+            touch-action: none;
+            position: fixed;
+            width: 100%;
+        }
+
+
         .search {
             display: flex;
             align-items: center;
@@ -52,10 +62,285 @@
         hr {
             margin: 0;
         }
+
+        #profilePopup {
+            z-index: 9999;
+            display: none;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .popup-card {
+            width: 90%;
+            max-width: 450px;
+            padding: 18px;
+            background: rgba(0, 191, 255, 0.05);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+            border-radius: 18px;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+            animation: fadeIn .3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .popup-layout {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .popup-right img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #00eaff;
+            box-shadow: 0 0 10px #00eaff;
+        }
+
+        #popupUser {
+            font-size: 14px;
+            opacity: .75;
+        }
+
+        .desc-box {
+            min-height: 100px;
+            max-height: 160px;
+            overflow-y: auto;
+            font-size: 14px;
+            background: rgba(0, 191, 255, 0.05);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 191, 255, .3);
+        }
+
+        .popup-links a {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(0, 255, 255, .4);
+        }
+
+        .closeBtn {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #00eaff;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .popup-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .popup-pp {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00eaff;
+            box-shadow: 0 0 10px #00eaff;
+        }
+
+        .popup-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #popupUsername {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .fullname {
+            font-size: 14px;
+            opacity: .75;
+            margin-top: -4px;
+        }
+
+        .popup-bio {
+            margin-top: 10px;
+            font-size: 14px;
+            opacity: .9;
+            white-space: pre-line;
+        }
+
+        @keyframes popupFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes popupFadeOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+        }
+
+        .popup-card {
+            animation: popupFadeIn 0.25s ease forwards;
+        }
+
+        .popup-card.fade-out {
+            animation: popupFadeOut 0.25s ease forwards;
+        }
+
+        .popup-header {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .popup-info {
+            flex: 1;
+            width: 100%;
+        }
+
+        .popup-stats {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 0;
+            height: 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(6px);
+        }
+
+        .stat-number {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: .85;
+            text-align: center;
+        }
+
+
+        .popup-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            width: 130px;
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        .following {
+            background: rgba(0, 255, 127, 0.25) !important;
+            border-color: rgba(0, 255, 127, .6) !important;
+            color: #00ff7f !important;
+        }
     </style>
 </head>
 
 <body>
+
+    <div id="profilePopup" class="popup-overlay">
+        <div class="popup-card">
+
+            <div class="popup-header">
+                <img id="popupImg" class="popup-pp">
+
+                <div class="popup-info">
+                    <h2 id="popupUsername">@username</h2>
+                    <p id="popupFullname" class="fullname">Full Name</p>
+
+                    <div class="popup-stats">
+                        <div class="stat-card">
+                            <span id="statTasks" class="stat-number">0</span>
+                            <span class="stat-label">Tugas Belum</span>
+                        </div>
+
+                        <div class="stat-card">
+                            <span id="statFollowers" class="stat-number">0</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+
+                        <div class="stat-card">
+                            <span id="statFollowing" class="stat-number">0</span>
+                            <span class="stat-label">Followed</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <p id="popupBio" class="popup-bio"></p>
+
+            <div class="popup-actions">
+                <div id="btnFollow" class="action-btn">Ikuti</div>
+                <div id="btnChat" class="action-btn">Chat</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
         <span id="visitorCounter"
@@ -115,7 +400,8 @@
             <div id="resultList"></div>
         </div>
 
-        <div class="right-section"></div>
+        <div id="profileDetailBox" class="right-section">
+        </div>
     </div>
     <footer>
         <p>© 2025-2026 X - RPL 2 Web Class | All rights reserved.</p>
@@ -126,7 +412,7 @@
     <script type="module" src="synctaskspp.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, get, set, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
@@ -161,6 +447,8 @@
 
                     const data = users[name];
                     const username = data.username || "";
+                    const bio = data.bio || "Belum ada bio.";
+                    const img = `./studentsprofile/${name}.jpg`;
 
                     const match =
                         !filter ||
@@ -169,38 +457,179 @@
 
                     if (match) {
                         found = true;
-                        const img = `./studentsprofile/${name}.jpg`;
 
                         resultBox.innerHTML += `
-                <div class="course-card" style="display:flex;align-items:center;gap:18px;margin-top:12px;">
-                    <img src="${img}" onerror="this.src='profpicture.png'"
-                        style="width:55px;height:55px;border-radius:50%;object-fit:cover;">
-                    <div>
-                        <h3 style="margin:0;">${name}</h3>
-                        <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
-                    </div>
-                </div>
-            `;
+<div class="course-card userItem" data-name="${name}" data-username="${username}" data-bio="${bio}"
+style="display:flex;align-items:center;gap:18px;margin-top:12px;cursor:pointer;">
+    <img src="${img}" onerror="this.src='profpicture.png'"
+        style="width:55px;height:55px;border-radius:50%;object-fit:cover;">
+    <div>
+        <h3 style="margin:0;">${name}</h3>
+        <h4 style="margin:0;font-size:14px;opacity:.8;">@${username}</h4>
+    </div>
+</div>`;
                     }
                 });
 
                 if (!found) {
                     resultBox.innerHTML = `
-            <p style="margin-top: 20px; font-size: 15px;">
-                Akun tidak ditemukan ❌
-            </p>`;
+<p style="margin-top: 20px; font-size: 15px;">
+    Akun tidak ditemukan ❌
+</p>`;
+                }
+
+                attachClickEvents();
+            }
+
+            function openUserProfile(name, username, bio) {
+                const data = users[name];
+                const tasks = data.tasksIncomplete || 0;
+                const followers = data.followers || 0;
+                const following = data.following || 0;
+                const fullName = name; // kalo nama lengkap == key user
+
+                const imgPath = `./studentsprofile/${name}.jpg`;
+
+                if (window.innerWidth >= 1024) {
+                    /* Desktop = Sidebar tetap */
+                    document.getElementById("profileDetailBox").style.display = "block";
+                    document.getElementById("profileDetailBox").innerHTML = `
+            <div style="text-align:center;">
+                <img src="${imgPath}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
+                <h2>@${username}</h2>
+                <p>${fullName}</p>
+                <p>${tasks} tugas belum selesai</p>
+                <p>${followers} followers | ${following} followed</p>
+                <p>${bio}</p>
+            </div>
+        `;
+                } else {
+                    getTasksNotDone(name).then(countTasks => {
+                        document.getElementById("statTasks").innerText = countTasks;
+                    });
+
+                    document.getElementById("popupImg").src = imgPath;
+                    document.getElementById("popupUsername").innerText = "@" + username;
+                    document.getElementById("popupFullname").innerText = fullName;
+                    document.getElementById("popupBio").innerText = bio;
+                    document.body.classList.add("no-scroll");
+                    document.getElementById("profilePopup").style.display = "flex";
+
+                    const followers = data.followers || {};
+                    const following = data.following || {};
+
+                    document.getElementById("statFollowers").innerText = Object.keys(followers).length;
+                    document.getElementById("statFollowing").innerText = Object.keys(following).length;
+
+
+                    // SHOW POPUP
+                    document.getElementById("profilePopup").style.display = "flex";
+
+                    activeOpenProfile = name;
+                    syncFollowStatus(name);
+
                 }
             }
 
 
 
-            renderUsers();
+            function attachClickEvents() {
+                document.querySelectorAll(".userItem").forEach(item => {
+                    item.addEventListener("click", () => {
+                        openUserProfile(
+                            item.dataset.name,
+                            item.dataset.username,
+                            item.dataset.bio
+                        );
+                    });
+                });
+            }
 
+            renderUsers();
             searchBox.addEventListener("input", () => {
                 renderUsers(searchBox.value);
+                attachClickEvents();
             });
+
         });
+
+        async function getTasksNotDone(usernameDisplay) {
+            const [tasksSnap, statusSnap] = await Promise.all([
+                get(ref(db, "tasks")),
+                get(ref(db, "users/" + usernameDisplay + "/tugas"))
+            ]);
+
+            const tasks = tasksSnap.val() || {};
+            const status = statusSnap.val() || {};
+            let count = 0;
+
+            Object.keys(tasks).forEach(id => {
+                if (status[id] !== true) count++;
+            });
+
+            return count;
+        }
+        let activeOpenProfile = null;
+        const currentUser = localStorage.getItem("studentName");
+
+        async function syncFollowStatus(targetUser) {
+            const followersRef = ref(db, "users/" + targetUser + "/followers");
+
+            onValue(followersRef, snap => {
+                const followers = snap.val() || {};
+                const total = Object.keys(followers).length;
+                document.getElementById("statFollowers").innerText = total;
+
+                if (followers[currentUser]) {
+                    btnFollow.classList.add("following");
+                    btnFollow.innerText = "Followed";
+                } else {
+                    btnFollow.classList.remove("following");
+                    btnFollow.innerText = "Ikuti";
+                }
+            });
+        }
+
+        btnFollow.addEventListener("click", () => {
+            if (!activeOpenProfile) return;
+
+            const followersRef = ref(db, "users/" + activeOpenProfile + "/followers/" + currentUser);
+            const followingRef = ref(db, "users/" + currentUser + "/following/" + activeOpenProfile);
+
+            if (btnFollow.classList.contains("following")) {
+                remove(followersRef);
+                remove(followingRef);
+            } else {
+                set(followersRef, true);
+                set(followingRef, true);
+            }
+        });
+
     </script>
+
+    <script>
+        function closePopup() {
+            const popup = document.querySelector(".popup-card");
+            const overlay = document.getElementById("profilePopup");
+
+            popup.classList.add("fade-out");
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                popup.classList.remove("fade-out");
+                document.body.classList.remove("no-scroll"); // BALIKIN SCROLL
+            }, 250);
+        }
+
+
+        document.getElementById("profilePopup").addEventListener("click", (e) => {
+            if (e.target.id === "profilePopup") {
+                closePopup();
+            }
+        });
+
+    </script>
+
 </body>
 
 </html>

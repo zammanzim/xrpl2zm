@@ -3,89 +3,250 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Profil Akun</title>
+    <title>Dashboard XRPL 2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(180deg, #00bfff, #0077ff);
-            margin: 0;
-            padding: 0;
-            color: #fff;
+        /* === POPUP CHANGE PP === */
+        .popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadePopup .2s ease-in-out;
+        }
+
+        @keyframes fadePopup {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .popup-content {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 20px;
+            width: 280px;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+            animation: scalePopup .2s ease-in-out;
         }
 
-        header {
-            padding: 15px;
-            background: #007bff;
-            font-size: 20px;
-            font-weight: bold;
+        @keyframes scalePopup {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1);
+            }
         }
 
-        #pp {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
+        .popup-content img {
+            width: 160px;
+            height: 160px;
             object-fit: cover;
+            border-radius: 50%;
             border: 3px solid #fff;
-            cursor: pointer;
-            margin-top: 20px;
+            margin-bottom: 18px;
         }
 
-        .nameDisplay {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        input,
-        textarea {
-            width: 85%;
-            padding: 12px;
-            margin: 10px auto;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
-        }
-
-        textarea {
-            height: 80px;
-            resize: none;
-        }
-
-        button {
-            width: 85%;
-            padding: 14px;
-            margin: 15px auto;
-            background: #ff00c8;
+        .wa-btn {
+            display: block;
+            width: 100%;
+            background: #25d366;
             color: #fff;
-            border: none;
-            font-size: 18px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
+            padding: 12px;
+            text-decoration: none;
+            margin-bottom: 10px;
         }
 
-        button:hover {
-            transform: scale(.97);
+        .wa-btn:hover {
+            opacity: 0.9;
+        }
+
+        #closePopup {
+            width: 100%;
+            padding: 11px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            color: #fff;
+        }
+
+        #closePopup:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ANIMASI FADE OUT + SCALE OUT SAAT CLOSE */
+        .popup.closing {
+            animation: fadeOut .18s forwards;
+        }
+
+        .popup-content.closing {
+            animation: scaleOut .18s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes scaleOut {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(0.8);
+            }
+        }
+
+        /* === POPUP SUKSES === */
+        .success-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .65);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            backdrop-filter: blur(5px);
+        }
+
+        .success-box {
+            background: rgba(255, 255, 255, 0.17);
+            padding: 25px 35px;
+            border-radius: 18px;
+            text-align: center;
+            animation: fadeInUp .25s ease-out;
+        }
+
+        .success-box i {
+            font-size: 55px;
+            margin-bottom: 10px;
+            color: #4fff7b;
+        }
+
+        .success-box p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <header>Profil Akun</header>
+    <header>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <p></p>
+        <div class="rightProfile" id="rightProfile">
+            <img id="headerPP" src="" alt="">
+            <span id="headerName">Hai...</span>
+        </div>
+    </header>
 
-    <img id="pp" src="profpicture.png" alt="Foto Profil">
-    <input type="file" id="fileInput" accept="image/*" style="display:none;">
+    <div class="profileMenu" id="profileMenu">
+        <ul>
+            <li onclick="window.goPersonalize()"><i class="fa-solid fa-user-pen"></i> Personalize</li>
+            <li onclick="goDashboard()"><i class="fa-solid fa-dashboard"></i>Dashboard</li>
+            <li onclick="window.logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</li>
+        </ul>
+    </div>
 
-    <p class="nameDisplay" id="realname">Nama Diisi Otomatis</p>
-    <input id="username" placeholder="Username (@zam_admin)">
-    <textarea id="bio" placeholder="Tulis Bio..."></textarea>
 
-    <button onclick="saveProfile()">Simpan Profil</button>
+    <div class="sidebar" id="sidebar">
+        <h3>Main Menu</h3>
+        <ul>
+            <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
+            <li><a href="dashboard.html" class="active"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+            <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
+            <h3>Lessons</h3>
+            <li><a href="bahasaindonesia.html"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
+            <li><a href="bahasainggris.html"><i class="fa-solid fa-language"></i>B. Inggris</a></li>
+            <li><a href="bahasasunda.html"><B style="margin-right: 10px;">ᮘ</B></i>B. Sunda</a></li>
+            <li><a href="bahasajepang.html"><b style="margin-right: 10px;">あ</b></i>B. Jepang</a></li>
+            <li><a href="matematika.html"><i class="fa-solid fa-calculator"></i>Matematika</a></li>
+            <li><a href="proipas.html"><i class="fa-solid fa-atom"></i>Proipas</a></li>
+            <li><a href="sejarah.html"><i class="fa-solid fa-landmark"></i>Sejarah</a></li>
+            <li><a href="pabp.html"><i class="fa-solid fa-mosque"></i>PABP</a></li>
+            <li><a href="pp.html"><i class="fa-solid fa-scale-balanced"></i>PP</a></li>
+            <li><a href="senibudaya.html"><i class="fa-solid fa-masks-theater"></i>Seni Budaya</a></li>
+            <li><a href="pjok.html"><i class="fa-solid fa-person-running"></i>PJOK</a></li>
+            <li><a href="informatika.html"><i class="fa-solid fa-laptop"></i>Informatika</a></li>
+            <li><a href="bk.html"><i class="fa-solid fa-heart-circle-check"></i>BK</a></li>
+            <li><a href="dpr1.html"><i class="fa-solid fa-laptop-code"></i>DASPROG 1</a></li>
+            <li><a href="dpr2.html"><i class="fa-solid fa-microchip"></i>DASPROG 2</a></li>
+            <li><a href="dpr3.html"><i class="fa-solid fa-palette"></i>DASPROG 3</a></li>
+        </ul>
+    </div>
+
+
+    <div class="main-content">
+        <div class="profile-container">
+            <img id="pp" class="profile-picture" src="profpicture.png" alt="Foto Profil">
+
+            <p id="realname" class="profile-name">Nama</p>
+
+            <input id="username" class="profile-input" placeholder="@username">
+            <textarea id="bio" class="profile-input bio" placeholder="Tulis bio kamu..."></textarea>
+
+            <button class="profile-save" onclick="saveProfile()">Simpan Perubahan</button>
+        </div>
+    </div>
+
+    <div id="ppPopup" class="popup">
+        <div class="popup-content">
+            <img id="popupImg" src="" alt="">
+            <a href="https://wa.me/628xxxxxxx" class="wa-btn">Change PP</a>
+            <button id="closePopup">Close</button>
+        </div>
+    </div>
+
+    <!-- POPUP SUKSES -->
+    <div id="successPopup" class="success-popup">
+        <div class="success-box">
+            <i class="fa-solid fa-circle-check"></i>
+            <p>Profil berhasil disimpan!</p>
+        </div>
+    </div>
+
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -100,53 +261,94 @@
             messagingSenderId: "410193641417",
             appId: "1:410193641417:web:a7da663d744703e4883218"
         };
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
         const savedName = localStorage.getItem("studentName");
         if (!savedName) location.href = "login.html";
 
-        document.getElementById("realname").innerText = savedName;
-
-        const pp = document.getElementById("pp");
-        const fileInput = document.getElementById("fileInput");
+        // === GET ELEMENTS SESUAI HTML ===
+        const ppEl = document.getElementById("pp");
+        const headerPP = document.getElementById("headerPP");
+        const headerName = document.getElementById("headerName");
+        const realnameEl = document.getElementById("realname");
         const usernameEl = document.getElementById("username");
         const bioEl = document.getElementById("bio");
 
-        // === Load data profil ===
+        // === LOAD DATA DARI FIREBASE ===
         get(ref(db, "users/" + savedName)).then(snap => {
             const data = snap.val() || {};
 
-            pp.src = data.profilePicture || "profpicture.png";
+            let imgPath = `studentsprofile/${savedName}.jpg`;
+
+            if (data.profilePicture) imgPath = data.profilePicture;
+
+            ppEl.src = imgPath;
+            headerPP.src = imgPath;
+
+            // Simpan cache supaya ga blank pas reload
+            localStorage.setItem("cachedPP", imgPath);
+
+            // Kalau gambar gagal diload → fallback default
+            ppEl.onerror = headerPP.onerror = () => {
+                ppEl.src = "profpicture.png";
+                headerPP.src = "profpicture.png";
+            };
+
+            realnameEl.innerText = savedName;
+            headerName.innerText = "Hai, " + savedName;
+
             usernameEl.value = data.username || "";
             bioEl.value = data.bio || "";
         });
 
-        // === Klik ganti foto ===
-        pp.addEventListener("click", () => fileInput.click());
-        fileInput.addEventListener("change", () => {
-            const file = fileInput.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = () => {
-                pp.src = reader.result;
-            };
-            reader.readAsDataURL(file);
-        });
-
-        // === Simpan ke Firebase ===
+        // === SAVE PROFILE TANPA ALERT ===
         window.saveProfile = () => {
             update(ref(db, "users/" + savedName), {
-                username: usernameEl.value,
-                bio: bioEl.value,
-                profilePicture: pp.src
+                username: usernameEl.value.trim(),
+                bio: bioEl.value.trim()
             }).then(() => {
-                alert("Profil berhasil disimpan!");
-                window.location.href = "dashboard.html";
+                const successPopup = document.getElementById("successPopup");
+                successPopup.style.display = "flex";
+
+                setTimeout(() => {
+                    successPopup.style.display = "none";
+                    window.location.href = "dashboard.html";
+                }, 1700);
             });
         };
+
+
+        // === POPUP FOTO ===
+        const ppPopup = document.getElementById("ppPopup");
+        const popupImg = document.getElementById("popupImg");
+        const closePopup = document.getElementById("closePopup");
+
+        ppEl.onclick = () => {
+            popupImg.src = ppEl.src;
+            ppPopup.style.display = "flex";
+        };
+
+        closePopup.onclick = () => {
+            ppPopup.style.display = "none";
+        };
+
+        closePopup.onclick = () => {
+            ppPopup.classList.add("closing");
+            document.querySelector(".popup-content").classList.add("closing");
+
+            setTimeout(() => {
+                ppPopup.style.display = "none";
+                ppPopup.classList.remove("closing");
+                document.querySelector(".popup-content").classList.remove("closing");
+            }, 180); // harus sama durasi animasi CSS
+        };
+
     </script>
+
+    <script type="module" src="auth.js"></script>
+    <script src="script.js"></script>
 
 </body>
 

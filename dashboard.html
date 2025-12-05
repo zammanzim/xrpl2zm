@@ -14,76 +14,97 @@
             padding: 16px;
             border-radius: 12px;
             margin: 20px 0;
+            text-align: left;
         }
 
+
         .carddashboard {
-            background: rgba(255, 255, 255, .2);
-            border-radius: 16px;
-            padding: 20px;
             display: flex;
-            gap: 15px;
-            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            border-radius: 18px;
+            background: rgba(0, 191, 255, 0.05);
+            border: 1px solid rgba(0, 191, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            width: 100%;
+        }
+
+        #pp {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00eaff;
+            box-shadow: 0 0 10px #00eaff;
         }
 
         .userInfo {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 6px;
+            text-align: left;
         }
 
         #uname {
-            font-size: 15px;
-            opacity: .9;
-            margin-bottom: 5px;
+            font-size: 17px;
+            font-weight: 600;
+            margin: 0;
         }
 
         #name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: .75;
+            margin-top: -4px;
         }
 
         .userStats {
             display: flex;
-            gap: 12px;
+            flex-wrap: nowrap;
+            gap: 10px;
+            width: 100%;
+            margin-top: 6px;
+            justify-content: space-between;
         }
 
         .statBox {
-            background: rgba(255, 255, 255, 0.2);
-            text-align: center;
-            padding: 8px 14px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            min-width: 80px;
-            font-size: 16px;
+            flex: 1;
+            min-width: 0;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .statBox span {
             font-size: 22px;
-            font-weight: bold;
-            display: block;
+            font-weight: 800;
         }
 
-
-        #pp {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            object-fit: cover;
-            cursor: pointer;
-            margin-bottom: 10px;
+        .statBox p {
+            font-size: 12px;
+            opacity: .85;
+            margin: 0;
         }
 
-        .username {
-            font-size: 15px;
-            opacity: .9;
+        #bio {
+            font-size: 14px;
+            opacity: .85;
+            margin-left: -100px;
         }
+
 
         .taskCard {
             background: rgba(255, 255, 255, 0.2);
             padding: 16px;
             border-radius: 14px;
             margin: 16px 0;
+            text-align: left;
         }
 
         .taskCard h3 {
@@ -273,24 +294,45 @@
                 <div class="userInfo">
                     <p id="uname"></p>
                     <h3 id="name"></h3>
-                    <p id="bio"></p>
 
                     <div class="userStats">
+
                         <div class="statBox">
-                            <span id="taskCount">0</span>
-                            <p>Tugas <br> yang Belum</p>
+                            <span id="statTasksDashboard">0</span>
+                            <p>Tugas Belum</p>
                         </div>
 
                         <div class="statBox">
-                            <span id="followers">0</span>
+                            <span id="statFollowersDashboard">0</span>
                             <p>Followers</p>
                         </div>
+
+                        <div class="statBox">
+                            <span id="statFollowingDashboard">0</span>
+                            <p>Followed</p>
+                        </div>
                     </div>
+
+                    <p id="bio"></p>
                 </div>
             </div>
         </div>
 
         <div class="right-section">
+
+            <div class="card">
+                <h3><i class="fa-solid fa-circle-exclamation"></i> Tips Nandain Tugas</h3>
+                <br>
+                <p>Kan disini berjejer tugas dari tugas pertama sampe tugas terakhir. Nah kalian pencet "tandai selesai"
+                    kalo ngerasa tugas nya udah dikerjain. kalo belum ya tinggal pencet "pencet>" buat pergi ke
+                    tugasnya lebih jelasnya.</p>
+                <br>
+                <h4>PENCET "TANDAI SELESAI" KALO TUGASNYA UDAH SELESAI</h4>
+                <br>
+                <p>Note: setiap akun beda-beda tugas yang belum selesainya. Misal si fahri tugas belum na 10 dei, si
+                    ukuy 7 dei, pokokna tiap akun beda beda. Tapi harus di tandai selesai dulu ku masing-masing.</p>
+            </div>
+
             <div class="card">
                 <h3>📌 Tugas Belum Selesai</h3>
             </div>
@@ -303,7 +345,7 @@
     <script src="script.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
         // ========== FIREBASE ==========
         const firebaseConfig = {
@@ -405,7 +447,8 @@
             });
 
             // ⬇️ Update jumlah tugas yg belum selesai
-            document.getElementById("taskCount").innerText = countNotDone;
+            document.getElementById("statTasksDashboard").innerText = countNotDone;
+
 
             // Event checkbox
             document.querySelectorAll("input[data-id]").forEach(cb => {
@@ -427,6 +470,19 @@
                 });
                 cb.closest(".taskItem").remove();
             });
+        });
+
+        onValue(ref(db, "users/" + savedName + "/followers"), snap => {
+            const followers = snap.val() || {};
+            document.getElementById("statFollowersDashboard").innerText =
+                Object.keys(followers).length;
+        });
+
+        // FOLLOWING REALTIME
+        onValue(ref(db, "users/" + savedName + "/following"), snap => {
+            const following = snap.val() || {};
+            document.getElementById("statFollowingDashboard").innerText =
+                Object.keys(following).length;
         });
     </script>
 </body>

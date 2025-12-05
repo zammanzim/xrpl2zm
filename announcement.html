@@ -697,6 +697,100 @@
         .sidebar i {
             margin-right: 10px;
         }
+
+        .taskCard {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            border-radius: 14px;
+            margin: 16px 0;
+            text-align: left;
+        }
+
+        .taskCard h3 {
+            margin: 0 0 4px;
+        }
+
+        .taskCard h4 {
+            margin: 0 0 10px;
+            opacity: .9;
+        }
+
+        .taskCard p {
+            margin: 0 0 12px;
+            opacity: .85;
+        }
+
+        .goBtn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            background: linear-gradient(90deg, #ff00c8, #b200ff);
+            color: #fff;
+            font-weight: 600;
+            font-size: .9rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .goBtn:hover {
+            transform: scale(1.1);
+        }
+
+        .checkBtn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            user-select: none;
+            background: transparent;
+            border: 3px solid #a855ff;
+            color: #d7b4ff;
+            transition: background .35s ease, color .35s ease, box-shadow .4s ease;
+        }
+
+        /* Sembunyikan checkbox */
+        .checkBtn input {
+            display: none;
+        }
+
+        .checkBtn:has(input:checked) {
+            background: linear-gradient(90deg, #b855ff, #3b0fff);
+            color: #fff;
+            box-shadow: 0 0 18px rgba(154, 66, 255, .7);
+            animation: fadeGlow .35s ease-out;
+        }
+
+        /* ICON update */
+        .checkBtn:has(input:checked) i {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+        }
+
+        @keyframes fadeGlow {
+            0% {
+                opacity: .4;
+                transform: scale(.96);
+                box-shadow: 0 0 6px rgba(154, 66, 255, 0.1);
+            }
+
+            60% {
+                opacity: .9;
+                transform: scale(1.03);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 18px rgba(154, 66, 255, .7);
+            }
+        }
     </style>
 </head>
 
@@ -797,144 +891,51 @@
             </div>
 
             <div class="course-card">
-                <h4>📖 Loading... 📖</h4>
-            </div>
-
-            <div class="course-card">
                 <h4>📌 Loading... 📌</h4>
-            </div>
-
-            <div class="course-card">
-                <h4>📔 Loading... 📔</h4>
             </div>
 
             <div class="course-card">
                 <h4>🧹 Loading... 🧹</h4>
             </div>
-
-            <div class="course-card">
-                <p>KOREKSI mun aya TUGAS ANU KURANG atau aya nu salah.</p>
-                <p>v8</p>
-            </div>
         </div>
+
+        <hr style="margin: 30px 0;">
+
         <div class="right-section">
 
             <div class="course-card">
-                <h3>Tugas</h3>
-                <h4>Daftar Tugas yang Sedang Berlangsung</h4>
-                <hr>
-                <h4>📔 Tugas Sejarah No. 16:</h4>
-                <p>Mencatat bagi yang belum. <a href="sejarah.html#16">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Seni Budaya No. 18:</h4>
-                <p>Tes tentang tari. <a href="senibudaya.html#18">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Informatika No. 20:</h4>
-                <p>Tes rumus-rumus Microsoft Excel. <a href="informatika.html#20">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas PABP No. 21:</h4>
-                <p>Debat. <a href="pabp.html#21">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Bahasa Inggris No. 23:</h4>
-                <p>Membuat short film. <a href="bahasainggris.html#23">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas DASPROGRPL 2 No. 28:</h4>
-                <p>Tes tentang bagian-bagian komputer. <a href="dpr2.html#28">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Sejarah No. 30:</h4>
-                <p>Mencatat tentang pengaruh agama Hindu-Buddha bagi yang belum. <a href="sejarah.html#30">Pencet</a>
-                </p>
-                <hr>
-                <h4>📔 Tugas B. Jepang No. 31:</h4>
-                <p>Mencatat tema 4. <a href="bahasajepang.html#31">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas PJOK No. 32:</h4>
-                <p>Mencatat materi tentang tolak peluru. <a href="pjok.html#32">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas DASPROGRPL 1 No. 33:</h4>
-                <p>Mencatat materi. <a href="dpr1.html#33">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Bahasa Indonesia No. 34:</h4>
-                <p>Mengerjakan 5 soal tentang teks hikayat. <a href="bahasaindonesia.html#34">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Bahasa Indonesia No. 35:</h4>
-                <p>Mempresentasikan cerpen. <a href="bahasaindonesia.html#35">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas Matematika No. 36:</h4>
-                <p>Mengerjakan 4 soal. <a href="matematika.html#36">Pencet</a></p>
-                <hr>
-                <h4>📔 Tugas DASPROGRPL 1 No. 37:</h4>
-                <p>Mencatat materi tentang HTML. <a href="dpr1.html#37">Pencet</a></p>
+                <h3 id="NaMa"></h3>
+            </div>
+            <div id="taskList"></div>
+
+            <div class="course-card">
+                <h3>h3</h3>
+                <p>p</p>
             </div>
 
             <div class="course-card">
-                <h3>Announcement Page Home</h3>
-                <p>Web page home atau dibagian home menghadirkan fitur baru. Yaitu dibagian popup card member. Kan
-                    sebelumnya kalo dipencet member atau siswa bakal muncul popup yang isinya ada nama, jabatan/absen,
-                    ig, wa, kata-kata, dan deskripsi diri. Nah dev mau nambahin sesuatu, yaitu bakal ada backsound lagu.
-                    Jadi kalo dipencet bakal muncul musik favorit masing-masing dengan style kayak spotify.</p>
-                <br>
-                <h4>CATATAN</h4>
-                <p>Bagi yang tidak mengirimkan foto, kata-kata, deskripsi diri, dll buat di pasang di bagian "Our
-                    Students" wayahna bakal dev hapus card siswanya, jadi gabakal muncul di web. Karena ngarudetken nu
-                    kitu mah.</p>
+                <h3>h3</h3>
+                <p>p</p>
             </div>
 
             <div class="course-card">
-                <h3>New Feature</h3>
-                <p>Kalo liat tugas yang difoto coba klik fotonya, biar foto fokus ke tengah layar kalo di catat. mau
-                    coba? Buka yang dibawah.</p>
-                <div class="toggle-btn">▼</div>
-                <div class="gallery">
-                    <img src="gallery/fahriolah.webp" loading="lazy" decoding="async">
-                    <img src="gallery/ukuyolah.webp" alt="">
-                </div>
+                <h3>h3</h3>
+                <p>p</p>
             </div>
 
             <div class="course-card">
-                <h4>Tips Pake Kolom Pencarian</h4>
-                <p>Cobaan ketik nomor 11 mun erk ka tugas atau sesuai nomor tugas. trus mun bade ka halaman awal
-                    ketik
-                    0.</p>
+                <h3>h3</h3>
+                <p>p</p>
             </div>
 
             <div class="course-card">
-                <h3>Announcement:</h3>
-                <p>Web ini masih dalam pengembangan, masih jauh dari kata sempurna. Jadi, kalo nemu bug atau ada
-                    saran
-                    buat pengembangan web ini kedepannya chat.<br>
-                </p>
+                <h3>h3</h3>
+                <p>p</p>
             </div>
 
             <div class="course-card">
-                <h3>Disclaimer:</h3>
-                <p>Bagi hidupnya yang gamau ribet "ah nanaonan nyien nu web kararitu, raribet, te bararoga kuota",
-                    nya
-                    te
-                    nanaon. Kalo ada tugas atau ada pengumuman di channel, informasinya suka tenggelem jadi fungsi
-                    dari
-                    web
-                    ini adalah untuk mengsortir tugas atau informasi agar tidak berantakan. Yaaa channel masih
-                    berjalan,
-                    jadi web ini sebagai pelengkap atau database tentang semua tugas dan informasi. Alasan saya
-                    membuat
-                    web
-                    ini? Yap gara-gara gabut, bae alus gabut teh anu bermanfaat.</p>
-            </div>
-
-            <div class="course-card">
-                <h3>Features</h3>
-                <p>1. Menu Home, isinya tentang highlight X - RPL 2. Seperti foto, struktur organigram, jadwal
-                    piket,
-                    dll.
-                    <hr>
-                    2. Menu Announcement, dimana semua pengumuman seperti jadwal, info ada disini.
-                    <hr>
-                    3. Menu pelajaran, isinya tentang tugas berdasarkan mapelnya.
-                    <hr>
-                    4. Menu Class Gallery(masi proses), semua foto - foto X - RPL 2 ada disini. Mulai dari foto
-                    kumpulan, foto kelas, bahkan sampai aib.
-                </p>
+                <h3>h3</h3>
+                <p>p</p>
             </div>
 
             <div class="course-card" id="adminCard">
@@ -1024,6 +1025,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+
         // ========== CHECK LOGIN ==========
         const savedName = localStorage.getItem("studentName");
         if (!savedName) location.href = "/login.html";
@@ -1054,6 +1056,65 @@
                 headerPP.src = "profpicture.png";
                 localStorage.setItem("cachedPP", "profpicture.png");
             };
+        });
+
+        const taskList = document.getElementById("taskList");
+
+        Promise.all([
+            get(ref(db, "tasks")),
+            get(ref(db, "users/" + savedName + "/tugas"))
+        ]).then(([tasksSnap, statusSnap]) => {
+            const tasks = tasksSnap.val() || {};
+            const status = statusSnap.val() || {};
+
+            taskList.innerHTML = "";
+            let countNotDone = 0;
+
+            Object.keys(tasks).forEach(id => {
+                if (status[id] !== true) {
+                    countNotDone++;
+                    const t = tasks[id];
+
+                    taskList.innerHTML += `
+            <div class="taskCard">
+                <h3>${t.mapel}</h3>
+                <h4>Nomor ${t.nomor}</h4>
+                <p>${t.tugas}</p>
+                <a href="${t.link}" class="goBtn">Pencet ➜</a>
+                <div style="margin-top:8px;">
+                    <p>Kalo tugasnya udah selesai pencet "tandai selesai"</p>
+                    <label class="checkBtn">
+    <input type="checkbox" data-id="${id}">
+    <i class="fa-solid fa-check"></i>
+    <span>Tandai selesai</span>
+</label>
+
+
+                </div>
+            </div>`;
+                }
+            });
+
+            // Event checkbox
+            document.querySelectorAll("input[data-id]").forEach(cb => {
+                cb.addEventListener("change", () => {
+                    const id = cb.getAttribute("data-id");
+                    update(ref(db, "users/" + savedName + "/tugas"), {
+                        [id]: cb.checked
+                    });
+                });
+            });
+        });
+
+
+        document.querySelectorAll("input[data-id]").forEach(cb => {
+            cb.addEventListener("change", () => {
+                const id = cb.getAttribute("data-id");
+                update(ref(db, "users/" + savedName + "/tugas"), {
+                    [id]: cb.checked
+                });
+                cb.closest(".taskItem").remove();
+            });
         });
 
         function getLogicalDate() {
@@ -1284,7 +1345,7 @@
                     .map(x => `- ${x}`)
                     .join("<br>");
 
-                cards[6].innerHTML = `
+                cards[4].innerHTML = `
             <h4>🧹 Petugas Piket 🧹</h4>
             <p>${piketHtml || "-"}</p>
         `;
@@ -1325,7 +1386,8 @@
         loadScheduleAndPiket();
         setInterval(loadScheduleAndPiket, 60 * 1000);
 
-
+        const namacard = document.getElementById("NaMa");
+        namacard.innerHTML = ` <i class="fa-solid fa-book"></i> Daftar Tugas yang Belum  ${savedName} Kerjain:`;
 
     </script>
     <script>
@@ -1449,6 +1511,7 @@
                 });
             });
         });
+
 
     </script>
 
