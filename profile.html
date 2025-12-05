@@ -194,8 +194,8 @@
         <ul>
             <li><a href="homev2"><i class="fa-solid fa-house"></i> Home</a></li>
             <li><a href="announcement.html"><i class="fa-solid fa-bullhorn"></i> Announcement</a></li>
-            <li><a href="dashboard.html" class="active"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
-            <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+            <li><a href="dashboard.html"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+            <li><a href="profile.html" class="active"><i class="fa-solid fa-user"></i> Profile</a></li>
             <li><a href="search.html"><i class="fa-solid fa-search"></i>Cari Akun</a></li>
             <h3>Lessons</h3>
             <li><a href="bahasaindonesia.html"><i class="fa-solid fa-book"></i>B. Indonesia</a></li>
@@ -221,10 +221,12 @@
     <div class="main-content">
         <div class="profile-container">
             <img id="pp" class="profile-picture" src="profpicture.png" alt="Foto Profil">
-
+            <i class="fa-solid fa-user-pen" style="position: absolute; margin-top: 110px; margin-left: -10px;"></i>
             <p id="realname" class="profile-name">Nama</p>
 
+            <p style="text-align: left;">Username</p>
             <input id="username" class="profile-input" placeholder="@username">
+            <p style="text-align: left;">Bio</p>
             <textarea id="bio" class="profile-input bio" placeholder="Tulis bio kamu..."></textarea>
 
             <button class="profile-save" onclick="saveProfile()">Simpan Perubahan</button>
@@ -234,7 +236,7 @@
     <div id="ppPopup" class="popup">
         <div class="popup-content">
             <img id="popupImg" src="" alt="">
-            <a href="https://wa.me/628xxxxxxx" class="wa-btn">Change PP</a>
+            <a href="https://wa.me/6283851088843" class="wa-btn">Ganti PP (via WA WKM)</a>
             <button id="closePopup">Close</button>
         </div>
     </div>
@@ -297,7 +299,7 @@
             };
 
             realnameEl.innerText = savedName;
-            headerName.innerText = "Hai, " + savedName;
+            headerName.innerText = "Hai, " + savedName +  " ▼";
 
             usernameEl.value = data.username || "";
             bioEl.value = data.bio || "";

@@ -33,7 +33,7 @@ get(userRef).then(snap => {
     const data = snap.val() || {};
 
 
-    headerName.innerText = "Hai, " + savedName;
+    headerName.innerText = "Hai, " + savedName +  " ▼";
 
     let imgPath = `./studentsprofile/${savedName}.jpg`;
     headerPP.src = imgPath;

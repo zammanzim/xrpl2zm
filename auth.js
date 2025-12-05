@@ -66,6 +66,6 @@ if (isGuestMode) {
         .forEach(li => li.style.display = "none");
 
 } else {
-    headerName.innerText = "Hai, " + savedName;
+    headerName.innerText = "Hai, " + savedName +  " ▼";
     headerPP.src = "profpicture.png";
 }
