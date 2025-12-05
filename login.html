@@ -18,6 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .login {
@@ -68,7 +69,7 @@
         }
 
         .status-text {
-            font-size: 13px;
+            font-size: 22px;
             opacity: .9;
             margin: 4px 0 0;
             text-align: left;
@@ -274,7 +275,7 @@
             </select>
 
             <p class="status-label">Status akun:</p>
-            <p id="statusText" class="status-text">-</p>
+            <h2 id="statusText" class="status-text">-</h2>
 
             <label id="usernameLabel" class="input-label disabled-label">
                 Masukkan Username / Buat Username
@@ -401,7 +402,7 @@
 
 
             if (!data || !data.username) {
-                statusText.innerText = "Akun belum ada → Buat username baru";
+                statusText.innerHTML = "Akun belum ada <br> Bikin username baru";
                 usernameLabel.innerText = "Buat Username Baru";
                 mode = "create";
                 submitBtn.innerText = "Daftar";
@@ -409,7 +410,7 @@
                 bioInput.style.display = "block";
 
             } else {
-                statusText.innerText = "Akun sudah ada → Masukkan username untuk login";
+                statusText.innerHTML = "Akun sudah ada <br> Masukkan username untuk login";
                 usernameLabel.innerText = "Masukkan Username";
                 mode = "login";
                 submitBtn.innerText = "Masuk";
@@ -421,11 +422,11 @@
             submitBtn.disabled = false;
 
             if (!data || !data.username) {
-                statusText.innerText = "Akun belum ada → Buat username baru";
+                statusText.innerHTML = "Akun belum ada <br> Bikin username baru";
                 mode = "create";
                 submitBtn.innerText = "Daftar";
             } else {
-                statusText.innerText = "Akun sudah ada → Masukkan username untuk login";
+                statusText.innerHTML = "Akun sudah ada <br> Masukkan username untuk login";
                 mode = "login";
                 submitBtn.innerText = "Masuk";
             }
