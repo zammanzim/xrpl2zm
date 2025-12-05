@@ -236,11 +236,52 @@
     </style>
 </head>
 
-<body>
+<body data-page="dashboard">
+
+    <!-- ===== VISITOR POPUP ===== -->
+    <div id="visitorPopup" class="popup-visit">
+
+        <div class="visitorPopup-card">
+
+            <!-- JUDUL -->
+            <h2 class="visitorPopup-title">Visitors</h2>
+
+            <!-- STAT BOX -->
+            <div class="visitorPopup-stats">
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-eye"></i> Today Visitor</span>
+                    <span class="vp-value" id="visitorToday">0</span>
+                </div>
+
+                <div class="vp-stat">
+                    <span class="vp-label"><i class="fa-solid fa-people-group"></i> Total Visitor</span>
+                    <span class="vp-value" id="visitorTotal">0</span>
+                </div>
+
+            </div>
+
+            <!-- TEXT DAFTAR -->
+            <p class="visitorPopup-subtitle">List of accounts that visited today</p>
+
+            <!-- LIST VISITOR (DIISI JS) -->
+            <div id="visitorList" class="visitorPopup-list"></div>
+
+            <!-- TUTUP POPUP -->
+            <button onclick="closeVisitorPopup()" id="visitorPopupClose">Close</button>
+
+        </div>
+
+    </div>
+    <!-- ===== END VISITOR POPUP ===== -->
+
 
     <header>
         <div class="hamburger" onclick="toggleMenu()">☰</div>
-        <p></p>
+        <span id="visitorCounter" style="font-size:15px; opacity:0.9; margin-left: 50px;">
+            <i class="fa-solid fa-eye"></i> ...
+        </span>
+
         <div class="rightProfile" id="rightProfile">
             <img id="headerPP" src="" alt="">
             <span id="headerName">Hai...</span>
@@ -340,8 +381,8 @@
         </div>
     </div>
 
-
     <script type="module" src="auth.js"></script>
+    <script type="module" src="synctaskspp.js"></script>
     <script src="script.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -383,7 +424,7 @@
             nameEl.innerText = savedName;
             unameEl.innerText = data.username ? "@" + data.username : "@username";
 
-            headerName.innerText = "Hai, " + savedName +  " ▼";
+            headerName.innerText = "Hai, " + savedName + " ▼";
 
             let imgPath = `./studentsprofile/${savedName}.jpg`;
             ppEl.src = imgPath;
@@ -484,6 +525,7 @@
             document.getElementById("statFollowingDashboard").innerText =
                 Object.keys(following).length;
         });
+
     </script>
 </body>
 
