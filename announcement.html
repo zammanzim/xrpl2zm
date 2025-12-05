@@ -11,6 +11,7 @@
         html {
             overflow: auto;
             scrollbar-width: none;
+            scroll-behavior: smooth;
         }
 
         html::-webkit-scrollbar {
@@ -942,6 +943,39 @@
                 opacity: 1;
             }
         }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card hr {
+            margin: 5px 0;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: white;
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #c300ff, #ff00ea);
+            box-shadow:
+                0 3px 6px rgba(0, 100, 255, 0.3),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .card a:hover {
+            background: linear-gradient(135deg, #00aaff, #66d9ff);
+            box-shadow:
+                0 4px 10px rgba(0, 140, 255, 0.4),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.4);
+        }
     </style>
 </head>
 
@@ -1073,6 +1107,13 @@
             <div class="course-card">
                 <h4>🧹 Loading... 🧹</h4>
             </div>
+
+            <div class="card">
+                <h3>Fitur Baruuu</h3>
+                <p>Ada beberapa fitur baru untuk e-learning, klik dibawah untuk melihat apa saja fitur barunya</p>
+                <br>
+                <a href="#features">Klik Disini!!</a>
+            </div>
         </div>
 
         <hr style="margin: 30px 0;">
@@ -1084,7 +1125,7 @@
             </div>
             <div id="taskList"></div>
 
-            <div class="course-card">
+            <div class="course-card" id="features">
                 <h3>h3</h3>
                 <p>p</p>
             </div>
@@ -1112,10 +1153,17 @@
             <div class="course-card">
                 <h3>h3</h3>
                 <p>p</p>
+            </div>
+
+            <div class="course-card">
+                <h3>Udah liat fiturnya? Kembali ke atas</h3>
+                <br>
+                <a href="#">Klik Disinii!!</a>
             </div>
 
             <div class="course-card" id="adminCard">
                 <h3>🔐 Admin Only!</h3>
+                <br>
                 <button id="editBtn">Edit Pengumuman</button>
                 <button id="addLinkBtn">Tambah Link 🔗</button>
             </div>
