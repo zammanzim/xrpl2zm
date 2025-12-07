@@ -1406,7 +1406,9 @@
 
             set(ref(db, "announcement/"), updates)
                 .then(() => {
+                    update(ref(db, "announcementMeta"), { custom: true });
                     stopEditMode();
+
                 })
                 .catch((err) => {
                     console.error("Gagal menyimpan:", err);
@@ -1516,6 +1518,12 @@
         let lastLogicalDay = null;
 
         async function loadScheduleAndPiket() {
+            // Jangan overwrite kalau sudah edit manual
+            const meta = await get(ref(db, "announcementMeta/custom"));
+            if (meta.exists() && meta.val() === true) {
+                return; // Keluar. Biarkan isi edit admin tetap.
+            }
+
             const logicalDay = getLogicalDay();
             if (logicalDay === lastLogicalDay) return;
             lastLogicalDay = logicalDay;
