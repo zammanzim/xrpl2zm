@@ -567,12 +567,6 @@
                 flex: 1;
             }
 
-            .right-section {
-                position: sticky;
-                margin-top: 55px;
-            }
-
-
             .sidebar {
                 left: 0;
             }

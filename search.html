@@ -294,8 +294,7 @@
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.25);
             backdrop-filter: blur(10px);
-
-            /* FLEX BIAR RAPI */
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -335,6 +334,18 @@
             border: 1px solid rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(6px);
             font-size: 13px;
+        }
+
+        .section-search {
+            position: fixed;
+            right: 2%;
+            width: 400px;
+        }
+
+        @media (min-width: 1024px) {
+            .left-section {
+                padding-right: 450px;
+            }
         }
     </style>
 </head>
@@ -479,7 +490,7 @@
             <div id="resultList"></div>
         </div>
 
-        <div id="profileDetailBox" class="right-section">
+        <div id="profileDetailBox" class="right-section section-search">
         </div>
     </div>
     <footer>
@@ -572,14 +583,12 @@ style="display:flex;align-items:center;gap:18px;margin-top:12px;cursor:pointer;"
                     getTasksNotDone(name).then(countTasks => {
                         document.getElementById("profileDetailBox").style.display = "block";
                         document.getElementById("profileDetailBox").innerHTML = `
-        <div style="text-align:center;">
             <img src="${imgPath}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;">
             <h2>@${username}</h2>
             <p>${fullName}</p>
             <p>${countTasks} tugas belum selesai</p>
             <p>${followersCount} followers | ${followingCount} following</p>
             <p>${bio}</p>
-        </div>
     `;
                     });
                     return;
