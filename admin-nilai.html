@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Input Nilai PSAS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Admin – Input Nilai PSAS</h2>
+
+    <!-- PILIH NAMA SISWA -->
+    <label for="studentSelect">Pilih Siswa</label>
+    <select id="studentSelect">
+        <option value="">-- pilih siswa --</option>
+    </select>
+
+    <form id="formNilai">
+        <div class="row">
+            <div>
+                <label for="pabp">PABP</label>
+                <input type="number" id="pabp" min="0" max="100">
+            </div>
+            <div>
+                <label for="pp">PP</label>
+                <input type="number" id="pp" min="0" max="100">
+            </div>
+            <div>
+                <label for="bindo">B. Indonesia</label>
+                <input type="number" id="bindo" min="0" max="100">
+            </div>
+            <div>
+                <label for="bing">B. Inggris</label>
+                <input type="number" id="bing" min="0" max="100">
+            </div>
+            <div>
+                <label for="mtk">Matematika</label>
+                <input type="number" id="mtk" min="0" max="100">
+            </div>
+            <div>
+                <label for="sejarah">Sejarah</label>
+                <input type="number" id="sejarah" min="0" max="100">
+            </div>
+            <div>
+                <label for="bjepang">B. Jepang</label>
+                <input type="number" id="bjepang" min="0" max="100">
+            </div>
+            <div>
+                <label for="bsunda">B. Sunda</label>
+                <input type="number" id="bsunda" min="0" max="100">
+            </div>
+            <div>
+                <label for="senbud">Seni Budaya</label>
+                <input type="number" id="senbud" min="0" max="100">
+            </div>
+            <div>
+                <label for="informatika">Informatika</label>
+                <input type="number" id="informatika" min="0" max="100">
+            </div>
+            <div>
+                <label for="pjok">PJOK</label>
+                <input type="number" id="pjok" min="0" max="100">
+            </div>
+            <div>
+                <label for="proipas">Proipas</label>
+                <input type="number" id="proipas" min="0" max="100">
+            </div>
+            <div>
+                <label for="daspro1">DASPROGRPL1</label>
+                <input type="number" id="daspro1" min="0" max="100">
+            </div>
+            <div>
+                <label for="daspro2">DASPROGRPL2</label>
+                <input type="number" id="daspro2" min="0" max="100">
+            </div>
+            <div>
+                <label for="daspro3">DASPROGRPL3</label>
+                <input type="number" id="daspro3" min="0" max="100">
+            </div>
+        </div>
+
+
+        <button type="submit">Simpan Nilai</button>
+    </form>
+
+    <div class="status" id="status"></div>
+
+    <script type="module">
+        // ================== FIREBASE SETUP ==================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import {
+            getDatabase, ref, get, update
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAI4c2PwPXOOc90e6Rris7qbAwKojnB5Qc",
+            authDomain: "xrpl2web.firebaseapp.com",
+            databaseURL: "https://xrpl2web-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "xrpl2web",
+            storageBucket: "xrpl2web.appspot.com",
+            messagingSenderId: "410193641417",
+            appId: "1:410193641417:web:a7da663d744703e4883218"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const studentSelect = document.getElementById("studentSelect");
+        const formNilai = document.getElementById("formNilai");
+        const statusEl = document.getElementById("status");
+
+        const fields = [
+            "pabp", "pp", "bindo", "bing", "mtk",
+            "sejarah", "bjepang", "bsunda", "senbud",
+            "informatika", "pjok", "proipas",
+            "daspro1", "daspro2", "daspro3"
+        ];
+
+
+        // ================== LIST 34 SISWA ==================
+        // GANTI ISI ARRAY INI PAKE NAMA SISWA LO (HARUS SAMA PERSIS
+        // DENGAN YANG NANTI DIPAKAI DI nilai_psasi/<nama>)
+        const NAMA_SISWA = [
+            "Alena",
+            "Almira",
+            "Andika",
+            "Anisa",
+            "Anna",
+            "Aufa",
+            "Bintang",
+            "Debby",
+            "Dila",
+            "Excel",
+            "Faizar",
+            "Gista",
+            "Keyla",
+            "Latif",
+            "Gilang",
+            "Nazlan",
+            "Fachri",
+            "Wildan",
+            "Yusuf",
+            "Nabila",
+            "Nakisa",
+            "Neiyla",
+            "Nizam",
+            "Raffi",
+            "Raka",
+            "Revan",
+            "Risha",
+            "Rizky",
+            "Sandra",
+            "Sendi",
+            "Silva",
+            "Siti",
+            "Sri",
+            "Windi"
+        ];
+
+
+        function isiDropdownSiswa() {
+            NAMA_SISWA.forEach((nama) => {
+                const opt = document.createElement("option");
+                opt.value = nama;      // ini yang jadi key di nilai_psasi/<nama>
+                opt.textContent = nama;
+                studentSelect.appendChild(opt);
+            });
+        }
+
+        isiDropdownSiswa();
+
+        // ================== LOAD NILAI JIKA SISWA DIGANTI ==================
+        studentSelect.addEventListener("change", async () => {
+            const nama = studentSelect.value;
+            statusEl.textContent = "";
+
+            // kosongin input dulu
+            fields.forEach(idField => {
+                document.getElementById(idField).value = "";
+            });
+
+            if (!nama) return;
+
+            const nilaiRef = ref(db, "nilai_psasi/" + nama);
+            const snap = await get(nilaiRef);
+
+            if (snap.exists()) {
+                const data = snap.val();
+                fields.forEach(idField => {
+                    if (data[idField] !== undefined) {
+                        document.getElementById(idField).value = data[idField];
+                    }
+                });
+                statusEl.textContent = "Nilai sudah ada untuk " + nama + " (bisa di-update).";
+            } else {
+                statusEl.textContent = "Belum ada nilai untuk " + nama + ". Isi baru.";
+            }
+        });
+
+        // ================== SUBMIT: SIMPAN NILAI KE nilai_psasi/<nama> ==================
+        formNilai.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nama = studentSelect.value;
+
+            if (!nama) {
+                statusEl.textContent = "Pilih siswa dulu.";
+                return;
+            }
+
+            const payload = {};
+            fields.forEach(idField => {
+                const val = document.getElementById(idField).value;
+                if (val !== "") {
+                    payload[idField] = Number(val);
+                }
+            });
+
+            if (Object.keys(payload).length === 0) {
+                statusEl.textContent = "Isi dulu minimal satu nilai.";
+                return;
+            }
+
+            try {
+                const nilaiRef = ref(db, "nilai_psasi/" + nama);
+                await update(nilaiRef, payload);
+                statusEl.textContent = "✅ Nilai berhasil disimpan untuk " + nama;
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = "❌ Gagal menyimpan nilai: " + err.message;
+            }
+        });
+    </script>
+</body>
+
+</html>
